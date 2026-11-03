@@ -1,0 +1,127 @@
+name: JS Regex Route Scan
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: js-regex-scan
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check inputs
+        id: inputs
+        shell: bash
+        run: |
+          has_urls=false
+          if grep -qEv '^[[:space:]]*(#|$)' data/urls.txt 2>/dev/null; then
+            has_urls=true
+          fi
+
+          has_auth=false
+          if [ -s data/user-A.txt ]; then
+            has_auth=true
+          fi
+
+          echo "has_urls=$has_urls" >> "$GITHUB_OUTPUT"
+          echo "has_auth=$has_auth" >> "$GITHUB_OUTPUT"
+          echo "URLs present: $has_urls"
+          echo "Auth headers present: $has_auth"
+
+      - name: Setup Python
+        if: steps.inputs.outputs.has_urls == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+
+      - name: Cache Playwright browser
+        if: steps.inputs.outputs.has_urls == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install tools
+        if: steps.inputs.outputs.has_urls == 'true'
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+          python -m py_compile tools/js_route_regex_scanner.py
+          chmod +x tools/js_route_regex_scanner.py
+
+      - name: Run scan
+        if: steps.inputs.outputs.has_urls == 'true'
+        id: scan
+        env:
+          PYTHONUNBUFFERED: "1"
+        shell: bash
+        run: |
+          set -o pipefail
+
+          cp data/urls.txt data/processed-urls.txt
+
+          args=(-l data/urls.txt -o data/report.md --wait 10 --timeout 20)
+          if [ "${{ steps.inputs.outputs.has_auth }}" = "true" ]; then
+            args+=(-h data/user-A.txt)
+          else
+            echo "No non-empty data/user-A.txt; running without auth headers."
+          fi
+
+          python3 -u tools/js_route_regex_scanner.py "${args[@]}" 2>&1 | tee data/scan.log
+
+          printf '%s\n' "# Add one URL per line, then push to main." > data/urls.txt
+
+      - name: Commit results
+        if: always() && steps.inputs.outputs.has_urls == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          for file in data/report.md data/scan.log data/processed-urls.txt data/urls.txt; do
+            if [ -e "$file" ]; then
+              git add "$file"
+            fi
+          done
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+
+          git commit -m "chore: update JS regex scan results"
+          git push
+
+      - name: Summary
+        if: always() && steps.inputs.outputs.has_urls == 'true'
+        shell: bash
+        run: |
+          {
+            echo "## JS Regex Route Scan"
+            echo
+            echo '```text'
+            if [ -f data/scan.log ]; then
+              tail -n 20 data/scan.log
+            else
+              echo "No scan log."
+            fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
