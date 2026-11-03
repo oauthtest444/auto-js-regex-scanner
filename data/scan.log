@@ -1,0 +1,425 @@
+[1/209] https://console.byteplus.com/datatester/app/566590/tinder_plan_v2
+  14 matched JS files, 60 unique matches, 14 new files, 60 new matches (12.17s)
+[2/209] https://console.byteplus.com/datatester/invite-confirm/:appId
+  9 matched JS files, 35 unique matches, 2 new files, 4 new matches (11.14s)
+[3/209] https://console.byteplus.com/datatester/ai-research
+  8 matched JS files, 32 unique matches, 1 new files, 1 new matches (11.55s)
+[4/209] https://console.byteplus.com/datatester/redirect
+  18 matched JS files, 66 unique matches, 4 new files, 6 new matches (11.02s)
+[5/209] https://console.byteplus.com/datatester/
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[6/209] https://console.byteplus.com/datatester/404
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[7/209] https://console.byteplus.com/datatester/ai-research/home
+  duplicate of route 3 (8 matched JS files, 32 matches); skipped
+[8/209] https://console.byteplus.com/datatester/ai-research/audience/list
+  duplicate of route 3 (8 matched JS files, 32 matches); skipped
+[9/209] https://console.byteplus.com/datatester/ai-research/daily-job
+  duplicate of route 3 (8 matched JS files, 32 matches); skipped
+[10/209] https://console.byteplus.com/datatester/ai-research/*
+  duplicate of route 3 (8 matched JS files, 32 matches); skipped
+[11/209] https://console.byteplus.com/datatester/volc-sale
+  13 matched JS files, 57 unique matches, 1 new files, 1 new matches (11.48s)
+[12/209] https://console.byteplus.com/datatester/permission-portal
+  14 matched JS files, 60 unique matches, 0 new files, 0 new matches (11.09s)
+[13/209] https://console.byteplus.com/datatester/org/create
+  14 matched JS files, 62 unique matches, 2 new files, 6 new matches (11.83s)
+[14/209] https://console.byteplus.com/datatester/org/:orgId/*
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[15/209] https://console.byteplus.com/datatester/app/:appId
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[16/209] https://console.byteplus.com/datatester/org/:orgId/collocation
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[17/209] https://console.byteplus.com/datatester/org/:orgId/collocation-config
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[18/209] https://console.byteplus.com/datatester/org/:orgId/org-info
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[19/209] https://console.byteplus.com/datatester/org/:orgId/caliber
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[20/209] https://console.byteplus.com/datatester/org/:orgId/app
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[21/209] https://console.byteplus.com/datatester/org/:orgId/project
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[22/209] https://console.byteplus.com/datatester/org/:orgId/config-import
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[23/209] https://console.byteplus.com/datatester/app/566590/dashboard
+  17 matched JS files, 78 unique matches, 3 new files, 18 new matches (11.51s)
+[24/209] https://console.byteplus.com/datatester/app/566590/experiment
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[25/209] https://console.byteplus.com/datatester/app/566590/audience
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[26/209] https://console.byteplus.com/datatester/app/566590/:flightStatus/:flightId/visual-editor/version/:versionId
+  16 matched JS files, 64 unique matches, 2 new files, 4 new matches (12.18s)
+[27/209] https://console.byteplus.com/datatester/app/566590/draft/:draftId/bav-event/detail
+  0 matched JS files, 0 unique matches, 0 new files, 0 new matches (11.01s)
+[28/209] https://console.byteplus.com/datatester/app/566590/flight
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[29/209] https://console.byteplus.com/datatester/app/566590/metric
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[30/209] https://console.byteplus.com/datatester/app/566590/feature
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[31/209] https://console.byteplus.com/datatester/app/566590/system
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[32/209] https://console.byteplus.com/datatester/app/566590/event-group
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (10.98s)
+[33/209] https://console.byteplus.com/datatester/app/566590/user-cohort
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[34/209] https://console.byteplus.com/datatester/app/566590/metric-group
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[35/209] https://console.byteplus.com/datatester/app/566590/metric-group-bundle
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[36/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch
+  15 matched JS files, 65 unique matches, 1 new files, 5 new matches (11.05s)
+[37/209] https://console.byteplus.com/datatester/app/566590/scene/llm
+  16 matched JS files, 68 unique matches, 2 new files, 8 new matches (11.3s)
+[38/209] https://console.byteplus.com/datatester/app/566590/scene/push
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[39/209] https://console.byteplus.com/datatester/app/566590/volcSale/index
+  15 matched JS files, 61 unique matches, 0 new files, 0 new matches (11.78s)
+[40/209] https://console.byteplus.com/datatester/app/566590/volcSale/caliber
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (11.11s)
+[41/209] https://console.byteplus.com/datatester/app/566590/form-editor
+  34 matched JS files, 278 unique matches, 15 new files, 209 new matches (12.07s)
+[42/209] https://console.byteplus.com/datatester/app/566590/behavior-detail
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (11.03s)
+[43/209] https://console.byteplus.com/datatester/app/566590/open-api
+  15 matched JS files, 118 unique matches, 1 new files, 58 new matches (12.25s)
+[44/209] https://console.byteplus.com/datatester/app/566590/toolbox
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[45/209] https://console.byteplus.com/datatester/app/566590/open
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[46/209] https://console.byteplus.com/datatester/app/566590/personalization/list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[47/209] https://console.byteplus.com/datatester/app/566590/personalization/coding/list
+  15 matched JS files, 64 unique matches, 1 new files, 4 new matches (12.2s)
+[48/209] https://console.byteplus.com/datatester/app/566590/personalization/:campaignId/:campaignTab
+  15 matched JS files, 62 unique matches, 0 new files, 0 new matches (11.36s)
+[49/209] https://console.byteplus.com/datatester/app/566590/personalization/coding/:campaignId/:campaignTab
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[50/209] https://console.byteplus.com/datatester/app/566590/tour
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (12.21s)
+[51/209] https://console.byteplus.com/datatester/app/566590/guide
+  30 matched JS files, 121 unique matches, 1 new files, 3 new matches (11.48s)
+[52/209] https://console.byteplus.com/datatester/app/566590/demo-h5
+  15 matched JS files, 62 unique matches, 1 new files, 2 new matches (11.1s)
+[53/209] https://console.byteplus.com/datatester/org/:orgId/app/list
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[54/209] https://console.byteplus.com/datatester/org/:orgId/app/add
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[55/209] https://console.byteplus.com/datatester/org/:orgId/app/continue
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[56/209] https://console.byteplus.com/datatester/org/:orgId/app/:appId/detail
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[57/209] https://console.byteplus.com/datatester/org/:orgId/app/:appId/tea
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[58/209] https://console.byteplus.com/datatester/org/:orgId/project/list
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[59/209] https://console.byteplus.com/datatester/org/:orgId/project/add
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[60/209] https://console.byteplus.com/datatester/org/:orgId/project/:projectId/detail
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[61/209] https://console.byteplus.com/datatester/org/:orgId/project/:projectId/edit
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[62/209] https://console.byteplus.com/datatester/org/:orgId/project/app_cert
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[63/209] https://console.byteplus.com/datatester/app/566590/experiment/list
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[64/209] https://console.byteplus.com/datatester/app/566590/experiment/mab
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[65/209] https://console.byteplus.com/datatester/app/566590/experiment/create/mab/:experimentId?
+  20 matched JS files, 72 unique matches, 4 new files, 9 new matches (11.15s)
+[66/209] https://console.byteplus.com/datatester/app/566590/experiment/create/:mode?/:experimentId?
+  17 matched JS files, 64 unique matches, 0 new files, 0 new matches (11.14s)
+[67/209] https://console.byteplus.com/datatester/app/566590/experiment/detail/:mode/:experimentId
+  21 matched JS files, 73 unique matches, 0 new files, 0 new matches (11.07s)
+[68/209] https://console.byteplus.com/datatester/app/566590/experiment/:experimentId/detail
+  duplicate of route 67 (21 matched JS files, 73 matches); skipped
+[69/209] https://console.byteplus.com/datatester/app/566590/experiment/:experimentId/review/:reviewId/detail
+  30 matched JS files, 119 unique matches, 1 new files, 1 new matches (11.67s)
+[70/209] https://console.byteplus.com/datatester/app/566590/experiment/:experimentId/reviewinfo
+  31 matched JS files, 264 unique matches, 2 new files, 146 new matches (11.24s)
+[71/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/ad-report
+  30 matched JS files, 119 unique matches, 1 new files, 1 new matches (11.38s)
+[72/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/report
+  21 matched JS files, 73 unique matches, 1 new files, 1 new matches (11.28s)
+[73/209] https://console.byteplus.com/datatester/app/566590/experiment/mab/:experimentId/report
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[74/209] https://console.byteplus.com/datatester/app/566590/audience/param-filters/list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[75/209] https://console.byteplus.com/datatester/app/566590/audience/param-filters/create
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[76/209] https://console.byteplus.com/datatester/app/566590/audience/param-filters/detail/:paramId
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[77/209] https://console.byteplus.com/datatester/app/566590/audience/param-filters/edit/:paramId
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[78/209] https://console.byteplus.com/datatester/app/566590/audience/*
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[79/209] https://console.byteplus.com/datatester/app/566590/flight/optimization-plan
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[80/209] https://console.byteplus.com/datatester/app/566590/flight/experience-list
+  duplicate of route 48 (15 matched JS files, 62 matches); skipped
+[81/209] https://console.byteplus.com/datatester/app/566590/flight/experience-config
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (11.19s)
+[82/209] https://console.byteplus.com/datatester/app/566590/flight/layer/list
+  15 matched JS files, 62 unique matches, 1 new files, 2 new matches (11.57s)
+[83/209] https://console.byteplus.com/datatester/app/566590/flight/:flightId/diagnosis
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[84/209] https://console.byteplus.com/datatester/app/566590/flight/:draftId?/create/:step?/:mode?
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[85/209] https://console.byteplus.com/datatester/app/566590/flight/:draftId?/create-ad/:step?
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[86/209] https://console.byteplus.com/datatester/app/566590/flight/:flightId/detail
+  duplicate of route 67 (21 matched JS files, 73 matches); skipped
+[87/209] https://console.byteplus.com/datatester/app/566590/flight/:flightId/edit
+  duplicate of route 67 (21 matched JS files, 73 matches); skipped
+[88/209] https://console.byteplus.com/datatester/app/566590/flight/:flightId/bav-event/detail
+  duplicate of route 27 (0 matched JS files, 0 matches); skipped
+[89/209] https://console.byteplus.com/datatester/app/566590/flight/:flightId/report
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[90/209] https://console.byteplus.com/datatester/app/566590/flight/approval
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[91/209] https://console.byteplus.com/datatester/app/566590/flight/list/draft
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[92/209] https://console.byteplus.com/datatester/app/566590/flight/mab/list/draft
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[93/209] https://console.byteplus.com/datatester/app/566590/flight/list/:tag?
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[94/209] https://console.byteplus.com/datatester/app/566590/metric/board
+  15 matched JS files, 66 unique matches, 1 new files, 6 new matches (11.47s)
+[95/209] https://console.byteplus.com/datatester/app/566590/metric/receiving-group/list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[96/209] https://console.byteplus.com/datatester/app/566590/metric/alarm-task/list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[97/209] https://console.byteplus.com/datatester/app/566590/metric/alarm-task/create/:type?
+  duplicate of route 94 (15 matched JS files, 66 matches); skipped
+[98/209] https://console.byteplus.com/datatester/app/566590/metric/alarm-task/:taskId/edit
+  duplicate of route 94 (15 matched JS files, 66 matches); skipped
+[99/209] https://console.byteplus.com/datatester/app/566590/metric/alarm-task/:taskId/detail
+  duplicate of route 94 (15 matched JS files, 66 matches); skipped
+[100/209] https://console.byteplus.com/datatester/app/566590/feature/list/:tag?
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (11.86s)
+[101/209] https://console.byteplus.com/datatester/app/566590/feature/:featureId/edit
+  18 matched JS files, 70 unique matches, 3 new files, 8 new matches (12.68s)
+[102/209] https://console.byteplus.com/datatester/app/566590/feature/from/:flightId/:versionId?
+  duplicate of route 101 (18 matched JS files, 70 matches); skipped
+[103/209] https://console.byteplus.com/datatester/app/566590/feature/:featureId/version/:featureAppId?
+  17 matched JS files, 67 unique matches, 0 new files, 0 new matches (11.31s)
+[104/209] https://console.byteplus.com/datatester/app/566590/feature/create
+  duplicate of route 103 (17 matched JS files, 67 matches); skipped
+[105/209] https://console.byteplus.com/datatester/app/566590/feature/:featureId/report
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[106/209] https://console.byteplus.com/datatester/app/566590/system/history
+  duplicate of route 101 (18 matched JS files, 70 matches); skipped
+[107/209] https://console.byteplus.com/datatester/app/566590/system/filters
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[108/209] https://console.byteplus.com/datatester/app/566590/system/allow-list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[109/209] https://console.byteplus.com/datatester/app/566590/system/system-setting
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (11.11s)
+[110/209] https://console.byteplus.com/datatester/app/566590/system/data-overview
+  15 matched JS files, 64 unique matches, 1 new files, 4 new matches (11.15s)
+[111/209] https://console.byteplus.com/datatester/app/566590/system/media-account
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[112/209] https://console.byteplus.com/datatester/app/566590/system/permission/list
+  16 matched JS files, 64 unique matches, 0 new files, 0 new matches (10.92s)
+[113/209] https://console.byteplus.com/datatester/app/566590/system/permission/add-role
+  duplicate of route 112 (16 matched JS files, 64 matches); skipped
+[114/209] https://console.byteplus.com/datatester/app/566590/system/permission/create
+  duplicate of route 112 (16 matched JS files, 64 matches); skipped
+[115/209] https://console.byteplus.com/datatester/app/566590/system/caliber
+  duplicate of route 40 (15 matched JS files, 61 matches); skipped
+[116/209] https://console.byteplus.com/datatester/app/566590/system/virtual-event-management
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[117/209] https://console.byteplus.com/datatester/app/566590/system/async-task
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[118/209] https://console.byteplus.com/datatester/app/566590/system/origin-events
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (11.73s)
+[119/209] https://console.byteplus.com/datatester/app/566590/system/simulator-manage
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (11.35s)
+[120/209] https://console.byteplus.com/datatester/app/566590/system/event-params
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (12.65s)
+[121/209] https://console.byteplus.com/datatester/app/566590/system/public-params
+  17 matched JS files, 85 unique matches, 3 new files, 25 new matches (11.52s)
+[122/209] https://console.byteplus.com/datatester/app/566590/system/virtual-params
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (12.06s)
+[123/209] https://console.byteplus.com/datatester/app/566590/system/bav-events/create/web
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (12.33s)
+[124/209] https://console.byteplus.com/datatester/app/566590/system/bav-events/detail/:pageId
+  16 matched JS files, 293 unique matches, 2 new files, 233 new matches (14.43s)
+[125/209] https://console.byteplus.com/datatester/app/566590/system/bav-events
+  15 matched JS files, 63 unique matches, 1 new files, 3 new matches (13.61s)
+[126/209] https://console.byteplus.com/datatester/app/566590/system/data-management/bav-event/create/web
+  duplicate of route 123 (15 matched JS files, 63 matches); skipped
+[127/209] https://console.byteplus.com/datatester/app/566590/system/data-management/bav-event/detail/:pageId
+  duplicate of route 124 (16 matched JS files, 293 matches); skipped
+[128/209] https://console.byteplus.com/datatester/app/566590/system/workflow-template/list
+  16 matched JS files, 64 unique matches, 1 new files, 2 new matches (11.19s)
+[129/209] https://console.byteplus.com/datatester/app/566590/system/workflow-template/create
+  duplicate of route 128 (16 matched JS files, 64 matches); skipped
+[130/209] https://console.byteplus.com/datatester/app/566590/system/workflow-template/:workflowId/create
+  duplicate of route 128 (16 matched JS files, 64 matches); skipped
+[131/209] https://console.byteplus.com/datatester/app/566590/system/workflow-template/:workflowId/edit
+  duplicate of route 128 (16 matched JS files, 64 matches); skipped
+[132/209] https://console.byteplus.com/datatester/app/566590/system/workflow-template/:workflowId/detail
+  duplicate of route 128 (16 matched JS files, 64 matches); skipped
+[133/209] https://console.byteplus.com/datatester/app/566590/system/task-approval/list
+  duplicate of route 101 (18 matched JS files, 70 matches); skipped
+[134/209] https://console.byteplus.com/datatester/app/566590/system/online-announce-user-list
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (11.13s)
+[135/209] https://console.byteplus.com/datatester/app/566590/system/online-announce-manage-list
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (10.91s)
+[136/209] https://console.byteplus.com/datatester/app/566590/system/scheduled-task-management
+  15 matched JS files, 62 unique matches, 1 new files, 2 new matches (10.98s)
+[137/209] https://console.byteplus.com/datatester/app/566590/system/pre-flow
+  16 matched JS files, 65 unique matches, 2 new files, 5 new matches (11.69s)
+[138/209] https://console.byteplus.com/datatester/app/566590/system/templates/basic
+  30 matched JS files, 119 unique matches, 1 new files, 1 new matches (10.98s)
+[139/209] https://console.byteplus.com/datatester/app/566590/system/templates/editor
+  28 matched JS files, 116 unique matches, 1 new files, 2 new matches (11.22s)
+[140/209] https://console.byteplus.com/datatester/app/566590/system/templates/list
+  30 matched JS files, 119 unique matches, 1 new files, 1 new matches (11.4s)
+[141/209] https://console.byteplus.com/datatester/app/566590/user-cohort/list
+  15 matched JS files, 61 unique matches, 1 new files, 1 new matches (12.19s)
+[142/209] https://console.byteplus.com/datatester/app/566590/user-cohort/create
+  duplicate of route 141 (15 matched JS files, 61 matches); skipped
+[143/209] https://console.byteplus.com/datatester/app/566590/user-cohort/:cohortId/edit
+  duplicate of route 141 (15 matched JS files, 61 matches); skipped
+[144/209] https://console.byteplus.com/datatester/app/566590/user-cohort/:cohortId/detail
+  duplicate of route 141 (15 matched JS files, 61 matches); skipped
+[145/209] https://console.byteplus.com/datatester/app/566590/user-cohort/:cohortId/copy
+  duplicate of route 141 (15 matched JS files, 61 matches); skipped
+[146/209] https://console.byteplus.com/datatester/app/566590/metric-group/list
+  15 matched JS files, 62 unique matches, 1 new files, 2 new matches (11.25s)
+[147/209] https://console.byteplus.com/datatester/app/566590/metric-group/type/:type/:id?
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[148/209] https://console.byteplus.com/datatester/app/566590/metric-group/global-dimension/list
+  18 matched JS files, 66 unique matches, 3 new files, 4 new matches (11.67s)
+[149/209] https://console.byteplus.com/datatester/app/566590/metric-group/global-dimension/create
+  duplicate of route 148 (18 matched JS files, 66 matches); skipped
+[150/209] https://console.byteplus.com/datatester/app/566590/metric-group/global-dimension/:mode/:dimensionId
+  duplicate of route 148 (18 matched JS files, 66 matches); skipped
+[151/209] https://console.byteplus.com/datatester/app/566590/metric-group/detail/:id?
+  16 matched JS files, 63 unique matches, 0 new files, 0 new matches (11.42s)
+[152/209] https://console.byteplus.com/datatester/app/566590/metric-group-bundle/list
+  15 matched JS files, 67 unique matches, 1 new files, 7 new matches (11.71s)
+[153/209] https://console.byteplus.com/datatester/app/566590/metric-group-bundle/detail/:id
+  duplicate of route 152 (15 matched JS files, 67 matches); skipped
+[154/209] https://console.byteplus.com/datatester/app/566590/metric-group-bundle/edit/:id?
+  duplicate of route 152 (15 matched JS files, 67 matches); skipped
+[155/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/plan/:type/v2/:mode
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[156/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/plan/:adId/:channel/:mode
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[157/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/manager/:channel?/:type?
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[158/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/experiment/create
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[159/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/experiment/:experimentId/edit
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[160/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/experiment/:experimentId/:type?
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[161/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/experiment
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[162/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/assets/material/upload
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[163/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/assets/:mode?
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[164/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/accounts
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[165/209] https://console.byteplus.com/datatester/app/566590/scene/adlaunch/scene/adlaunch
+  duplicate of route 36 (15 matched JS files, 65 matches); skipped
+[166/209] https://console.byteplus.com/datatester/app/566590/scene/llm/list
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[167/209] https://console.byteplus.com/datatester/app/566590/scene/llm/:evalId/edit
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[168/209] https://console.byteplus.com/datatester/app/566590/scene/llm/create
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[169/209] https://console.byteplus.com/datatester/app/566590/scene/llm/:reportId/report
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[170/209] https://console.byteplus.com/datatester/app/566590/scene/llm/dataset/list
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[171/209] https://console.byteplus.com/datatester/app/566590/scene/llm/dataset/create
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[172/209] https://console.byteplus.com/datatester/app/566590/scene/llm/dataset/:datasetId/edit
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[173/209] https://console.byteplus.com/datatester/app/566590/scene/llm/dataset/:datasetId/detail
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[174/209] https://console.byteplus.com/datatester/app/566590/scene/llm/metric/list
+  duplicate of route 37 (16 matched JS files, 68 matches); skipped
+[175/209] https://console.byteplus.com/datatester/app/566590/toolbox/user-hit
+  17 matched JS files, 65 unique matches, 1 new files, 1 new matches (11.8s)
+[176/209] https://console.byteplus.com/datatester/app/566590/toolbox/diagnosis
+  17 matched JS files, 65 unique matches, 1 new files, 1 new matches (12.66s)
+[177/209] https://console.byteplus.com/datatester/app/566590/toolbox/check-rule
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[178/209] https://console.byteplus.com/datatester/app/566590/toolbox/calculator
+  17 matched JS files, 65 unique matches, 1 new files, 1 new matches (11.78s)
+[179/209] https://console.byteplus.com/datatester/app/566590/toolbox/vm-simulation
+  18 matched JS files, 69 unique matches, 1 new files, 1 new matches (11.5s)
+[180/209] https://console.byteplus.com/datatester/app/566590/open/custom-management
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[181/209] https://console.byteplus.com/datatester/app/566590/open/integration-list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[182/209] https://console.byteplus.com/datatester/app/566590/open/integration/create
+  15 matched JS files, 64 unique matches, 0 new files, 0 new matches (14.24s)
+[183/209] https://console.byteplus.com/datatester/app/566590/open/integration/:jobId/edit
+  duplicate of route 182 (15 matched JS files, 64 matches); skipped
+[184/209] https://console.byteplus.com/datatester/app/566590/open/integration/:jobId/view
+  duplicate of route 182 (15 matched JS files, 64 matches); skipped
+[185/209] https://console.byteplus.com/datatester/app/566590/open/integration/:jobId/log
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[186/209] https://console.byteplus.com/datatester/app/566590/open/secret-key
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[187/209] https://console.byteplus.com/datatester/app/566590/open/open-component-doc/:id
+  duplicate of route 182 (15 matched JS files, 64 matches); skipped
+[188/209] https://console.byteplus.com/datatester/app/566590/open/datasource-list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[189/209] https://console.byteplus.com/datatester/app/566590/open/datasource/:id?
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[190/209] https://console.byteplus.com/datatester/app/566590/open/dataset-list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[191/209] https://console.byteplus.com/datatester/app/566590/open/dataset/:id?
+  duplicate of route 182 (15 matched JS files, 64 matches); skipped
+[192/209] https://console.byteplus.com/datatester/app/566590/open/virtual-dataset/:id?
+  duplicate of route 182 (15 matched JS files, 64 matches); skipped
+[193/209] https://console.byteplus.com/datatester/app/566590/open/template/list
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[194/209] https://console.byteplus.com/datatester/app/566590/open/template/create
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[195/209] https://console.byteplus.com/datatester/app/566590/open/template/bref/:id/:mode
+  duplicate of route 1 (14 matched JS files, 60 matches); skipped
+[196/209] https://console.byteplus.com/datatester/app/566590/open/template/:id/:mode
+  31 matched JS files, 121 unique matches, 1 new files, 1 new matches (11.36s)
+[197/209] https://console.byteplus.com/datatester/app/566590/experiment/mab/list
+  duplicate of route 4 (18 matched JS files, 66 matches); skipped
+[198/209] https://console.byteplus.com/datatester/app/566590/experiment/mab/:experimentId/detail
+  duplicate of route 67 (21 matched JS files, 73 matches); skipped
+[199/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/report/advanced/heatmap/click
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[200/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/report/advanced/heatmap/element
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[201/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/report/advanced/heatmap/browser
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[202/209] https://console.byteplus.com/datatester/app/566590/experiment/:flightId/report/advanced/heatmap/attention
+  duplicate of route 72 (21 matched JS files, 73 matches); skipped
+[203/209] https://console.byteplus.com/datatester/app/566590/flight/optimization-plan/list
+  16 matched JS files, 70 unique matches, 1 new files, 4 new matches (11.55s)
+[204/209] https://console.byteplus.com/datatester/app/566590/flight/optimization-plan/create
+  duplicate of route 203 (16 matched JS files, 70 matches); skipped
+[205/209] https://console.byteplus.com/datatester/app/566590/flight/optimization-plan/:planId/detail
+  duplicate of route 203 (16 matched JS files, 70 matches); skipped
+[206/209] https://console.byteplus.com/datatester/app/566590/toolbox/check-rule/list
+  17 matched JS files, 65 unique matches, 1 new files, 1 new matches (11.23s)
+[207/209] https://console.byteplus.com/datatester/app/566590/toolbox/check-rule/create
+  21 matched JS files, 80 unique matches, 1 new files, 3 new matches (11.36s)
+[208/209] https://console.byteplus.com/datatester/app/566590/toolbox/check-rule/detail/:ruleId
+  duplicate of route 207 (21 matched JS files, 80 matches); skipped
+[209/209] https://console.byteplus.com/datatester/app/566590/toolbox/check-rule/edit/:ruleId
+  duplicate of route 207 (21 matched JS files, 80 matches); skipped
+
+ROUTES TESTED: 209
+ROUTES SKIPPED (DUPLICATE RESULTS): 140
+UNIQUE JAVASCRIPT FILES WITH MATCHES: 107
+UNIQUE REGEX MATCHES: 900
+UNIQUE MATCH TEXTS: 629
+REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md
