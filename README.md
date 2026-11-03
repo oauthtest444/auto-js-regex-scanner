@@ -10,7 +10,8 @@ workflow scan, and commit the results back to `data/`.
 
 1. Add one route per line to `data/urls.txt`.
 2. Add authentication headers/cookies to `data/user-A.txt`.
-3. Commit and push to `main`, or run the workflow manually from the Actions tab.
+3. Commit and push your input changes, then click **Run workflow** on the
+   **JS Regex Route Scan** workflow in the Actions tab.
 
 The workflow runs:
 
@@ -51,7 +52,7 @@ If this file is empty, the scan runs without authentication.
 - `data/processed-urls.txt` — the last URL batch that was scanned.
 
 After a successful scan, `data/urls.txt` is cleared to a placeholder so the next
-push does not re-scan the same batch. The original batch is kept in
+manual run does not re-scan the same batch. The original batch is kept in
 `data/processed-urls.txt`. If the scan fails, `data/urls.txt` is left unchanged
 so the batch can be retried.
 
