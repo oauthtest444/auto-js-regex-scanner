@@ -1,9 +1,0 @@
-[1/1] https://example.com
-  0 matched JS files, 0 unique matches, 0 new files, 0 new matches (10.25s)
-
-ROUTES TESTED: 1
-ROUTES SKIPPED (DUPLICATE RESULTS): 0
-UNIQUE JAVASCRIPT FILES WITH MATCHES: 0
-UNIQUE REGEX MATCHES: 0
-UNIQUE MATCH TEXTS: 0
-REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md

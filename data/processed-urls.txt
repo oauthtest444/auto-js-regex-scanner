@@ -1,4 +1,0 @@
-# Add one URL per line, then push to main.
-# Example:
-# https://console.byteplus.com/datatester/app/566590/experiment/list
-https://example.com
