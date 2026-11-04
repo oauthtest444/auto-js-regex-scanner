@@ -133,6 +133,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--exclude-regex", action="append", default=[], metavar="REGEX", help="Extra match text exclusion regex (repeatable)")
     parser.add_argument("--user-agent", default=None, help="Override the browser User-Agent")
     parser.add_argument("--max-js-bytes", type=int, default=30_000_000, help="Maximum JavaScript bytes to scan per fallback fetch")
+    parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: short)")
     parser.add_argument("--help", action="help", help="Show this help message and exit")
     return parser.parse_args(argv)
 
@@ -793,7 +794,7 @@ def md_text(value) -> str:
     return html.escape(" ".join(str(value).split()), quote=False).replace("|", "&#124;")
 
 
-def render_report(
+def render_full_report(
     state: ScanState,
     meta: dict,
     args: argparse.Namespace,
@@ -995,6 +996,212 @@ def render_report(
     return "\n".join(lines)
 
 
+def compress_route_numbers(route_numbers: list[int]) -> str:
+    ordered = sorted(set(route_numbers))
+    if not ordered:
+        return "-"
+    parts: list[str] = []
+    start = previous = ordered[0]
+    for number in ordered[1:]:
+        if number == previous + 1:
+            previous = number
+            continue
+        parts.append(str(start) if start == previous else f"{start}-{previous}")
+        start = previous = number
+    parts.append(str(start) if start == previous else f"{start}-{previous}")
+    return ", ".join(parts)
+
+
+def render_report(
+    state: ScanState,
+    meta: dict,
+    args: argparse.Namespace,
+    input_duplicates: int,
+    auth: AuthConfig,
+) -> str:
+    routes_tested = len(state.routes)
+    unique_files = len(state.files)
+    unique_matches = len(state.match_keys)
+    unique_match_texts = len({(regex_id, text) for _, regex_id, text in state.match_keys})
+    regex_1_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 1)
+    regex_2_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 2)
+    unscanned_files = len(state.unscanned)
+    routes_with_errors = sum(
+        1
+        for route in state.routes
+        if route.get("nav_error") or route.get("scan_error") or any(not entry["ok"] for entry in route["files"])
+    )
+    network_capture = sum(
+        1 for route in state.routes for entry in route["files"] if entry.get("source") == "network-capture"
+    )
+    python_fetch = sum(
+        1 for route in state.routes for entry in route["files"] if entry.get("source") == "python-fetch"
+    )
+
+    unique_routes = [route for route in state.routes if route["status"] == "unique"]
+    duplicates = [route for route in state.routes if route["status"] == "duplicate"]
+    route_index_by_url = {route["url"]: route["index"] for route in unique_routes}
+    files = sorted(state.files.values(), key=lambda entry: (-len(entry["matches"]), entry["url"]))
+
+    if auth.source:
+        header_word = "header" if len(auth.headers) == 1 else "headers"
+        cookie_word = "cookie" if len(auth.cookies) == 1 else "cookies"
+        auth_label = (
+            f"{md_code(auth.source)} "
+            f"({len(auth.headers)} {header_word}, {len(auth.cookies)} {cookie_word})"
+        )
+    else:
+        auth_label = "none"
+
+    lines: list[str] = []
+    lines.append("# JS Regex Scan - Short Report")
+    lines.append("")
+    lines.append(f"- Generated: {meta['generated']}")
+    lines.append(f"- Inputs: URLs {md_code(meta['urls_file'])} | Auth {auth_label}")
+    if input_duplicates:
+        lines.append(f"- Duplicate input URLs removed before testing: {input_duplicates}")
+    error_word = "error" if routes_with_errors == 1 else "errors"
+    lines.append(
+        f"- Routes: {routes_tested} tested, {state.skipped} duplicate, {routes_with_errors} {error_word}"
+    )
+    lines.append(
+        f"- Files: {unique_files} with matches | File matches: {unique_matches} | "
+        f"Unique texts: {unique_match_texts} | R1: {regex_1_matches} | R2: {regex_2_matches} | "
+        f"Unscanned: {unscanned_files}"
+    )
+    lines.append(
+        f"- Wait: {args.wait:g}s | Timeout: {args.timeout:g}s | "
+        f"Recoveries: {network_capture} network / {python_fetch} HTTP"
+    )
+    lines.append("")
+    lines.append("## Routes With Unique Scan Results")
+    lines.append("")
+    if not unique_routes:
+        lines.append("No routes produced unique scan results.")
+    else:
+        lines.append("| # | Route | HTTP | Files | Matches | New files | New matches | Note |")
+        lines.append("| ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |")
+        for route in unique_routes:
+            notes = []
+            if route.get("nav_error"):
+                notes.append(route["nav_error"])
+            if route.get("scan_error"):
+                notes.append(route["scan_error"])
+            failed = sum(1 for entry in route["files"] if not entry["ok"])
+            if failed:
+                notes.append(f"{failed} file(s) could not be scanned")
+            if route.get("final_url") and route["final_url"] != route["url"]:
+                notes.append(f"final URL: {route['final_url']}")
+            lines.append(
+                f"| {route['index']} | {md_code(route['url'])} | {route.get('http_status') or '-'} | "
+                f"{route['total_files']} | {route['total_matches']} | {len(route['new_files'])} | "
+                f"{len(route['new_matches'])} | {md_text('; '.join(notes)) if notes else '-'} |"
+            )
+    lines.append("")
+    lines.append("## Unique Matched Files")
+    lines.append("")
+    lines.append(
+        "Each file lists its matches once. `R1`/`R2` are the regex labels; `xN` is the "
+        "occurrence count when greater than one. `first` is the first-seen route number "
+        "and `routes` is the compressed loaded-on route list; both map to the table above."
+    )
+    lines.append("")
+    if not files:
+        lines.append("No JavaScript files with matches were discovered.")
+        lines.append("")
+    for index, entry in enumerate(files, start=1):
+        regex_1_count = sum(1 for match in entry["matches"].values() if match["regex"] == 1)
+        regex_2_count = sum(1 for match in entry["matches"].values() if match["regex"] == 2)
+        first_route_index = route_index_by_url.get(entry["first_route"])
+        first_label = str(first_route_index) if first_route_index is not None else md_code(entry["first_route"])
+        route_label = compress_route_numbers(entry["routes"])
+        lines.append(
+            f"<details><summary><b>{index}.</b> {md_code(entry['url'])} - "
+            f"<b>{len(entry['matches'])}</b> matches (R1 {regex_1_count} / R2 {regex_2_count}) - "
+            f"first {first_label} - routes: {md_text(route_label)}</summary>"
+        )
+        lines.append("")
+        for match in entry["matches"].values():
+            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+            first_seen = ""
+            if match["first_route"] != entry["first_route"]:
+                first_seen = f" - first: {md_code(match['first_route'])}"
+            lines.append(f"- R{match['regex']}: {md_code(match['text'])}{suffix}{first_seen}")
+        lines.append("")
+        lines.append("</details>")
+        lines.append("")
+    lines.append("## Duplicate Routes")
+    lines.append("")
+    if not duplicates:
+        lines.append("No routes were skipped as duplicate results.")
+    else:
+        lines.append(
+            f"{len(duplicates)} routes skipped as duplicate results. "
+            "Full mapping is in `data/scan.log`."
+        )
+        lines.append("")
+        lines.append("<details><summary>Duplicate mapping</summary>")
+        lines.append("")
+        grouped_duplicates: dict[int, list[int]] = {}
+        for route in duplicates:
+            grouped_duplicates.setdefault(route["duplicate_of"], []).append(route["index"])
+        for source_route in sorted(grouped_duplicates):
+            lines.append(
+                f"- Route {source_route}: {compress_route_numbers(grouped_duplicates[source_route])}"
+            )
+        lines.append("")
+        lines.append("</details>")
+    lines.append("")
+    lines.append("## Errors")
+    lines.append("")
+    error_lines: list[str] = []
+    for route in state.routes:
+        if route.get("nav_error"):
+            error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['nav_error'])}")
+        if route.get("scan_error"):
+            error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['scan_error'])}")
+    for entry in state.unscanned.values():
+        error_lines.append(
+            f"- File {md_code(entry['url'])} (first seen on {md_code(entry['first_route'])}): "
+            "source could not be scanned"
+            + (f" ({md_text(entry['error'])})" if entry.get("error") else "")
+        )
+    if error_lines:
+        lines.extend(error_lines)
+    else:
+        lines.append("None.")
+    lines.append("")
+    lines.append("<details><summary>Regex patterns and exclusions</summary>")
+    lines.append("")
+    lines.append("Regex 1:")
+    lines.append("")
+    lines.append("```regex")
+    lines.append(REGEX_1.pattern)
+    lines.append("```")
+    lines.append("")
+    lines.append("Regex 2:")
+    lines.append("")
+    lines.append("```regex")
+    lines.append(REGEX_2.pattern)
+    lines.append("```")
+    lines.append("")
+    excluded_names = ", ".join(sorted(REGEX_2_EXCLUDED_PARAM_NAMES))
+    lines.append(
+        "Excluded: `header(s).get`, `cache/storage/registry.get`, and parameter names "
+        f"`{excluded_names}`."
+    )
+    if args.exclude_regex:
+        lines.append("")
+        lines.append("Additional match exclusions:")
+        lines.append("")
+        for exclusion in args.exclude_regex:
+            lines.append(f"- {md_code(exclusion)}")
+    lines.append("")
+    lines.append("</details>")
+    lines.append("")
+    return "\n".join(lines)
+
+
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
 
@@ -1072,7 +1279,7 @@ def main(argv: list[str] | None = None) -> int:
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC"),
         "urls_file": args.urls_file,
     }
-    report = render_report(state, meta, args, input_duplicates, auth)
+    report = render_full_report(state, meta, args, input_duplicates, auth) if args.full_report else render_report(state, meta, args, input_duplicates, auth)
     output_path.write_text(report, encoding="utf-8")
 
     print("")

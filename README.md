@@ -45,11 +45,15 @@ If this file is empty, the scan runs without authentication.
 
 ## Outputs
 
-- `data/report.md` — Markdown report containing unique routes, unique matched
-  JavaScript files, and unique regex matches. JavaScript files with no matches
-  are not listed.
+- `data/report.md` — short Markdown report containing unique routes, unique
+  matched JavaScript files, and unique regex matches. Each file is shown once in
+  a collapsible section; expand it to see every match. Files with no matches are
+  not listed.
 - `data/scan.log` — full console output from the scan.
 - `data/processed-urls.txt` — the last URL batch that was scanned.
+
+The scanner writes the short report by default. Use `--full-report` if you need
+the previous verbose layout.
 
 After a successful scan, `data/urls.txt` is cleared to a placeholder so the next
 manual run does not re-scan the same batch. The original batch is kept in
