@@ -1,1621 +1,1115 @@
-# JS Regex Scan - Short Report
-
-- Generated: 2026-11-04 13:22:10 UTC
-- Inputs: URLs <code>data/urls.txt</code> | Auth <code>data/user-A.txt</code> (2 headers, 45 cookies)
-- Routes: 153 tested, 78 duplicate, 0 errors
-- Files: 145 with matches | File matches: 775 | Unique texts: 417 | R1: 259 | R2: 516 | Unscanned: 0
-- Wait: 10s | Timeout: 20s | Recoveries: 0 network / 0 HTTP
-
-## Routes With Unique Scan Results
-
-| # | Route | HTTP | Files | Matches | New files | New matches | Note |
-| ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |
-| 1 | <code>https://console.byteplus.com/ark</code> | 200 | 9 | 63 | 9 | 63 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 5 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/model</code> | 200 | 10 | 71 | 3 | 12 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 6 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/model/detail</code> | 200 | 10 | 72 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 7 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/model/comparison</code> | 200 | 10 | 71 | 1 | 2 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 10 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/model-settings/promotion/*</code> | 200 | 8 | 60 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 11 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/promotion/*</code> | 200 | 10 | 70 | 3 | 11 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 12 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/pickupVoucher</code> | 200 | 13 | 74 | 5 | 14 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 13 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/gallery</code> | 200 | 11 | 75 | 4 | 16 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 22 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/gallery/ai-verify</code> | 200 | 12 | 76 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 29 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience</code> | 200 | 15 | 88 | 7 | 28 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 31 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/creations</code> | 200 | 18 | 95 | 5 | 11 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 32 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/gen_chat</code> | 200 | 16 | 89 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 35 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/audio-generation</code> | 200 | 12 | 81 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 36 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/gen_3d</code> | 200 | 23 | 103 | 5 | 8 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 38 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/voice</code> | 200 | 22 | 102 | 2 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 43 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/share_video/:id</code> | 200 | 15 | 88 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 44 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/experience/share_canvas/:id</code> | 200 | 11 | 75 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 46 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/endpoint</code> | 200 | 13 | 75 | 6 | 16 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 47 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/endpoint/create</code> | 200 | 15 | 85 | 5 | 15 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 48 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/endpoint/detail</code> | 200 | 19 | 86 | 5 | 10 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 49 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/batchInference</code> | 200 | 14 | 76 | 2 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 50 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/batchInference/create</code> | 200 | 12 | 73 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 51 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/batchInference/detail</code> | 200 | 12 | 73 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 52 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/batchInference/batchEpDetail</code> | 200 | 16 | 80 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 56 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/ipDashboard/*</code> | 200 | 11 | 73 | 2 | 6 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 57 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents</code> | 200 | 12 | 81 | 5 | 22 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 58 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/quickstart</code> | 200 | 14 | 100 | 4 | 29 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 60 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/agents/create</code> | 200 | 13 | 83 | 1 | 2 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 61 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/agents/:id</code> | 200 | 12 | 74 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 62 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/agents/:id/edit</code> | 200 | 14 | 84 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 64 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/sessions</code> | 200 | 10 | 78 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 65 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/sessions/create</code> | 200 | 14 | 84 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 66 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/sessions/:id</code> | 200 | 13 | 97 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 67 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/environments</code> | 200 | 12 | 73 | 1 | 2 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 68 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/environments/:id</code> | 200 | 11 | 72 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 69 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/credentials-vault</code> | 200 | 10 | 70 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 71 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/credentials-vault-oauth/callback</code> | 200 | 7 | 59 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 72 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/skills</code> | 200 | 11 | 72 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 73 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/skills/:id</code> | 200 | 12 | 74 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 74 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/memory</code> | 200 | 10 | 70 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 75 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/channels</code> | 200 | 9 | 69 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 76 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/channels/create</code> | 200 | 11 | 71 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 77 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/channels/:id</code> | 200 | 10 | 70 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 79 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/managed-agents/studio</code> | 200 | 10 | 64 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 81 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/finetune/create-deprecated</code> | 200 | 10 | 73 | 2 | 13 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 82 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/finetune/create</code> | 200 | 9 | 72 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 84 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/finetune/detail</code> | 200 | 11 | 74 | 3 | 6 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 85 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/finetune/comparison</code> | 200 | 9 | 71 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 86 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/finetune/tls</code> | 200 | 9 | 72 | 1 | 4 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 89 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/customModel/detail</code> | 200 | 9 | 71 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 91 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/eval/create</code> | 200 | 9 | 72 | 1 | 4 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 92 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/eval/detail</code> | 200 | 10 | 72 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 94 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/dataset/create</code> | 200 | 10 | 73 | 1 | 4 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 95 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/dataset/detail</code> | 200 | 9 | 71 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 97 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/dataset/dump/create</code> | 200 | 9 | 71 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 100 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/tts/speechSynthesis</code> | 200 | 11 | 72 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 104 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/tts/simulS2S</code> | 200 | 8 | 60 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 108 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/application</code> | 200 | 13 | 73 | 5 | 13 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 110 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/application/claw</code> | 200 | 8 | 37 | 8 | 37 | final URL: https://signin.volcengine.com/auth/login?redirectURI=https%3A%2F%2Fconsole.volcengine.com%2Farkclaw%2Fchat%2Fci-yepk65ajuorkm4wr7k1k%3Fagent%3Dmain |
-| 112 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/application/detail</code> | 200 | 17 | 111 | 6 | 41 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 113 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/assistant</code> | 200 | 13 | 74 | 2 | 4 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 114 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/assistant/edit</code> | 200 | 17 | 115 | 3 | 9 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 115 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/assistant/detail</code> | 200 | 15 | 109 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 119 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/knowledge</code> | 200 | 5 | 56 | 5 | 56 | final URL: https://console.byteplus.com/vikingdb/knowledge/region:vdb-knowledge+ap-southeast-1/collection/list? |
-| 131 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/subscription/coding-plan</code> | 200 | 12 | 71 | 2 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 140 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/openManagement/rewardPlan</code> | 200 | 10 | 70 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 142 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/apiKey</code> | 200 | 11 | 70 | 2 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 143 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/usageTracking</code> | 200 | 11 | 308 | 2 | 241 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 146 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/vpc</code> | 200 | 11 | 71 | 1 | 3 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 147 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/projectManagement</code> | 200 | 12 | 75 | 2 | 7 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 148 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/tokenCalculator</code> | 200 | 12 | 74 | 2 | 6 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 149 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/docs</code> | 200 | 9 | 61 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 150 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/docs/product-overview</code> | 200 | 8 | 60 | 0 | 0 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 152 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/arkcli</code> | 200 | 10 | 70 | 2 | 10 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-| 153 | <code>https://console.byteplus.com/ark/region:ap-southeast-1/arkcli/login</code> | 200 | 10 | 70 | 1 | 1 | final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound |
-
-## Unique Matched Files
-
-Each file lists its matches once. `R1`/`R2` are the regex labels; `xN` is the occurrence count when greater than one. `first` is the first-seen route number and `routes` is the compressed loaded-on route list; both map to the table above.
-
-<details><summary><b>1.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/9098.00b2937f19.js</code> - <b>239</b> matches (R1 1 / R2 238) - first 143 - routes: 143</summary>
-
-- R1: <code>location.href=t</code>
-- R2: <code>A.get("show")</code>
-- R2: <code>E.get("smooth")</code>
-- R2: <code>I.get("maxSurfaceAngle")</code>
-- R2: <code>I.get("minTurnAngle")</code>
-- R2: <code>P.get("blurScope")</code>
-- R2: <code>P.get("disabled")</code>
-- R2: <code>_.get("edgeDistance")</code>
-- R2: <code>a.get("blurScope")</code> (x5)
-- R2: <code>a.get("borderColor")</code>
-- R2: <code>a.get("dataBackgroundColor")</code>
-- R2: <code>a.get("disabled")</code> (x5)
-- R2: <code>a.get("fillerColor")</code>
-- R2: <code>a.get("focus")</code> (x3)
-- R2: <code>a.get("friction")</code>
-- R2: <code>a.get("gravity")</code>
-- R2: <code>a.get("handleLabel")</code>
-- R2: <code>a.get("ignoreForceLayout")</code>
-- R2: <code>a.get("inside")</code> (x2)
-- R2: <code>a.get("moveHandleIcon")</code>
-- R2: <code>a.get("moveHandleSize")</code>
-- R2: <code>a.get("realtime")</code>
-- R2: <code>a.get("scale")</code>
-- R2: <code>a.get("scaleSize")</code>
-- R2: <code>a.get("textShadowColor")</code>
-- R2: <code>c.get("blurScope")</code>
-- R2: <code>c.get("disabled")</code>
-- R2: <code>c.get("focus")</code>
-- R2: <code>d.get("blurScope")</code>
-- R2: <code>d.get("disabled")</code>
-- R2: <code>d.get("focus")</code>
-- R2: <code>e.get("alignWithLabel")</code>
-- R2: <code>e.get("axisExpandCenter")</code>
-- R2: <code>e.get("axisExpandCount")</code>
-- R2: <code>e.get("axisExpandDebounce")</code>
-- R2: <code>e.get("axisExpandWidth")</code>
-- R2: <code>e.get("backgroundColor")</code>
-- R2: <code>e.get("barMaxWidth")</code>
-- R2: <code>e.get("barMinWidth")</code>
-- R2: <code>e.get("borderColor")</code>
-- R2: <code>e.get("borderRadius")</code>
-- R2: <code>e.get("borderWidth")</code>
-- R2: <code>e.get("coordinateSystem")</code>
-- R2: <code>e.get("cursor")</code>
-- R2: <code>e.get("delay")</code>
-- R2: <code>e.get("itemGap")</code>
-- R2: <code>e.get("maxInterval")</code>
-- R2: <code>e.get("minInterval")</code>
-- R2: <code>e.get("minTurnAngle")</code>
-- R2: <code>e.get("orient")</code>
-- R2: <code>e.get("period")</code>
-- R2: <code>e.get("radarIndex")</code>
-- R2: <code>e.get("scaleLimit")</code>
-- R2: <code>e.get("show")</code>
-- R2: <code>e.get("showDetail")</code>
-- R2: <code>e.get("showLegendSymbol")</code>
-- R2: <code>e.get("throttle")</code>
-- R2: <code>e.get("triggerEvent")</code>
-- R2: <code>e.get("z")</code> (x2)
-- R2: <code>f.get("clip")</code> (x2)
-- R2: <code>h.get("formatter")</code>
-- R2: <code>h.get("formatterParams")</code>
-- R2: <code>h.get("lineHeight")</code>
-- R2: <code>i.get("blurScope")</code>
-- R2: <code>i.get("delay")</code>
-- R2: <code>i.get("disabled")</code>
-- R2: <code>i.get("easing")</code>
-- R2: <code>i.get("focus")</code>
-- R2: <code>i.get("inactiveColor")</code>
-- R2: <code>i.get("inverse")</code>
-- R2: <code>i.get("polyline")</code>
-- R2: <code>i.get("show")</code>
-- R2: <code>i.get("tooltip")</code>
-- R2: <code>i.get("triggerOn")</code>
-- R2: <code>i.get("useUTC")</code>
-- R2: <code>i.get("verticalAlign")</code>
-- R2: <code>k.normal.get("formatter")</code>
-- R2: <code>l.get("parallelIndex")</code>
-- R2: <code>m.get("show")</code>
-- R2: <code>m.get("textAlign")</code>
-- R2: <code>m.get("textBackgroundColor")</code>
-- R2: <code>m.get("textBorderRadius")</code>
-- R2: <code>m.get("textFill")</code>
-- R2: <code>m.get("textFontFamily")</code>
-- R2: <code>m.get("textFontSize")</code>
-- R2: <code>m.get("textFontStyle")</code>
-- R2: <code>m.get("textFontWeight")</code>
-- R2: <code>m.get("textPadding")</code>
-- R2: <code>m.get("textPosition")</code>
-- R2: <code>m.get("verticalAlign")</code>
-- R2: <code>n.get("axisExpandTriggerOn")</code>
-- R2: <code>n.get("axisExpandable")</code>
-- R2: <code>n.get("blurScope")</code> (x2)
-- R2: <code>n.get("boundaryGap")</code>
-- R2: <code>n.get("connectedBackgroundColor")</code>
-- R2: <code>n.get("dim")</code>
-- R2: <code>n.get("disabled")</code> (x2)
-- R2: <code>n.get("enabled")</code>
-- R2: <code>n.get("excludeComponents")</code>
-- R2: <code>n.get("focus")</code> (x2)
-- R2: <code>n.get("markLine")</code> (x2)
-- R2: <code>n.get("markPoint")</code> (x2)
-- R2: <code>n.get("pixelRatio")</code>
-- R2: <code>n.get("rotate")</code>
-- R2: <code>n.get("scale")</code>
-- R2: <code>n.get("seriesDataIndices")</code>
-- R2: <code>n.get("show")</code>
-- R2: <code>n.get("stack")</code> (x2)
-- R2: <code>n.get("symbolOffset")</code>
-- R2: <code>n.get("symbolRepeatDirection")</code>
-- R2: <code>n.get("symbolRotate")</code>
-- R2: <code>n.get("useUTC")</code>
-- R2: <code>n.get("value")</code>
-- R2: <code>n.get("z")</code>
-- R2: <code>n.get("zoomLock")</code>
-- R2: <code>n.hostModel.get("percentPrecision")</code>
-- R2: <code>o.get("blurScope")</code>
-- R2: <code>o.get("boundaryGap")</code>
-- R2: <code>o.get("disabled")</code> (x2)
-- R2: <code>o.get("focus")</code>
-- R2: <code>o.get("icon")</code>
-- R2: <code>o.get("order")</code>
-- R2: <code>o.get("rotate")</code>
-- R2: <code>o.get("show")</code> (x2)
-- R2: <code>o.get("symbolKeepAspect")</code>
-- R2: <code>o.get("symbolSize")</code>
-- R2: <code>o.get("textStyle")</code>
-- R2: <code>o.get("throttle")</code>
-- R2: <code>p.get("itemGap")</code>
-- R2: <code>p.get("itemSize")</code>
-- R2: <code>p.get("textStyle")</code>
-- R2: <code>r.get("animationDurationUpdate")</code>
-- R2: <code>r.get("animationEasingUpdate")</code>
-- R2: <code>r.get("emptyItemWidth")</code>
-- R2: <code>r.get("show")</code> (x3)
-- R2: <code>r.get("silent")</code>
-- R2: <code>s.get("alignTicks")</code>
-- R2: <code>s.get("blurScope")</code> (x2)
-- R2: <code>s.get("description")</code> (x2)
-- R2: <code>s.get("disabled")</code> (x2)
-- R2: <code>s.get("enabled")</code>
-- R2: <code>s.get("focus")</code>
-- R2: <code>s.get("formatter")</code>
-- R2: <code>s.get("icon")</code>
-- R2: <code>s.get("rotate")</code>
-- R2: <code>s.get("tooltip")</code>
-- R2: <code>t.ecModel.get("useUTC")</code> (x2)
-- R2: <code>t.get("activeOpacity")</code>
-- R2: <code>t.get("animation")</code> (x2)
-- R2: <code>t.get("aspectScale")</code>
-- R2: <code>t.get("autoCurveness")</code>
-- R2: <code>t.get("avoidLabelOverlap")</code>
-- R2: <code>t.get("axisExpandRate")</code>
-- R2: <code>t.get("backgroundColor")</code> (x3)
-- R2: <code>t.get("barMaxWidth")</code> (x2)
-- R2: <code>t.get("barMinWidth")</code>
-- R2: <code>t.get("barWidth")</code> (x2)
-- R2: <code>t.get("borderColor")</code>
-- R2: <code>t.get("borderRadius")</code>
-- R2: <code>t.get("borderWidth")</code>
-- R2: <code>t.get("boundaryGap")</code>
-- R2: <code>t.get("calendarIndex")</code>
-- R2: <code>t.get("center")</code> (x3)
-- R2: <code>t.get("containLabel")</code>
-- R2: <code>t.get("edgeSymbol")</code>
-- R2: <code>t.get("edgeSymbolSize")</code>
-- R2: <code>t.get("endAngle")</code>
-- R2: <code>t.get("enterable")</code> (x2)
-- R2: <code>t.get("extraCssText")</code>
-- R2: <code>t.get("geoCoord")</code>
-- R2: <code>t.get("gradientColor")</code>
-- R2: <code>t.get("handleIcon")</code>
-- R2: <code>t.get("handleSize")</code>
-- R2: <code>t.get("inactiveOpacity")</code>
-- R2: <code>t.get("indicatorIcon")</code>
-- R2: <code>t.get("indicatorSize")</code>
-- R2: <code>t.get("inverse")</code>
-- R2: <code>t.get("itemGap")</code> (x4)
-- R2: <code>t.get("itemSize")</code>
-- R2: <code>t.get("layoutIterations")</code>
-- R2: <code>t.get("legendHoverLink")</code>
-- R2: <code>t.get("max")</code> (x3)
-- R2: <code>t.get("maxSize")</code> (x2)
-- R2: <code>t.get("min")</code> (x3)
-- R2: <code>t.get("minShowLabelAngle")</code>
-- R2: <code>t.get("minSize")</code> (x2)
-- R2: <code>t.get("month")</code>
-- R2: <code>t.get("nameMap")</code> (x2)
-- R2: <code>t.get("nameProperty")</code>
-- R2: <code>t.get("nodeAlign")</code>
-- R2: <code>t.get("orient")</code> (x3)
-- R2: <code>t.get("parallelIndex")</code> (x3)
-- R2: <code>t.get("projection")</code>
-- R2: <code>t.get("radarIndex")</code>
-- R2: <code>t.get("radius")</code>
-- R2: <code>t.get("realtime")</code>
-- R2: <code>t.get("roam")</code> (x3)
-- R2: <code>t.get("scaleLimit")</code>
-- R2: <code>t.get("selectedMode")</code>
-- R2: <code>t.get("show")</code> (x8)
-- R2: <code>t.get("showContent")</code>
-- R2: <code>t.get("showEmptyCircle")</code>
-- R2: <code>t.get("showLegendSymbol")</code>
-- R2: <code>t.get("silent")</code> (x5)
-- R2: <code>t.get("smooth")</code>
-- R2: <code>t.get("stack")</code> (x3)
-- R2: <code>t.get("startAngle")</code> (x3)
-- R2: <code>t.get("step")</code>
-- R2: <code>t.get("subtarget")</code>
-- R2: <code>t.get("symbol")</code> (x2)
-- R2: <code>t.get("symbolKeepAspect")</code>
-- R2: <code>t.get("symbolMargin")</code>
-- R2: <code>t.get("symbolOffset")</code>
-- R2: <code>t.get("symbolSize")</code> (x2)
-- R2: <code>t.get("target")</code>
-- R2: <code>t.get("text")</code>
-- R2: <code>t.get("textBaseline")</code>
-- R2: <code>t.get("textVerticalAlign")</code>
-- R2: <code>t.get("title.0.text")</code>
-- R2: <code>t.get("transitionDuration")</code>
-- R2: <code>t.get("triggerEvent")</code>
-- R2: <code>t.get("triggerLineEvent")</code>
-- R2: <code>t.get("visualDimension")</code>
-- R2: <code>t.get("zoom")</code> (x3)
-- R2: <code>u.get("buttonColor")</code>
-- R2: <code>u.get("buttonTextColor")</code>
-- R2: <code>u.get("readOnly")</code>
-- R2: <code>u.get("title")</code>
-- R2: <code>v.get("blurScope")</code>
-- R2: <code>v.get("disabled")</code>
-- R2: <code>v.get("focus")</code>
-- R2: <code>v.get("show")</code> (x2)
-- R2: <code>v.get("value")</code>
-- R2: <code>w.get("blurScope")</code>
-- R2: <code>w.get("disabled")</code>
-- R2: <code>w.get("focus")</code>
-- R2: <code>w.get("show")</code>
-- R2: <code>x.get("formatter")</code>
-- R2: <code>x.get("show")</code>
+# JS Regex Scan - Route-First Report
+
+- Generated: 2026-11-04 18:33:53 UTC
+- Routes: 258 tested | 79 unique | 179 duplicate | 0 errors
+- Route coverage: 23 with new app surface | 4 vendor-only | 52 with no new discoveries
+- Files: 71 unique JS files | 101 raw file URLs | 30 cache-busted duplicates collapsed | 535 unique file-match texts (745 raw)
+- Matches: 685 source | 60 sink | 52 URLSearchParams `.get` flagged | 488 unique texts
+- Wait: 10s | Timeout: 20s | Recoveries: 0 network / 0 HTTP | Unscanned: 0
+- Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.
+- Source matches are unique by match text within each route. Location sinks are per file and not deduped.
+- Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).
+- `App` = application `src_`/`~src_` chunks. Vendor, runtime, locale, replay, and SDK bundles are collapsed; vendor match texts are in the final index.
+- URLSearchParams `.get` classification uses a same-file constructor/alias heuristic; function-parameter and cross-file flows still need manual tracing.
+
+## Unique First Routes
+
+27 unique first routes that load new JS files with unique regex matches. `--` separates entries.
+
+https://console.byteplus.com/datafinder/app/218463/access-analysis-mp
+--
+https://console.byteplus.com/datafinder/app/218463/access-analysis-mp/:report_id?/:result_id
+--
+https://console.byteplus.com/datafinder/app/218463/behavior-detail
+--
+https://console.byteplus.com/datafinder/app/218463/behavior-detail/detail
+--
+https://console.byteplus.com/datafinder/app/218463/dashboard-editor/:dashboard_id
+--
+https://console.byteplus.com/datafinder/app/218463/dashboard/:dashboard_id
+--
+https://console.byteplus.com/datafinder/app/218463/data-manage/data-verification-details
+--
+https://console.byteplus.com/datafinder/app/218463/data-manage/event-params
+--
+https://console.byteplus.com/datafinder/app/218463/diagnostic/:tenantId?/:taskId?/:stage
+--
+https://console.byteplus.com/datafinder/app/218463/editor
+--
+https://console.byteplus.com/datafinder/app/218463/embed-analysis-result
+--
+https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail/detail
+--
+https://console.byteplus.com/datafinder/app/218463/embed-dashboard
+--
+https://console.byteplus.com/datafinder/app/218463/embed-dashboard-editor/:dashboard_id
+--
+https://console.byteplus.com/datafinder/app/218463/embed-des-registration-management
+--
+https://console.byteplus.com/datafinder/app/218463/embed-event-analysis/:report_id?/:result_id
+--
+https://console.byteplus.com/datafinder/app/218463/embed-session-replay-list
+--
+https://console.byteplus.com/datafinder/app/218463/embed-user-cohort/edit-cohort/:type/:id
+--
+https://console.byteplus.com/datafinder/app/218463/embed-virtual-event-edit
+--
+https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/journeys/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+--
+https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/cozeloop/:spaceId/:module/:subModule/result/:result
+--
+https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/session/:token
+--
+https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/trace/:token
+--
+https://console.byteplus.com/datafinder/app/218463/user-list
+--
+https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/session/:token
+--
+https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/trace/:token
+--
+https://console.byteplus.com/datafinder/org/:ordId/embed-function-overview
+
+## Route 1 — https://console.byteplus.com/datafinder/app/218463/access-analysis-mp
+
+- HTTP: 200 | Loaded: 29 files (8 app / 21 vendor) | New: 29 files (8 app / 21 vendor)
+- New source matches: 20 app / 374 vendor | New location sinks: 3 app / 18 vendor
+
+### New app JS files
+
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_board_avatar-group_svg~src_uba-ui_Hove~acf15e-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIstarColor_svg~src_uba-pages_smart-studio_components_SmartStudioTask_SmartStu~f17c20-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_FilterMetric_FilterMetricModal_index_tsx-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_detective_contexts_WorkspaceManageProvider_tsx-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_UbaChart_index_tsx-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_pref_loading_react_tsx~src_services_dashboard_ts~src_uba-block_InlineCohort_ut~bc719c-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_utils_i18n_index_ts-ef959ef1.js</code>
 
-</details>
-
-<details><summary><b>2.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-knowledge/static/js/1.0.0.221/1020.7032cad3.js</code> - <b>37</b> matches (R1 4 / R2 33) - first 119 - routes: 119</summary>
-
-- R1: <code>location.assign(</code>
-- R1: <code>location.href=e</code> (x3)
-- R1: <code>location=r</code>
-- R1: <code>new URL(location.href</code> (x5)
-- R2: <code>a.attributes.get("scriptlevel")</code>
-- R2: <code>e.attributes.get("columnalign")</code> (x2)
-- R2: <code>e.attributes.get("columnspacing")</code> (x2)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x9)
-- R2: <code>e.configManager.get("user_unique_id_type")</code> (x3)
-- R2: <code>e.configManager.get("web_id")</code> (x9)
-- R2: <code>e.get("background-color")</code>
-- R2: <code>e.get("font-family")</code>
-- R2: <code>e.gullet.macros.get("\\df@tag")</code>
-- R2: <code>e.macros.get("\\df@tag")</code>
-- R2: <code>e.node.attributes.get("selection")</code>
-- R2: <code>i.configManager.get("user")</code> (x7)
-- R2: <code>i.get("frame")</code>
-- R2: <code>i.get("mjx-keep-attrs")</code>
-- R2: <code>n.configManager.get("user")</code> (x14)
-- R2: <code>n.get("data-semantic-speech")</code>
-- R2: <code>n.get("lspace")</code>
-- R2: <code>n.get("mathsize")</code>
-- R2: <code>n.get("rspace")</code>
-- R2: <code>n.get("scriptlevel")</code>
-- R2: <code>n.get("scriptminsize")</code>
-- R2: <code>n.get("scriptsizemultiplier")</code>
-- R2: <code>n.node.attributes.get("bevelled")</code>
-- R2: <code>o.Z.get("csrfToken")</code>
-- R2: <code>r.configManager.get("reportErrorCallback")</code> (x3)
-- R2: <code>r.get("depth")</code>
-- R2: <code>r.gullet.macros.get("\\df@tag")</code>
-- R2: <code>s.get("lspace")</code>
-- R2: <code>s.get("rspace")</code>
-- R2: <code>t.get("bevelled")</code> (x2)
-- R2: <code>t.get("largeop")</code>
-- R2: <code>t.get("linethickness")</code>
-- R2: <code>t.get("mathsize")</code>
-
-</details>
-
-<details><summary><b>3.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/7168.0e22514f5d.js</code> - <b>28</b> matches (R1 1 / R2 27) - first 112 - routes: 112, 114-115</summary>
-
-- R1: <code>location.assign(</code> (x2)
-- R2: <code>a.attributes.get("scriptlevel")</code>
-- R2: <code>e.attributes.get("columnalign")</code> (x2)
-- R2: <code>e.attributes.get("columnspacing")</code> (x2)
-- R2: <code>e.get("background-color")</code>
-- R2: <code>e.get("font-family")</code>
-- R2: <code>e.gullet.macros.get("\\df@tag")</code>
-- R2: <code>e.macros.get("\\df@tag")</code>
-- R2: <code>e.node.attributes.get("selection")</code>
-- R2: <code>eJ.A.get("csrfToken")</code>
-- R2: <code>i.get("lspace")</code>
-- R2: <code>i.get("rspace")</code>
-- R2: <code>n.get("data-semantic-speech")</code>
-- R2: <code>n.get("lspace")</code>
-- R2: <code>n.get("mathsize")</code>
-- R2: <code>n.get("rspace")</code>
-- R2: <code>n.get("scriptlevel")</code>
-- R2: <code>n.get("scriptminsize")</code>
-- R2: <code>n.get("scriptsizemultiplier")</code>
-- R2: <code>n.node.attributes.get("bevelled")</code>
-- R2: <code>o.get("frame")</code>
-- R2: <code>o.get("mjx-keep-attrs")</code>
-- R2: <code>r.get("depth")</code>
-- R2: <code>r.gullet.macros.get("\\df@tag")</code>
-- R2: <code>t.get("bevelled")</code> (x2)
-- R2: <code>t.get("largeop")</code>
-- R2: <code>t.get("linethickness")</code>
-- R2: <code>t.get("mathsize")</code>
-
-</details>
-
-<details><summary><b>4.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/84279.11ada4c40e.js</code> - <b>21</b> matches (R1 0 / R2 21) - first 58 - routes: 58, 66</summary>
-
-- R2: <code>Q.get("background-color")</code>
-- R2: <code>Q.get("font-family")</code>
-- R2: <code>Q.node.attributes.get("selection")</code>
-- R2: <code>T.get("depth")</code>
-- R2: <code>e.get("data-semantic-speech")</code>
-- R2: <code>e.get("lspace")</code>
-- R2: <code>e.get("mathsize")</code>
-- R2: <code>e.get("rspace")</code>
-- R2: <code>e.get("scriptlevel")</code>
-- R2: <code>e.get("scriptminsize")</code>
-- R2: <code>e.get("scriptsizemultiplier")</code>
-- R2: <code>e.node.attributes.get("bevelled")</code>
-- R2: <code>n.get("lspace")</code>
-- R2: <code>n.get("rspace")</code>
-- R2: <code>o.attributes.get("scriptlevel")</code>
-- R2: <code>r.get("frame")</code>
-- R2: <code>r.get("mjx-keep-attrs")</code>
-- R2: <code>t.get("bevelled")</code> (x2)
-- R2: <code>t.get("largeop")</code>
-- R2: <code>t.get("linethickness")</code>
-- R2: <code>t.get("mathsize")</code>
-
-</details>
-
-<details><summary><b>5.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/main.4b233780.js</code> - <b>19</b> matches (R1 9 / R2 10) - first 110 - routes: 110</summary>
-
-- R1: <code>location.assign(</code> (x5)
-- R1: <code>location.href=n</code>
-- R1: <code>location.href=t</code> (x2)
-- R1: <code>location=r</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(location.search</code> (x4)
-- R1: <code>new URLSearchParams(window.location.search</code> (x3)
-- R1: <code>window.location.assign(</code> (x3)
-- R1: <code>window.location.replace(</code> (x3)
-- R2: <code>F.A.get("csrfToken")</code>
-- R2: <code>e.collect.configManager.get("user")</code> (x2)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x6)
-- R2: <code>e.configManager.get("user_unique_id_type")</code> (x2)
-- R2: <code>e.configManager.get("web_id")</code> (x6)
-- R2: <code>i.A.get("csrfToken")</code>
-- R2: <code>n.get("scenario")</code>
-- R2: <code>o.configManager.get("user")</code> (x13)
-- R2: <code>r.configManager.get("reportErrorCallback")</code> (x2)
-- R2: <code>t.get("state")</code> (x2)
-
-</details>
-
-<details><summary><b>6.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-platform-runtime-os/main.cea8b975.js</code> - <b>18</b> matches (R1 5 / R2 13) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
-
-- R1: <code>location.href=e</code> (x2)
-- R1: <code>location.href=f</code>
-- R1: <code>location.href=i</code>
-- R1: <code>new URLSearchParams(location.search</code> (x2)
-- R1: <code>window.location.replace(</code>
-- R2: <code>e.collect.configManager.get("custom")</code>
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>oH.get("_TEA_VE_APIHOST")</code>
-- R2: <code>oH.get("_VISUAL_EDITOR_U")</code>
-- R2: <code>oH.get("_VISUAL_EDITOR_V")</code>
-- R2: <code>oH.get("lang")</code>
-- R2: <code>r.configManager.get("user")</code> (x6)
-- R2: <code>t.get("AccountID")</code>
-- R2: <code>t.get("__spti")</code>
-- R2: <code>t.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>7.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code> - <b>15</b> matches (R1 9 / R2 6) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
-
-- R1: <code>location.href="</code>
-- R1: <code>location.href=`</code> (x3)
-- R1: <code>location.href=e</code>
-- R1: <code>location.href=t</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(location.search</code> (x2)
-- R1: <code>new URLSearchParams(window.location.search</code> (x4)
-- R1: <code>window.location.assign(</code> (x2)
-- R1: <code>window.location.replace(</code> (x4)
-- R2: <code>I.A.get("csrfToken")</code>
-- R2: <code>e.get("userInfo")</code> (x2)
-- R2: <code>i.A.get("csrfToken")</code> (x3)
-- R2: <code>i.get("t")</code>
-- R2: <code>sC.A.get("csrfToken")</code>
-- R2: <code>t.get("userInfo")</code> (x2)
-
-</details>
-
-<details><summary><b>8.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code> - <b>14</b> matches (R1 6 / R2 8) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
-
-- R1: <code>location.assign(</code> (x3)
-- R1: <code>location.href=e</code> (x2)
-- R1: <code>new URL(location.href</code> (x5)
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R1: <code>window.location.replace(</code>
-- R2: <code>e.collect.configManager.get("user")</code> (x2)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x12)
-- R2: <code>e.configManager.get("user_unique_id_type")</code> (x4)
-- R2: <code>e.configManager.get("web_id")</code> (x12)
-- R2: <code>g.A.get("csrfToken")</code>
-- R2: <code>i.configManager.get("user")</code> (x13)
-- R2: <code>n.configManager.get("user")</code> (x14)
-- R2: <code>r.configManager.get("reportErrorCallback")</code> (x4)
-
-</details>
-
-<details><summary><b>9.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-knowledge/static/js/1.0.0.221/main.a5f76399.js</code> - <b>10</b> matches (R1 7 / R2 3) - first 119 - routes: 119</summary>
-
-- R1: <code>.query.service</code>
-- R1: <code>location.href="</code>
-- R1: <code>location.href=d</code> (x2)
-- R1: <code>location.href=t</code>
-- R1: <code>new URL(window.location.href</code> (x2)
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R1: <code>window.location.assign(</code>
-- R2: <code>eO.Z.get("csrfToken")</code>
-- R2: <code>r.Z.get("AccountID")</code>
-- R2: <code>r.Z.get("account_active_time")</code>
-
-</details>
-
-<details><summary><b>10.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/91274.4bb0a4afa9.js</code> - <b>9</b> matches (R1 3 / R2 6) - first 29 - routes: 29, 31-32, 35-36, 38, 43-44</summary>
-
-- R1: <code>location.assign(</code>
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x6)
-- R2: <code>e.configManager.get("user_unique_id_type")</code> (x2)
-- R2: <code>e.configManager.get("web_id")</code> (x6)
-- R2: <code>n.configManager.get("reportErrorCallback")</code> (x2)
-- R2: <code>o.configManager.get("user")</code> (x7)
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>11.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/27065.b90e3594ea.js</code> - <b>9</b> matches (R1 1 / R2 8) - first 57 - routes: 57, 60, 62, 64-65</summary>
-
-- R1: <code>location.assign(</code>
-- R2: <code>e.collect.configManager.get("user")</code> (x2)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>e.get("month")</code>
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>o.configManager.get("user")</code> (x6)
-- R2: <code>tl.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>12.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/7431.c85252ad29.js</code> - <b>9</b> matches (R1 3 / R2 6) - first 81 - routes: 81-82, 84-86, 89, 91-92, 94-95, 97</summary>
-
-- R1: <code>location.assign(</code>
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>eX.A.get("csrfToken")</code>
-- R2: <code>n.configManager.get("user")</code> (x7)
-- R2: <code>r.configManager.get("reportErrorCallback")</code>
-
-</details>
-
-<details><summary><b>13.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code> - <b>8</b> matches (R1 7 / R2 1) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
-
-- R1: <code>location.assign(</code> (x2)
-- R1: <code>location.href=n</code>
-- R1: <code>location.href=t</code>
-- R1: <code>location.replace(</code>
-- R1: <code>new URL(location.pathname</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>p.searchParams.get("paths")</code>
-
-</details>
-
-<details><summary><b>14.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/3372.8331a92330.js</code> - <b>8</b> matches (R1 1 / R2 7) - first 47 - routes: 47</summary>
-
-- R1: <code>location.assign(</code>
-- R2: <code>e.collect.configManager.get("user")</code> (x2)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>i.configManager.get("user")</code> (x6)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>to.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>15.</b> <code>https://res.gcloudcache.com/volc-fe/volcengine-platform-runtime/main.7e241f35.js</code> - <b>8</b> matches (R1 6 / R2 2) - first 110 - routes: 110</summary>
-
-- R1: <code>location.href="</code> (x2)
-- R1: <code>location.href=d</code>
-- R1: <code>location.href=e</code>
-- R1: <code>location.href=o</code>
-- R1: <code>new URLSearchParams(location.search</code> (x3)
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>o.Z.get("__spti")</code>
-- R2: <code>ry.Z.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>16.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/7725.02a4a0b9b3.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 108 - routes: 108, 112-115</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>17.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/arkcli/static/js/async/820.0c05aa3327.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 152 - routes: 152-153</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>18.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/93822.e7496ce86c.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 29 - routes: 29, 31-32, 35-36, 38, 43</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>19.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/38767.27735c56c3.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 57 - routes: 57-58, 60-62, 64-69, 72-77</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>20.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/1453.3d4e7d8023.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 46 - routes: 46-52</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("user")</code> (x7)
-- R2: <code>r.configManager.get("reportErrorCallback")</code>
-
-</details>
-
-<details><summary><b>21.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-landing/static/js/async/306.75d9663c88.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 11 - routes: 11</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>22.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-promotion-collection/static/js/async/533.e462f14b74.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 13 - routes: 13, 22</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>23.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/7219.070e90099a.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 12 - routes: 12, 56, 131, 140, 142-143, 146-148</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("reportErrorCallback")</code>
-- R2: <code>r.configManager.get("user")</code> (x7)
-
-</details>
-
-<details><summary><b>24.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/754.1cd85738bf.js</code> - <b>7</b> matches (R1 2 / R2 5) - first 5 - routes: 5-7, 100</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(location.href</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id")</code> (x3)
-- R2: <code>e.configManager.get("user_unique_id_type")</code>
-- R2: <code>e.configManager.get("web_id")</code> (x3)
-- R2: <code>n.configManager.get("user")</code> (x7)
-- R2: <code>r.configManager.get("reportErrorCallback")</code>
-
-</details>
-
-<details><summary><b>25.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-platform-runtime/main.e9a0251e.js</code> - <b>6</b> matches (R1 4 / R2 2) - first 119 - routes: 119</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>location.href=p</code>
-- R1: <code>new URLSearchParams(location.search</code> (x3)
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>i.Z.get("__spti")</code>
-- R2: <code>rb.Z.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>26.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/8888.48e3abbd17.js</code> - <b>6</b> matches (R1 0 / R2 6) - first 112 - routes: 112, 114-115</summary>
-
-- R2: <code>a.get("x-request-id")</code> (x2)
-- R2: <code>h.get("x-request-id")</code>
-- R2: <code>l.A.get("csrfToken")</code>
-- R2: <code>l.get("x-request-id")</code>
-- R2: <code>r.get("x-tt-logid")</code>
-- R2: <code>v.get("x-request-id")</code>
-
-</details>
-
-<details><summary><b>27.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/9832.9d43b6b9d6.js</code> - <b>5</b> matches (R1 4 / R2 1) - first 114 - routes: 114</summary>
-
-- R1: <code>.query.length</code> (x2)
-- R1: <code>location.href=t</code>
-- R1: <code>location=e</code>
-- R1: <code>location=i</code>
-- R2: <code>e.get("month")</code>
-
-</details>
-
-<details><summary><b>28.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/53270.8af00a0fdb.js</code> - <b>5</b> matches (R1 1 / R2 4) - first 31 - routes: 31, 36, 38</summary>
-
-- R1: <code>location = 0</code>
-- R2: <code>n.get("WEBGL_multi_draw")</code>
-- R2: <code>t.get("EXT_color_buffer_float")</code>
-- R2: <code>t.get("WEBGL_multi_draw")</code> (x2)
-- R2: <code>t.get("WEBGL_multisampled_render_to_texture")</code>
-
-</details>
-
-<details><summary><b>29.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/9545.4410f217ea.js</code> - <b>5</b> matches (R1 3 / R2 2) - first 56 - routes: 56</summary>
-
-- R1: <code>location.href=r</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>e.get("hour")</code>
-- R2: <code>e.get("minute")</code>
-
-</details>
-
-<details><summary><b>30.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_project_management.b3b7526866.js</code> - <b>5</b> matches (R1 5 / R2 0) - first 147 - routes: 147</summary>
-
-- R1: <code>location.href="</code>
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(location.search</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>31.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/169.e836de6f.js</code> - <b>5</b> matches (R1 5 / R2 0) - first 110 - routes: 110</summary>
-
-- R1: <code>location.href="</code>
-- R1: <code>location.href=`</code> (x6)
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R1: <code>window.location.assign(</code> (x3)
-- R1: <code>window.location.replace(</code>
-
-</details>
-
-<details><summary><b>32.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/2616.68953e3608.js</code> - <b>4</b> matches (R1 3 / R2 1) - first 94 - routes: 94</summary>
-
-- R1: <code>location.href=n</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>r.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>33.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/5074.8fd8bee520.js</code> - <b>4</b> matches (R1 3 / R2 1) - first 84 - routes: 84</summary>
-
-- R1: <code>location.href=u</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>34.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/8934.16f82886be.js</code> - <b>4</b> matches (R1 3 / R2 1) - first 81 - routes: 81-82</summary>
-
-- R1: <code>location.href=u</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>o.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>35.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_eval_create.292a62ba40.js</code> - <b>4</b> matches (R1 3 / R2 1) - first 91 - routes: 91</summary>
-
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>36.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_job_tls.06fcecf40a.js</code> - <b>4</b> matches (R1 3 / R2 1) - first 86 - routes: 86</summary>
-
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>37.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/5314.f58e1230d9.js</code> - <b>4</b> matches (R1 4 / R2 0) - first 48 - routes: 48</summary>
-
-- R1: <code>.query.length</code> (x2)
-- R1: <code>location.href=t</code>
-- R1: <code>location=e</code>
-- R1: <code>location=r</code>
-
-</details>
-
-<details><summary><b>38.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-promotion-collection/static/js/async/242.d3a7dde1b7.js</code> - <b>4</b> matches (R1 2 / R2 2) - first 13 - routes: 13, 22</summary>
-
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
-- R1: <code>window.location.assign(</code>
-- R2: <code>i.searchParams.get("utm_source")</code>
-- R2: <code>t.get("subject")</code>
-
-</details>
-
-<details><summary><b>39.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-promotion-collection/static/js/async/903.4e84f168f1.js</code> - <b>4</b> matches (R1 4 / R2 0) - first 13 - routes: 13, 22</summary>
-
-- R1: <code>location.href=i</code>
-- R1: <code>new URL(location.pathname</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>window.location.assign(</code>
-
-</details>
-
-<details><summary><b>40.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/(region)/overview/page.6445b3e125.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 1 - routes: 1, 79</summary>
-
-- R1: <code>location.href=_</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R1: <code>window.location.assign(</code> (x2)
-
-</details>
-
-<details><summary><b>41.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/__federation_expose_assistant_detail.e155531a98.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 115 - routes: 115</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>w.get("botType")</code>
-
-</details>
-
-<details><summary><b>42.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/arkcli/static/js/async/953.9665a6db4c.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 152 - routes: 152-153</summary>
-
-- R1: <code>location.href=M</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>43.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/16458.c88ef04029.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 44 - routes: 44</summary>
-
-- R1: <code>.query.charCodeAt</code> (x2)
-- R1: <code>.query.length</code> (x2)
-- R1: <code>.query.spec</code> (x4)
-
-</details>
-
-<details><summary><b>44.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/31111.2e0d2bbcd5.js</code> - <b>3</b> matches (R1 0 / R2 3) - first 29 - routes: 29, 32, 36, 38, 43</summary>
-
-- R2: <code>r.searchParams.get("response-content-type")</code>
-- R2: <code>r.searchParams.get("x-oss-response-content-type")</code>
-- R2: <code>r.searchParams.get("x-tos-response-content-type")</code>
-
-</details>
-
-<details><summary><b>45.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/40154.7f6ab1bf03.js</code> - <b>3</b> matches (R1 0 / R2 3) - first 31 - routes: 31</summary>
-
-- R2: <code>a.searchParams.get("response-content-type")</code>
-- R2: <code>a.searchParams.get("x-oss-response-content-type")</code>
-- R2: <code>a.searchParams.get("x-tos-response-content-type")</code>
-
-</details>
-
-<details><summary><b>46.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/72792.695c5b8fa4.js</code> - <b>3</b> matches (R1 1 / R2 2) - first 29 - routes: 29, 31-32, 36, 38, 43</summary>
-
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>a.get("compareModelIds")</code>
-- R2: <code>a.get("modelId")</code>
-
-</details>
-
-<details><summary><b>47.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/78199.dcbaa94f8d.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 36 - routes: 36, 38</summary>
-
-- R1: <code>new URL(window.location.href</code> (x3)
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
-- R2: <code>r.searchParams.get("env")</code>
-
-</details>
-
-<details><summary><b>48.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/__federation_expose_routes.4db18ec2aa.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 29 - routes: 29, 31-32, 35-36, 38, 43-44</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>49.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/61962.9ddbcf9862.js</code> - <b>3</b> matches (R1 1 / R2 2) - first 58 - routes: 58, 66</summary>
-
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>p.A.get("csrfToken")</code> (x3)
-- R2: <code>x.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>50.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/98068.626da96785.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 57 - routes: 57-58, 60-62, 64-69, 72-77</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
+### App source matches (unique)
 
-</details>
-
-<details><summary><b>51.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_quickstart.0f2b0aa648.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 58 - routes: 58</summary>
-
-- R1: <code>location.replace(</code>
-- R1: <code>new URL(window.location.href</code> (x2)
-- R1: <code>new URLSearchParams(window.location.search</code> (x4)
-
-</details>
-
-<details><summary><b>52.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_dataset_detail.86a4d90ebf.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 95 - routes: 95</summary>
-
-- R1: <code>location.href=n</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>o.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>53.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_dataset_dump_create.4de9662963.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 97 - routes: 97</summary>
-
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>54.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_eval_detail.96ea3ee7bf.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 92 - routes: 92</summary>
-
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>55.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_job_comparison.61405f08cd.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 85 - routes: 85</summary>
-
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>56.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_repository_detail.c228a8a794.js</code> - <b>3</b> matches (R1 2 / R2 1) - first 89 - routes: 89</summary>
-
-- R1: <code>location.href=u</code>
-- R1: <code>new URL(window.location.href</code>
-- R2: <code>n.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>57.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/675.0aef9bd056.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 46 - routes: 46-52</summary>
-
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>58.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/__federation_expose_endpoint_list.922f1ad7a0.js</code> - <b>3</b> matches (R1 0 / R2 3) - first 46 - routes: 46</summary>
-
-- R2: <code>p.get("pageNumber")</code>
-- R2: <code>p.get("pageSize")</code>
-- R2: <code>r.get("*")</code>
-
-</details>
-
-<details><summary><b>59.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-landing/static/js/async/__federation_expose_routes.8289d3ab2d.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 11 - routes: 11</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>location.replace(</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
-
-<details><summary><b>60.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/898.4d2dc21a91.js</code> - <b>3</b> matches (R1 0 / R2 3) - first 148 - routes: 148</summary>
-
-- R2: <code>i.searchParams.get("response-content-type")</code>
-- R2: <code>i.searchParams.get("x-oss-response-content-type")</code>
-- R2: <code>i.searchParams.get("x-tos-response-content-type")</code>
-
-</details>
-
-<details><summary><b>61.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_open_management_reward_plan.30a4a5d92e.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 140 - routes: 140</summary>
-
-- R1: <code>location.href=Q</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>62.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_pickup_voucher.0dda270751.js</code> - <b>3</b> matches (R1 1 / R2 2) - first 12 - routes: 12</summary>
-
-- R1: <code>location.href="</code> (x2)
-- R2: <code>r.A.get("csrfToken")</code>
-- R2: <code>x.get("pickup_voucher_id")</code>
-
-</details>
-
-<details><summary><b>63.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_token_calculator.5aa401a3b2.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 148 - routes: 148</summary>
-
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>64.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_vpc.280c5715d1.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 146 - routes: 146</summary>
-
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>65.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/101.a21dd8db11.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 6 - routes: 6</summary>
-
-- R1: <code>location.href=n</code>
-- R1: <code>new URL(window.location.href</code>
-- R1: <code>new URLSearchParams(window.location.search</code>
-
-</details>
-
-<details><summary><b>66.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code> - <b>3</b> matches (R1 3 / R2 0) - first 5 - routes: 5-7, 100</summary>
-
-- R1: <code>location.href=a</code>
-- R1: <code>new URL(window.location.href</code> (x2)
-- R1: <code>window.location.assign(</code> (x2)
-
-</details>
-
-<details><summary><b>67.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-knowledge/static/js/1.0.0.221/lib-router.38527ea2.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 119 - routes: 119</summary>
-
-- R1: <code>location.assign(</code> (x2)
-- R1: <code>location.replace(</code>
-
-</details>
-
-<details><summary><b>68.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6652.6caf14fb81.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
-
-- R1: <code>location.href=(</code>
-- R1: <code>window.location.assign(</code>
-
-</details>
-
-<details><summary><b>69.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/1172.bd821cdddf.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 112 - routes: 112, 114-115</summary>
-
-- R1: <code>location=!</code>
-- R1: <code>location=e</code> (x6)
-
-</details>
-
-<details><summary><b>70.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/2273.772c1f780a.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 112 - routes: 112</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>location={</code>
-
-</details>
-
-<details><summary><b>71.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/5125.4f7bc454e2.js</code> - <b>2</b> matches (R1 0 / R2 2) - first 114 - routes: 114</summary>
-
-- R2: <code>a8.A.get("csrfToken")</code>
-- R2: <code>v.get("botType")</code>
-
-</details>
-
-<details><summary><b>72.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/6042.a194df1285.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 113 - routes: 113</summary>
-
-- R1: <code>window.location.assign(</code>
-- R2: <code>C.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>73.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/7587.08a9ca23cf.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 108 - routes: 108, 112-115</summary>
-
-- R1: <code>location.assign(</code> (x2)
-- R1: <code>location.replace(</code>
-
-</details>
-
-<details><summary><b>74.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/__federation_expose_application_center.b3abac992b.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 108 - routes: 108</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
-
-<details><summary><b>75.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/__federation_expose_application_detail.07b6dbbd6c.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 112 - routes: 112</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
-
-<details><summary><b>76.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/__federation_expose_assistant_edit.5ec129a509.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 114 - routes: 114</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
-
-<details><summary><b>77.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/__federation_expose_my_apps.36fd1cc29b.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 113 - routes: 113</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
-
-<details><summary><b>78.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/17535.17b02bf1ba.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 36 - routes: 36</summary>
-
-- R1: <code>new URLSearchParams(window.location.search</code>
-- R2: <code>tO.A.get("csrfToken")</code>
-
-</details>
-
-<details><summary><b>79.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/39548.444d033809.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 38 - routes: 38</summary>
-
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
-- R2: <code>o.A.get("csrfToken")</code>
+#### URLSearchParams `.get(...)`
 
-</details>
-
-<details><summary><b>80.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/__federation_expose_sidebar_extra.5e990f43bf.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 29 - routes: 29, 31-32, 35-36, 38, 43</summary>
-
-- R1: <code>location.href=e</code>
-- R1: <code>new URL(window.location.href</code>
-
-</details>
+- <code>E.get("dorToken")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_utils_i18n_index_ts-ef959ef1.js</code>
+- <code>E.get("eraUserUniqueId")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_utils_i18n_index_ts-ef959ef1.js</code>
+- <code>m.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_pref_loading_react_tsx~src_services_dashboard_ts~src_uba-block_InlineCohort_ut~bc719c-ef959ef1.js</code>
+- <code>r.get("isLibraIframe")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_detective_contexts_WorkspaceManageProvider_tsx-ef959ef1.js</code>
+- <code>r.get("showUserDetail")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_detective_contexts_WorkspaceManageProvider_tsx-ef959ef1.js</code>
 
-<details><summary><b>81.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/10861.fcac40b4fb.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 60 - routes: 60-62, 65, 73</summary>
+#### `.query.*` / `query["..."]`
 
-- R1: <code>location=!</code>
-- R1: <code>location=e</code> (x6)
+- <code>.query.queryHash</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_FilterMetric_FilterMetricModal_index_tsx-ef959ef1.js</code>
+- <code>.query.state</code> (x3) — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_FilterMetric_FilterMetricModal_index_tsx-ef959ef1.js</code>
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>82.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/22673.83f22e0b73.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 58 - routes: 58, 66</summary>
+- <code>A=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>M=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>W=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_UbaChart_index_tsx-ef959ef1.js</code>
+- <code>p=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>r=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_detective_contexts_WorkspaceManageProvider_tsx-ef959ef1.js</code>
+- <code>s=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_board_avatar-group_svg~src_uba-ui_Hove~acf15e-ef959ef1.js</code>
 
-- R1: <code>location.href=e</code>
-- R1: <code>location=!</code>
-
-</details>
+#### Other `.get(...)` (7)
 
-<details><summary><b>83.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/28560.9e1f9feed8.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 67 - routes: 67-68</summary>
+<details><summary>Show generic .get matches</summary>
 
-- R1: <code>location.assign(</code>
-- R2: <code>eZ.A.get("csrfToken")</code>
+- <code>o.get("end_time")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("start_time")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("tb_duration_order")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("tb_page")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("tb_page_size")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("tb_start_time_order")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>o.get("user_id_type")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
 
 </details>
 
-<details><summary><b>84.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/4910.9997e22df0.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 57 - routes: 57-58, 60-62, 65-66, 72-73</summary>
+### App location sinks (not deduped)
 
-- R1: <code>location.assign(</code>
-- R2: <code>eQ.A.get("csrfToken")</code>
+- <code>location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_AppNext_tsx~src_uba-utils_operators_takeData_ts-ef959ef1.js</code>
+- <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIstarColor_svg~src_uba-pages_smart-studio_components_SmartStudioTask_SmartStu~f17c20-ef959ef1.js</code>
 
-</details>
+- Vendor/SDK additions: +21 files | 374 source / 18 sinks (match texts in final index)
 
-<details><summary><b>85.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/2732.0aef4bf74d.js</code> - <b>2</b> matches (R1 0 / R2 2) - first 48 - routes: 48, 52</summary>
+## Route 2 — https://console.byteplus.com/datafinder/app/218463/access-analysis-mp/:report_id?/:result_id
 
-- R2: <code>n.get("*")</code>
-- R2: <code>r.get("*")</code>
+- HTTP: 200 | Loaded: 30 files (9 app / 21 vendor) | New: 2 files (1 app / 1 vendor)
+- New source matches: 0 app / 7 vendor | New location sinks: 1 app / 1 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>86.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/3197.eda19b0eaa.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 47 - routes: 47-52</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-ui_Menu_Header_index_tsx-ef959ef1.js</code>
 
-- R1: <code>location.assign(</code>
-- R2: <code>eX.A.get("csrfToken")</code>
+### App location sinks (not deduped)
 
-</details>
+- <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-ui_Menu_Header_index_tsx-ef959ef1.js</code>
 
-<details><summary><b>87.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/6322.84539c2616.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 48 - routes: 48, 52</summary>
+- Vendor/SDK additions: +1 files | 7 source / 1 sinks (match texts in final index)
 
-- R1: <code>location=!</code>
-- R1: <code>location=e</code> (x6)
+## Route 11 — https://console.byteplus.com/datafinder/app/218463/behavior-detail
 
-</details>
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 7 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-<details><summary><b>88.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/7924.4e5ca1b471.js</code> - <b>2</b> matches (R1 0 / R2 2) - first 47 - routes: 47-48, 52</summary>
+### New app JS files
 
-- R2: <code>A.A.get("csrfToken")</code> (x3)
-- R2: <code>L.A.get("csrfToken")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>89.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/__federation_expose_batchInference_manage.e7d9547562.js</code> - <b>2</b> matches (R1 0 / R2 2) - first 49 - routes: 49</summary>
+#### URL / URLSearchParams construction
 
-- R2: <code>i.A.get("csrfToken")</code>
-- R2: <code>r.get("*")</code>
+- <code>f=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
 
-</details>
+#### Other `.get(...)` (6)
 
-<details><summary><b>90.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/__federation_expose_endpoint_create.addf5ad349.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 47 - routes: 47</summary>
+<details><summary>Show generic .get matches</summary>
 
-- R1: <code>new URLSearchParams(window.location.search</code> (x3)
-- R2: <code>i.A.get("csrfToken")</code>
+- <code>o.get("context")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
+- <code>o.get("dashboardId")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
+- <code>o.get("dashboard_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
+- <code>o.get("history_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
+- <code>o.get("reportId")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
+- <code>o.get("report_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailSearchBar_components_BehaviorDetailSea~ebd390-ef959ef1.js</code>
 
 </details>
 
-<details><summary><b>91.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/2279.f71a69c7ae.js</code> - <b>2</b> matches (R1 1 / R2 1) - first 147 - routes: 147</summary>
+## Route 12 — https://console.byteplus.com/datafinder/app/218463/behavior-detail/detail
 
-- R1: <code>location.assign(</code>
-- R2: <code>y.A.get("csrfToken")</code>
+- HTTP: 200 | Loaded: 32 files (11 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 6 app / 0 vendor | New location sinks: 0 app / 0 vendor
+- Note: final URL: https://console.byteplus.com/datafinder/app/218463/behavior-detail/detail?query_id=&amp;query_type=user_unique_id&amp;appId=&amp;activeEventId=&amp;curDevice=pc&amp;curDevice=mobile&amp;curDevice=mp&amp;isShowFiltered=true&amp;eventParamsType=list&amp;timestamp=1791244800000&amp;timestamp=1793813404772&amp;resolvedQueryId=&amp;resolvedQueryType=&amp;selectedTemplateId=&amp;eventCategory=event&amp;flowType=event&amp;eventOperation=in&amp;subjectId=&amp;eventFilterList=%5B%5D&amp;snapshot_id=&amp;sort=desc&amp;searchQuestion=
 
-</details>
+### New app JS files
 
-<details><summary><b>92.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/2716.4c01e47af9.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 12 - routes: 12</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
 
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
+### App source matches (unique)
 
-</details>
+#### Other `.get(...)` (6)
 
-<details><summary><b>93.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_api_key_manage.b870f1b214.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 142 - routes: 142</summary>
+<details><summary>Show generic .get matches</summary>
 
-- R1: <code>location.href=n</code>
-- R1: <code>new URL(window.location.href</code>
+- <code>E.get("hour")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
+- <code>E.get("minute")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
+- <code>E.get("second")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
+- <code>d.get("hour")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
+- <code>d.get("minute")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
+- <code>d.get("second")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_behaviorDetail_components_BehaviorDetailBehaviorFlow_index_tsx~src_uba-pages_b~22852f-ef959ef1.js</code>
 
 </details>
-
-<details><summary><b>94.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_coding_plan_pane.13c650e89c.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 131 - routes: 131</summary>
 
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
+## Route 30 — https://console.byteplus.com/datafinder/app/218463/dashboard-editor/:dashboard_id
 
-</details>
+- HTTP: 200 | Loaded: 33 files (11 app / 22 vendor) | New: 4 files (2 app / 2 vendor)
+- New source matches: 4 app / 5 vendor | New location sinks: 0 app / 0 vendor
 
-<details><summary><b>95.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_usage_tracking_manage.d972bdb5cb.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 143 - routes: 143</summary>
+### New app JS files
 
-- R1: <code>location.href=o</code>
-- R1: <code>new URL(window.location.href</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_DashboardChart_EventDashboardModal_tsx~src_uba-pages_event_utils_meta_helper_c~5747e1-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_analysis_creators_createAnalysisReport_ts~src_uba-utils_analysis_creators_crea~93d478-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>96.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_comparison.fdf7c0861b.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 7 - routes: 7</summary>
+#### URLSearchParams `.get(...)`
 
-- R1: <code>location.href=n</code>
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
+- <code>z.get("source")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_analysis_creators_createAnalysisReport_ts~src_uba-utils_analysis_creators_crea~93d478-ef959ef1.js</code>
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>97.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_home.ab767fe68a.js</code> - <b>2</b> matches (R1 2 / R2 0) - first 5 - routes: 5, 100</summary>
+- <code>B=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_analysis_creators_createAnalysisReport_ts~src_uba-utils_analysis_creators_crea~93d478-ef959ef1.js</code>
+- <code>xt=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_DashboardChart_EventDashboardModal_tsx~src_uba-pages_event_utils_meta_helper_c~5747e1-ef959ef1.js</code>
+- <code>z=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-utils_analysis_creators_createAnalysisReport_ts~src_uba-utils_analysis_creators_crea~93d478-ef959ef1.js</code>
 
-- R1: <code>.query.trim</code> (x4)
-- R1: <code>new URLSearchParams(window.location.search</code>
+- Vendor/SDK additions: +2 files | 5 source / 0 sinks (match texts in final index)
 
-</details>
+## Route 31 — https://console.byteplus.com/datafinder/app/218463/dashboard/:dashboard_id
 
-<details><summary><b>98.</b> <code>https://livechat.im.byteplusbiz.com/sockjs.min.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
+- Note: final URL: https://console.byteplus.com/datafinder/app/218463/dashboard/0
 
-- R1: <code>location=r</code>
+### New app JS files
 
-</details>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_dashboard__layout_tsx~src_uba-utils_factory_createContextWithSelector_tsx~src_uba-u~d42463-ef959ef1.js</code>
 
-<details><summary><b>99.</b> <code>https://res.gcloudcache.com/bp-fe/byteplus-knowledge/static/js/1.0.0.221/lib-arco.fa0a8e2c.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 119 - routes: 119</summary>
+### App source matches (unique)
 
-- R2: <code>t.get("month")</code>
+#### URLSearchParams `.get(...)`
 
-</details>
+- <code>N.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_dashboard__layout_tsx~src_uba-utils_factory_createContextWithSelector_tsx~src_uba-u~d42463-ef959ef1.js</code>
 
-<details><summary><b>100.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/app-lab/vmok-remote-entry.46031a1d.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 108 - routes: 108, 112-115</summary>
+## Route 43 — https://console.byteplus.com/datafinder/app/218463/data-manage/data-verification-details
 
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>101.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/1312.8f28b4bdbd.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 1 - routes: 1, 79</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_ai_AIstarColor_svg~src_uba-ui_HoverEl~804835-ef959ef1.js</code>
 
-- R2: <code>r.get("*")</code>
+### App source matches (unique)
 
-</details>
+#### URLSearchParams `.get(...)`
 
-<details><summary><b>102.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/4708.188ebd1e2e.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 1 - routes: 1, 5-7, 10-13, 22, 29, 31-32, 35-36, 38, 43-44, 46-52, 56-58, 60-62, 64-69, 71-77, 79, 81-82, 84-86, 89, 91-92, 94-95, 97, 100, 104, 108, 112-115, 131, 140, 142-143, 146-150, 152-153</summary>
+- <code>se.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_ai_AIstarColor_svg~src_uba-ui_HoverEl~804835-ef959ef1.js</code>
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+## Route 46 — https://console.byteplus.com/datafinder/app/218463/data-manage/event-params
 
-</details>
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-<details><summary><b>103.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6390.72c02fadf9.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 149 - routes: 149-150</summary>
+### New app JS files
 
-- R1: <code>new URL(window.location.href</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_external_rangers_event-params_index_tsx-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>104.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 11 - routes: 11, 22, 29, 31-32, 35-36, 38, 43-44, 48-49, 62, 67, 76-77, 79, 81, 92, 94, 100, 104, 108, 146, 148-149, 152</summary>
+#### URL / URLSearchParams construction
 
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
+- <code>f=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_external_rangers_event-params_index_tsx-ef959ef1.js</code>
 
-</details>
+## Route 81 — https://console.byteplus.com/datafinder/app/218463/diagnostic/:tenantId?/:taskId?/:stage
 
-<details><summary><b>105.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/model-promotion-collection/vmok-remote-entry.acf00cc8.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 13 - routes: 13, 22</summary>
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
+### New app JS files
 
-</details>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_AsyncBoundary_index_tsx~src_services_dashboard_ts~src_uba-block_InlineCohort_util~53ce98-ef959ef1.js</code>
 
-<details><summary><b>106.</b> <code>https://res.gcloudcache.com/bp-fe/console-ark/model-settings/vmok-remote-entry.5250de02.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 10 - routes: 10, 12, 56, 131, 140, 142-143, 146-148</summary>
+### App source matches (unique)
 
-- R1: <code>new URLSearchParams(window.location.search</code> (x2)
+#### URLSearchParams `.get(...)`
 
-</details>
+- <code>C.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_AsyncBoundary_index_tsx~src_services_dashboard_ts~src_uba-block_InlineCohort_util~53ce98-ef959ef1.js</code>
 
-<details><summary><b>107.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/257.6a9abae379.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 112 - routes: 112</summary>
+## Route 91 — https://console.byteplus.com/datafinder/app/218463/editor
 
-- R2: <code>s8.A.get("csrfToken")</code> (x7)
+- HTTP: 200 | Loaded: 31 files (9 app / 22 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>108.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/app-lab/static/js/async/6709.1fb936582f.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 108 - routes: 108, 112-115</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_layouts_empty_css~src_pages_editor__layout_tsx~src_dsl_v3-types_types_ts~src_services_das~1e869a-ef959ef1.js</code>
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+### App source matches (unique)
 
-</details>
+#### URLSearchParams `.get(...)`
 
-<details><summary><b>109.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/arkcli/static/js/async/__federation_expose_login.a297946d57.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 153 - routes: 153</summary>
+- <code>A.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_layouts_empty_css~src_pages_editor__layout_tsx~src_dsl_v3-types_types_ts~src_services_das~1e869a-ef959ef1.js</code>
 
-- R1: <code>window.location.replace(</code>
+## Route 92 — https://console.byteplus.com/datafinder/app/218463/embed-analysis-result
 
-</details>
+- HTTP: 200 | Loaded: 35 files (14 app / 21 vendor) | New: 3 files (3 app / 0 vendor)
+- New source matches: 5 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-<details><summary><b>110.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/10260.3b056e3429.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 31 - routes: 31, 36, 38, 43</summary>
+### New app JS files
 
-- R1: <code>location.href=e</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_uba-pages_dashboard_widgets_Report_component~974a2b-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_pages_dashboard_dashboard_approval_index_tsx~src_uba-pages_dashboard_components_ApplyPer~6cfb9f-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_MicroscopeUserListModal_index_tsx~src_uba-pages_event_utils_microscope_agentDrill~d4edce-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>111.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/3625.d4b9487dc9.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 31 - routes: 31</summary>
+#### URLSearchParams `.get(...)`
 
-- R2: <code>e.get("month")</code>
+- <code>lt.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_uba-pages_dashboard_widgets_Report_component~974a2b-ef959ef1.js</code>
+- <code>t.get("hideHeader")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_pages_dashboard_dashboard_approval_index_tsx~src_uba-pages_dashboard_components_ApplyPer~6cfb9f-ef959ef1.js</code>
+- <code>t.get("hide_era_menu")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_pages_dashboard_dashboard_approval_index_tsx~src_uba-pages_dashboard_components_ApplyPer~6cfb9f-ef959ef1.js</code>
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>112.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/37624.e789471e61.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 36 - routes: 36, 38</summary>
+- <code>O=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_MicroscopeUserListModal_index_tsx~src_uba-pages_event_utils_microscope_agentDrill~d4edce-ef959ef1.js</code>
+- <code>l=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_MicroscopeUserListModal_index_tsx~src_uba-pages_event_utils_microscope_agentDrill~d4edce-ef959ef1.js</code>
 
-- R1: <code>new URL(window.location.href</code>
+## Route 95 — https://console.byteplus.com/datafinder/app/218463/embed-dashboard
 
-</details>
+- HTTP: 200 | Loaded: 36 files (16 app / 20 vendor) | New: 2 files (2 app / 0 vendor)
+- New source matches: 3 app / 0 vendor | New location sinks: 1 app / 0 vendor
 
-<details><summary><b>113.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/42494.c2231c54e7.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 29 - routes: 29, 32, 36, 38</summary>
+### New app JS files
 
-- R2: <code>o.A.get("csrfToken")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_uba-pages_cost-governance_assets_ai-loading-color_svg~src_pages_embed~c11d28-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~~src_uba-pages_dashboard_widgets_Report_component_AnalysisReports_index_tsx~src_uba-pages_da~c7b14e-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>114.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/51111.ffecb0decc.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 38 - routes: 38</summary>
+#### URLSearchParams `.get(...)`
 
-- R2: <code>i.get("month")</code>
+- <code>D.get("isCustomFilter")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_uba-pages_cost-governance_assets_ai-loading-color_svg~src_pages_embed~c11d28-ef959ef1.js</code>
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>115.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/5938.68450f6064.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 36 - routes: 36</summary>
+- <code>D=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_uba-pages_cost-governance_assets_ai-loading-color_svg~src_pages_embed~c11d28-ef959ef1.js</code>
+- <code>l=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_uba-pages_cost-governance_assets_ai-loading-color_svg~src_pages_embed~c11d28-ef959ef1.js</code>
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+### App location sinks (not deduped)
 
-</details>
+- <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~~src_uba-pages_dashboard_widgets_Report_component_AnalysisReports_index_tsx~src_uba-pages_da~c7b14e-ef959ef1.js</code>
 
-<details><summary><b>116.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/66561.c3d2ef521d.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 36 - routes: 36, 38</summary>
+## Route 98 — https://console.byteplus.com/datafinder/app/218463/embed-des-registration-management
 
-- R1: <code>location={</code>
+- HTTP: 200 | Loaded: 29 files (9 app / 20 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>117.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/75664.0aad4702c6.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 31 - routes: 31, 36</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-pages_des_entries_DesPageCore_tsx~src_hooks_useSelector_ts~src_uba-utils_ai_getAIAgen~96164b-ef959ef1.js</code>
 
-- R2: <code>e.extensions.get("WEBGL_compressed_texture_astc")</code>
+### App source matches (unique)
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>118.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/exp-center/static/js/async/sender-chat.1114959f00.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 32 - routes: 32</summary>
+- <code>C=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-pages_des_entries_DesPageCore_tsx~src_hooks_useSelector_ts~src_uba-utils_ai_getAIAgen~96164b-ef959ef1.js</code>
 
-- R1: <code>location={</code>
+## Route 99 — https://console.byteplus.com/datafinder/app/218463/embed-event-analysis/:report_id?/:result_id
 
-</details>
+- HTTP: 200 | Loaded: 38 files (18 app / 20 vendor) | New: 6 files (5 app / 1 vendor)
+- New source matches: 8 app / 0 vendor | New location sinks: 1 app / 2 vendor
 
-<details><summary><b>119.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/4476.785c7dd255.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 57 - routes: 57, 60, 62, 65</summary>
+### New app JS files
 
-- R2: <code>p.A.get("csrfToken")</code> (x3)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_ai_AIstarColor_svg~src_uba-ui_HoverEl~75953a-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_DashboardChart_ButtonGroup_tsx-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai-analysis-space_components_CurrentAnalysisFavoriteButton_index_tsx~src_uba-p~943b6d-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_event_structure_eventAnalysisContext_ts-ef959ef1.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_Filter_components_FilterCard_styles_less~src_uba-block_InlineCohort_entries_Inlin~f1568a-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>120.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/45883.4655d9465a.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 65 - routes: 65, 67-68</summary>
+#### URLSearchParams `.get(...)`
 
-- R1: <code>location.assign(</code>
+- <code>E.get("dateTime")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_event_structure_eventAnalysisContext_ts-ef959ef1.js</code>
+- <code>E.get("jobId")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_Filter_components_FilterCard_styles_less~src_uba-block_InlineCohort_entries_Inlin~f1568a-ef959ef1.js</code>
+- <code>E.get("reportId")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai-analysis-space_components_CurrentAnalysisFavoriteButton_index_tsx~src_uba-p~943b6d-ef959ef1.js</code>
+- <code>Y.get("dateTime")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_event_structure_eventAnalysisContext_ts-ef959ef1.js</code>
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>121.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_agents_detail.3a4d689d4e.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 61 - routes: 61</summary>
+- <code>A=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai-analysis-space_components_CurrentAnalysisFavoriteButton_index_tsx~src_uba-p~943b6d-ef959ef1.js</code>
+- <code>E=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-ui_Filter_components_FilterCard_styles_less~src_uba-block_InlineCohort_entries_Inlin~f1568a-ef959ef1.js</code>
+- <code>K=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-block_DashboardChart_ButtonGroup_tsx-ef959ef1.js</code>
+- <code>Y=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_event_structure_eventAnalysisContext_ts-ef959ef1.js</code>
 
-- R2: <code>p.A.get("csrfToken")</code> (x3)
+### App location sinks (not deduped)
 
-</details>
+- <code>window.location.replace(</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai-analysis-space_components_CurrentAnalysisFavoriteButton_index_tsx~src_uba-p~943b6d-ef959ef1.js</code>
 
-<details><summary><b>122.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_channel_create.8602b94971.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 76 - routes: 76</summary>
+- Vendor/SDK additions: +1 files | 0 source / 2 sinks (match texts in final index)
 
-- R2: <code>K.get("step")</code>
+## Route 110 — https://console.byteplus.com/datafinder/app/218463/embed-session-replay-list
 
-</details>
+- HTTP: 200 | Loaded: 30 files (9 app / 21 vendor) | New: 2 files (1 app / 1 vendor)
+- New source matches: 1 app / 9 vendor | New location sinks: 0 app / 0 vendor
+- Note: final URL: https://console.byteplus.com/datafinder/app/218463/embed-session-replay-list?filter_id=378079
 
-<details><summary><b>123.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_credentials_vault.6d0e89ea57.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 69 - routes: 69</summary>
+### New app JS files
 
-- R1: <code>location.replace(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_uba-ui_AIPromptBanner_index_tsx~src_uba-ui_C~9b5ee5-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>124.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_memory.33e6c1b4f9.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 74 - routes: 74</summary>
+#### URLSearchParams `.get(...)`
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+- <code>w.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_uba-ui_AIPromptBanner_index_tsx~src_uba-ui_C~9b5ee5-ef959ef1.js</code>
 
-</details>
+- Vendor/SDK additions: +1 files | 9 source / 0 sinks (match texts in final index)
 
-<details><summary><b>125.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_skills_detail.9b8f8d7227.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 73 - routes: 73</summary>
+## Route 112 — https://console.byteplus.com/datafinder/app/218463/embed-user-cohort/edit-cohort/:type/:id
 
-- R2: <code>h.A.get("csrfToken")</code> (x3)
+- HTTP: 200 | Loaded: 29 files (9 app / 20 vendor) | New: 2 files (1 app / 1 vendor)
+- New source matches: 1 app / 4 vendor | New location sinks: 0 app / 0 vendor
+- Note: final URL: https://console.byteplus.com/datafinder/app/218463/user-cohort
 
-</details>
+### New app JS files
 
-<details><summary><b>126.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/managed-agent/static/js/async/__federation_expose_skills_manage.1a405fdca7.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 72 - routes: 72</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_assets_ai_AIstarColor_svg~src_uba-ui_HoverElement_index_less~src_layouts_stopPageLoadColl~9fc246-ef959ef1.js</code>
 
-- R2: <code>p.A.get("csrfToken")</code> (x3)
+### App source matches (unique)
 
-</details>
+#### URL / URLSearchParams construction
 
-<details><summary><b>127.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/8661.575e841d27.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 84 - routes: 84</summary>
+- <code>M=new URLSearchParams(location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_assets_ai_AIstarColor_svg~src_uba-ui_HoverElement_index_less~src_layouts_stopPageLoadColl~9fc246-ef959ef1.js</code>
 
-- R2: <code>c.get("month")</code>
+- Vendor/SDK additions: +1 files | 4 source / 0 sinks (match texts in final index)
 
-</details>
+## Route 113 — https://console.byteplus.com/datafinder/app/218463/embed-virtual-event-edit
 
-<details><summary><b>128.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-customization/static/js/async/__federation_expose_job_detail.6ab57a014c.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 84 - routes: 84</summary>
+- HTTP: 200 | Loaded: 31 files (12 app / 19 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-- R1: <code>.query.metricsExcludedMetricNames</code>
+### New app JS files
 
-</details>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_ai_AIstarColor_svg~87a468-ef959ef1.js</code>
 
-<details><summary><b>129.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/2050.519f56b0a8.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 49 - routes: 49, 51</summary>
+### App source matches (unique)
 
-- R2: <code>e.get("month")</code>
+#### URLSearchParams `.get(...)`
 
-</details>
+- <code>le.get("oa_space_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_assets_NEW_svg~src_assets_ai_AIbehaviorlogoFinderColor_svg~src_assets_ai_AIstarColor_svg~87a468-ef959ef1.js</code>
 
-<details><summary><b>130.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/2314.a9e4208f13.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 47 - routes: 47</summary>
+## Route 136 — https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/cozeloop/:spaceId/:module/:subModule/result/:result
 
-- R2: <code>e.get("month")</code>
+- HTTP: 200 | Loaded: 32 files (10 app / 22 vendor) | New: 2 files (1 app / 1 vendor)
+- New source matches: 5 app / 8 vendor | New location sinks: 0 app / 1 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>131.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/4337.b260caab3e.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 46 - routes: 46, 48-52</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
 
-- R1: <code>location.assign(</code>
+### App source matches (unique)
 
-</details>
+#### `.query.*` / `query["..."]`
 
-<details><summary><b>132.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/7210.dbe0130553.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 46 - routes: 46, 48, 52</summary>
+- <code>.query.dimensions</code> (x9) — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
+- <code>.query.filters</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
+- <code>.query.measures</code> (x6) — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
+- <code>.query.periods</code> (x3) — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
+- <code>.query.visualization</code> (x2) — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_GeneralAnalysis_CustomDimension_customDimensionDomain_ts~abbec1-ef959ef1.js</code>
 
-- R2: <code>a.A.get("csrfToken")</code>
+- Vendor/SDK additions: +1 files | 8 source / 1 sinks (match texts in final index)
 
-</details>
+## Route 139 — https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/trace/:token
 
-<details><summary><b>133.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/8728.361f718585.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 46 - routes: 46-47, 50</summary>
+- HTTP: 200 | Loaded: 31 files (11 app / 20 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 2 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-- R1: <code>location.assign(</code>
+### New app JS files
 
-</details>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_SessionDetail_SpanArea_tsx~src_uba-pages_ai_checker_comp~d0372a-ef959ef1.js</code>
 
-<details><summary><b>134.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/9857.cacc2df099.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 48 - routes: 48, 52</summary>
+### App source matches (unique)
 
-- R2: <code>e.get("month")</code>
+#### URL / URLSearchParams construction
 
-</details>
+- <code>M=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_SessionDetail_SpanArea_tsx~src_uba-pages_ai_checker_comp~d0372a-ef959ef1.js</code>
+- <code>s=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_ai_checker_components_SessionDetail_SpanArea_tsx~src_uba-pages_ai_checker_comp~d0372a-ef959ef1.js</code>
 
-<details><summary><b>135.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-inference/static/js/async/__federation_expose_endpoint_detail.da9d422fb4.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 48 - routes: 48</summary>
+## Route 225 — https://console.byteplus.com/datafinder/app/218463/user-list
 
-- R2: <code>tu.A.get("csrfToken")</code>
+- HTTP: 200 | Loaded: 31 files (10 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 0 app / 0 vendor | New location sinks: 1 app / 0 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>136.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/4427.83192611c0.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 12 - routes: 12, 147</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_single_user-list_UserList_tsx-ef959ef1.js</code>
 
-- R1: <code>location.assign(</code>
+### App location sinks (not deduped)
 
-</details>
+- <code>location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_pages_single_user-list_UserList_tsx-ef959ef1.js</code>
 
-<details><summary><b>137.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/8010.b4b0f9e430.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 131 - routes: 131</summary>
+## Route 236 — https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/session/:token
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+- HTTP: 200 | Loaded: 33 files (12 app / 21 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-</details>
+### New app JS files
 
-<details><summary><b>138.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/8156.7bf97dfbc9.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 142 - routes: 142</summary>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~~~~~~~src_uba-pages_ai_checker_components_SessionDetail_SessionDetail_tsx-ef959ef1.js</code>
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+### App source matches (unique)
 
-</details>
+#### Other `.get(...)` (1)
 
-<details><summary><b>139.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/977.a82025cf81.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 12 - routes: 12, 131</summary>
+<details><summary>Show generic .get matches</summary>
 
-- R1: <code>new URLSearchParams(window.location.search</code>
+- <code>q.get("content-type")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~~~~~~~src_uba-pages_ai_checker_components_SessionDetail_SessionDetail_tsx-ef959ef1.js</code>
 
 </details>
-
-<details><summary><b>140.</b> <code>https://res.gcloudcache.com/volc-fe/console-ark/model-settings/static/js/async/__federation_expose_open_management_manage.39c398fd0f.js</code> - <b>1</b> matches (R1 0 / R2 1) - first 56 - routes: 56</summary>
 
-- R2: <code>o.A.get("csrfToken")</code>
+## Route 237 — https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/trace/:token
 
-</details>
+- HTTP: 200 | Loaded: 32 files (12 app / 20 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 2 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-<details><summary><b>141.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/1601.d022af98.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 110 - routes: 110</summary>
+### New app JS files
 
-- R1: <code>location.href=n</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-pages_ai_checker_components_DashboardRuntimeProvider_index_tsx~src_uba-pages_ai_check~c2882a-ef959ef1.js</code>
 
-</details>
+### App source matches (unique)
 
-<details><summary><b>142.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/4050.4efb972f.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 110 - routes: 110</summary>
+#### URLSearchParams `.get(...)`
 
-- R1: <code>location.href="</code> (x3)
+- <code>L.get("hideHeader")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-pages_ai_checker_components_DashboardRuntimeProvider_index_tsx~src_uba-pages_ai_check~c2882a-ef959ef1.js</code>
+- <code>L.get("hide_era_menu")</code> — <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-pages_ai_checker_components_DashboardRuntimeProvider_index_tsx~src_uba-pages_ai_check~c2882a-ef959ef1.js</code>
 
-</details>
+## Route 241 — https://console.byteplus.com/datafinder/org/:ordId/embed-function-overview
 
-<details><summary><b>143.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/4112.c00bb291.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 110 - routes: 110</summary>
+- HTTP: 200 | Loaded: 37 files (15 app / 22 vendor) | New: 1 files (1 app / 0 vendor)
+- New source matches: 0 app / 0 vendor | New location sinks: 0 app / 0 vendor
 
-- R1: <code>location.href="</code> (x2)
+### New app JS files
 
-</details>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_uba-pages_dashboard_home_render_tsx~src_uba-pages_event_utils_microscope_AgentDrillDownT~77e5c2-ef959ef1.js</code>
 
-<details><summary><b>144.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/4215.968f9162.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 110 - routes: 110</summary>
+## Vendor-Only Routes
 
-- R1: <code>window.location.replace(</code> (x3)
+4 unique routes added only vendor/SDK files or matches. These are summarized here; vendor match texts are in the final index.
 
-</details>
+| Route | URL | New vendor files | Vendor source | Vendor sinks |
+|---:|---|---:|---:|---:|
+| 94 | <code>https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail/detail (final: https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail/detail?query_id=&amp;query_type=user_unique_id&amp;appId=&amp;activeEventId=&amp;curDevice=pc&amp;curDevice=mobile&amp;curDevice=mp&amp;isShowFiltered=true&amp;eventParamsType=list&amp;timestamp=1791244800000&amp;timestamp=1793814678913&amp;resolvedQueryId=&amp;resolvedQueryType=&amp;selectedTemplateId=&amp;eventCategory=event&amp;flowType=event&amp;eventOperation=in&amp;subjectId=&amp;eventFilterList=%5B%5D...</code> | 2 | 2 | 0 |
+| 97 | <code>https://console.byteplus.com/datafinder/app/218463/embed-dashboard-editor/:dashboard_id</code> | 1 | 1 | 0 |
+| 133 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/journeys/:spaceId?/:taskId?/:subTaskId?/:leafTaskId (final: https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/journeys/:spaceId?%2F%3AtaskId%3F%2F%3AsubTaskId%3F%2F%3AleafTaskId=)</code> | 1 | 0 | 1 |
+| 138 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/session/:token</code> | 1 | 7 | 0 |
 
-<details><summary><b>145.</b> <code>https://res.gcloudcache.com/volc-fe/vconsole-auth/volcengine/static/js/1.0.0.3111/async/8246.ec54937f.js</code> - <b>1</b> matches (R1 1 / R2 0) - first 110 - routes: 110</summary>
+## Unique Routes With No New Discoveries
 
-- R1: <code>location.replace(</code> (x7)
+52 unique routes loaded no new JS files and produced no new source matches or location sinks.
 
-</details>
+| Route | URL | Loaded files |
+|---:|---|---:|
+| 9 | <code>https://console.byteplus.com/datafinder/app/218463/attribution-analysis/:report_id?/:result_id</code> | 29 |
+| 29 | <code>https://console.byteplus.com/datafinder/app/218463/dashboard-editor</code> | 28 |
+| 35 | <code>https://console.byteplus.com/datafinder/app/218463/data-manage/analysis-subjects</code> | 30 |
+| 37 | <code>https://console.byteplus.com/datafinder/app/218463/data-manage/bav-events/create/web</code> | 31 |
+| 80 | <code>https://console.byteplus.com/datafinder/app/218463/detective/:tenantId?/:taskId?/:user_id?/:stage (final: https://console.byteplus.com/datafinder/app/218463/overview)</code> | 32 |
+| 82 | <code>https://console.byteplus.com/datafinder/app/218463/distribute-analysis</code> | 13 |
+| 93 | <code>https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail</code> | 29 |
+| 96 | <code>https://console.byteplus.com/datafinder/app/218463/embed-dashboard-editor</code> | 28 |
+| 100 | <code>https://console.byteplus.com/datafinder/app/218463/embed-funnel-analysis/:report_id?/:result_id</code> | 37 |
+| 101 | <code>https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard (final: https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard/7000732696393548289)</code> | 32 |
+| 102 | <code>https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard/:dashboard_id (final: https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard/0)</code> | 36 |
+| 103 | <code>https://console.byteplus.com/datafinder/app/218463/embed-permission</code> | 28 |
+| 104 | <code>https://console.byteplus.com/datafinder/app/218463/embed-permission/department</code> | 28 |
+| 105 | <code>https://console.byteplus.com/datafinder/app/218463/embed-permission/roles</code> | 27 |
+| 106 | <code>https://console.byteplus.com/datafinder/app/218463/embed-permission/roles/detail</code> | 28 |
+| 107 | <code>https://console.byteplus.com/datafinder/app/218463/embed-report</code> | 34 |
+| 108 | <code>https://console.byteplus.com/datafinder/app/218463/embed-report/no-access</code> | 28 |
+| 109 | <code>https://console.byteplus.com/datafinder/app/218463/embed-retention-analysis/custom/:report_id?/:result_id</code> | 37 |
+| 111 | <code>https://console.byteplus.com/datafinder/app/218463/embed-session-replay-player/:recording_id</code> | 33 |
+| 121 | <code>https://console.byteplus.com/datafinder/app/218463/industry-analysis (final: https://console.byteplus.com/datafinder/app/218463/overview)</code> | 31 |
+| 132 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/dashboard/:spaceId?/:taskId?/:subTaskId?/:leafTaskId (final: https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/dashboard/:spaceId/0?%2F%3AtaskId%3F%2F%3AsubTaskId%3F%2F%3AleafTaskId=)</code> | 32 |
+| 134 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/trace/:spaceId?/:taskId?/:subTaskId?/:leafTaskId (final: https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/trace/:spaceId?%2F%3AtaskId%3F%2F%3AsubTaskId%3F%2F%3AleafTaskId=)</code> | 31 |
+| 135 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/:pageType?/:spaceId?/:taskId?/:subTaskId?/:leafTaskId</code> | 32 |
+| 137 | <code>https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/cozeloop/:spaceId?/:module?/:subModule?/:leafModule</code> | 31 |
+| 148 | <code>https://console.byteplus.com/datafinder/app/218463/manage/dashboard-manage</code> | 31 |
+| 176 | <code>https://console.byteplus.com/datafinder/app/218463/push (final: https://console.byteplus.com/datafinder/app/218463/overview)</code> | 31 |
+| 177 | <code>https://console.byteplus.com/datafinder/app/218463/qrcode-analysis</code> | 31 |
+| 178 | <code>https://console.byteplus.com/datafinder/app/218463/qrcode-analysis/:report_id?/:result_id</code> | 31 |
+| 179 | <code>https://console.byteplus.com/datafinder/app/218463/qrcode-manage</code> | 31 |
+| 180 | <code>https://console.byteplus.com/datafinder/app/218463/qrcode-manage/edit-qrcode/:code_id</code> | 31 |
+| 182 | <code>https://console.byteplus.com/datafinder/app/218463/render/analysis/result</code> | 35 |
+| 183 | <code>https://console.byteplus.com/datafinder/app/218463/render/dashboard</code> | 33 |
+| 193 | <code>https://console.byteplus.com/datafinder/app/218463/scenarios/editor (final: https://console.byteplus.com/datafinder/app/218463/scenarios)</code> | 29 |
+| 212 | <code>https://console.byteplus.com/datafinder/app/218463/tag</code> | 32 |
+| 229 | <code>https://console.byteplus.com/datafinder/ai-sparring</code> | 28 |
+| 230 | <code>https://console.byteplus.com/datafinder/ai-sparring-management</code> | 28 |
+| 231 | <code>https://console.byteplus.com/datafinder/ai_landing_page</code> | 19 |
+| 232 | <code>https://console.byteplus.com/datafinder/bridge</code> | 30 |
+| 233 | <code>https://console.byteplus.com/datafinder/lark-verify</code> | 19 |
+| 234 | <code>https://console.byteplus.com/datafinder/llm-workbench/operations-agent/:pageType?/:spaceId?/:taskId?/:subTaskId?/:leafTaskId (final: https://console.byteplus.com/datafinder/project/null/llm-workbench/operations-agent/landing?%2F%3AspaceId%3F%2F%3AtaskId%3F%2F%3AsubTaskId%3F%2F%3AleafTaskId=)</code> | 34 |
+| 235 | <code>https://console.byteplus.com/datafinder/llm-workbench/operations-agent/admin-open</code> | 30 |
+| 238 | <code>https://console.byteplus.com/datafinder/no-access</code> | 30 |
+| 239 | <code>https://console.byteplus.com/datafinder/not-found</code> | 30 |
+| 240 | <code>https://console.byteplus.com/datafinder/org (final: https://console.byteplus.com/datafinder/org/84/products)</code> | 31 |
+| 242 | <code>https://console.byteplus.com/datafinder/org/:orgId/collocation (final: https://console.byteplus.com/datafinder/no-access?region=cn-beijing)</code> | 31 |
+| 250 | <code>https://console.byteplus.com/datafinder/org/:orgId?/upgrade</code> | 31 |
+| 251 | <code>https://console.byteplus.com/datafinder/org/welcome</code> | 31 |
+| 252 | <code>https://console.byteplus.com/datafinder/overdue</code> | 30 |
+| 255 | <code>https://console.byteplus.com/datafinder/crash</code> | 30 |
+| 256 | <code>https://console.byteplus.com/datafinder/crash/:appPlatform?/:id/:os</code> | 29 |
+| 257 | <code>https://console.byteplus.com/datafinder/symbol/:os</code> | 30 |
+| 258 | <code>https://console.byteplus.com/datafinder/sourcemap</code> | 30 |
 
 ## Duplicate Routes
 
-78 routes skipped as duplicate results. Full mapping is in `data/scan.log`.
+179 duplicate routes produced no new JS files, source matches, or location sinks.
 
-<details><summary>Duplicate mapping</summary>
+- Route 2 source; duplicates: 3-8, 10, 13-28, 32-34, 36, 38-42, 44-45, 47-79, 83-90, 114-120, 124, 126-131, 140-147, 149-161, 163-175, 181, 184-188, 191, 194-211, 213-224, 227-228, 243-249, 253-254
+- Route 9 source; duplicates: 162
+- Route 82 source; duplicates: 125, 189
+- Route 121 source; duplicates: 122-123, 190, 192
+- Route 225 source; duplicates: 226
 
-- Route 1: 2-4, 8-9, 53-55, 80, 87, 109, 111, 117, 121, 123, 128-129, 138, 141, 144
-- Route 5: 99
-- Route 13: 14-21, 23, 25-27
-- Route 22: 24, 28
-- Route 29: 30, 33-34, 41
-- Route 35: 37, 39-40, 42, 45
-- Route 56: 139
-- Route 57: 59
-- Route 60: 63
-- Route 69: 70
-- Route 71: 101-103, 105, 107, 125, 130, 132-133
-- Route 76: 78
-- Route 79: 90, 93, 116, 118, 122, 124, 126, 145
-- Route 81: 88
-- Route 82: 83
-- Route 94: 96
-- Route 97: 98
-- Route 104: 106, 127, 134-137
-- Route 119: 120
-- Route 150: 151
+## Vendor/SDK Match Index
+
+<details><summary>All vendor/SDK source and sink matches, unique per file</summary>
+
+- <code>https://lf-dp.byteintlstatic.com/obj/dp-open-internet-us/indoc/1.0.0.380/runtime/indoc-v2.js</code>
+  - [source] <code>nt.collect.configManager.get("custom")</code>
+  - [source] <code>nt.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>nt.configManager.get("user_unique_id_type")</code>
+  - [source] <code>nt.configManager.get("web_id")</code> (x3)
+  - [source] <code>rt.configManager.get("reportErrorCallback")</code>
+  - [source] <code>rt.configManager.get("user")</code> (x6)
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/byteplus-platform-runtime/main.e9a0251e.js</code>
+  - [source] <code>i.Z.get("__spti")</code>
+  - [source] <code>rb.Z.get("csrfToken")</code>
+  - [source] <code>e=new URLSearchParams(location.search</code> (x3)
+  - [source] <code>e=new URLSearchParams(window.location.search</code>
+  - [sink] <code>window.location.href=</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/echarts.min-4.7.0.js</code>
+  - [source] <code>L.get("avoidLabelOverlap")</code>
+  - [source] <code>L.get("minShowLabelAngle")</code>
+  - [source] <code>T.get("smooth")</code>
+  - [source] <code>_.get("show")</code>
+  - [source] <code>a.get("description")</code> (x2)
+  - [source] <code>a.get("formatter")</code>
+  - [source] <code>a.get("icon")</code>
+  - [source] <code>a.get("inside")</code> (x2)
+  - [source] <code>a.get("realtime")</code>
+  - [source] <code>a.get("show")</code> (x2)
+  - [source] <code>a.get("throttle")</code>
+  - [source] <code>c.get("axisLine.lineStyle.color")</code>
+  - [source] <code>c.get("barBorderRadius")</code>
+  - [source] <code>e.get("alignWithLabel")</code>
+  - [source] <code>e.get("animation")</code> (x3)
+  - [source] <code>e.get("axisExpandCenter")</code>
+  - [source] <code>e.get("axisExpandCount")</code>
+  - [source] <code>e.get("axisExpandDebounce")</code>
+  - [source] <code>e.get("axisExpandWidth")</code>
+  - [source] <code>e.get("axisLabel.inside")</code>
+  - [source] <code>e.get("axisLabel.show")</code>
+  - [source] <code>e.get("axisLine.lineStyle.color")</code> (x3)
+  - [source] <code>e.get("axisTick.inside")</code>
+  - [source] <code>e.get("backgroundColor")</code>
+  - [source] <code>e.get("borderColor")</code>
+  - [source] <code>e.get("borderRadius")</code>
+  - [source] <code>e.get("borderWidth")</code>
+  - [source] <code>e.get("cursor")</code>
+  - [source] <code>e.get("draggable")</code>
+  - [source] <code>e.get("focusNodeAdjacency")</code>
+  - [source] <code>e.get("hoverAnimation")</code>
+  - [source] <code>e.get("itemGap")</code>
+  - [source] <code>e.get("itemStyle.color")</code> (x2)
+  - [source] <code>e.get("label.show")</code>
+  - [source] <code>e.get("maxInterval")</code>
+  - [source] <code>e.get("minInterval")</code>
+  - [source] <code>e.get("orient")</code>
+  - [source] <code>e.get("parallelIndex")</code>
+  - [source] <code>e.get("rotate")</code>
+  - [source] <code>e.get("show")</code> (x4)
+  - [source] <code>e.get("showDetail")</code>
+  - [source] <code>e.get("symbolOffset")</code>
+  - [source] <code>e.get("symbolRotate")</code>
+  - [source] <code>e.get("triggerEvent")</code>
+  - [source] <code>e.hostModel.get("percentPrecision")</code>
+  - [source] <code>f.get("axisPointer.axis")</code>
+  - [source] <code>f.get("itemGap")</code>
+  - [source] <code>f.get("itemSize")</code>
+  - [source] <code>f.get("rotate")</code>
+  - [source] <code>f.get("show")</code>
+  - [source] <code>g.get("dataBackgroundColor")</code>
+  - [source] <code>g.get("show")</code>
+  - [source] <code>h.get("axisLabel.show")</code>
+  - [source] <code>h.get("axisLine.lineStyle.color")</code>
+  - [source] <code>h.get("itemSize")</code>
+  - [source] <code>h.get("show")</code>
+  - [source] <code>h.get("showTitle")</code>
+  - [source] <code>i.get("axisExpandTriggerOn")</code>
+  - [source] <code>i.get("axisExpandable")</code>
+  - [source] <code>i.get("backgroundColor")</code>
+  - [source] <code>i.get("borderRadius")</code>
+  - [source] <code>i.get("connectedBackgroundColor")</code>
+  - [source] <code>i.get("emphasis.label.position")</code>
+  - [source] <code>i.get("excludeComponents")</code>
+  - [source] <code>i.get("focusNodeAdjacency")</code> (x2)
+  - [source] <code>i.get("friction")</code>
+  - [source] <code>i.get("gravity")</code>
+  - [source] <code>i.get("hoverAnimation")</code>
+  - [source] <code>i.get("label.formatter")</code>
+  - [source] <code>i.get("label.precision")</code>
+  - [source] <code>i.get("markLine")</code> (x2)
+  - [source] <code>i.get("markPoint")</code> (x2)
+  - [source] <code>i.get("pixelRatio")</code>
+  - [source] <code>i.get("seriesDataIndices")</code>
+  - [source] <code>i.get("show")</code>
+  - [source] <code>i.get("showContent")</code>
+  - [source] <code>i.get("silent")</code>
+  - [source] <code>i.get("stack")</code> (x2)
+  - [source] <code>i.get("symbolRepeatDirection")</code>
+  - [source] <code>i.get("symbolRotate")</code>
+  - [source] <code>i.get("textStyle.color")</code>
+  - [source] <code>i.get("tooltip")</code>
+  - [source] <code>i.get("value")</code>
+  - [source] <code>i.get("z")</code>
+  - [source] <code>i.get("zoomLock")</code>
+  - [source] <code>l.get("borderColor")</code>
+  - [source] <code>l.get("dataBackgroundColor")</code>
+  - [source] <code>l.get("ellipsis")</code>
+  - [source] <code>l.get("fillerColor")</code>
+  - [source] <code>l.get("handleIcon")</code>
+  - [source] <code>l.get("handleSize")</code>
+  - [source] <code>l.get("r")</code>
+  - [source] <code>l.get("r0")</code>
+  - [source] <code>m.get("formatter")</code>
+  - [source] <code>m.get("show")</code>
+  - [source] <code>n.get("boundaryGap")</code>
+  - [source] <code>n.get("buttonColor")</code>
+  - [source] <code>n.get("buttonTextColor")</code>
+  - [source] <code>n.get("edgeForkPosition")</code>
+  - [source] <code>n.get("edgeShape")</code>
+  - [source] <code>n.get("expandAndCollapse")</code>
+  - [source] <code>n.get("hoverAnimation")</code>
+  - [source] <code>n.get("inverse")</code>
+  - [source] <code>n.get("itemStyle.color")</code>
+  - [source] <code>n.get("lineStyle.curveness")</code> (x2)
+  - [source] <code>n.get("lineStyle.show")</code>
+  - [source] <code>n.get("max")</code>
+  - [source] <code>n.get("min")</code>
+  - [source] <code>n.get("option.bar")</code>
+  - [source] <code>n.get("option.line")</code>
+  - [source] <code>n.get("option.stack")</code>
+  - [source] <code>n.get("pointer.show")</code>
+  - [source] <code>n.get("polyline")</code>
+  - [source] <code>n.get("readOnly")</code>
+  - [source] <code>n.get("roam")</code>
+  - [source] <code>n.get("show")</code> (x3)
+  - [source] <code>n.get("symbolOffset")</code>
+  - [source] <code>n.get("symbolRotate")</code>
+  - [source] <code>n.get("symbolSize")</code>
+  - [source] <code>n.get("title")</code>
+  - [source] <code>n.get("triggerOn")</code>
+  - [source] <code>o.get("circular.rotateLabel")</code>
+  - [source] <code>o.get("emptyItemWidth")</code>
+  - [source] <code>o.get("formatterParams")</code>
+  - [source] <code>o.get("icon")</code>
+  - [source] <code>o.get("ignoreForceLayout")</code>
+  - [source] <code>o.get("lineStyle.curveness")</code>
+  - [source] <code>o.get("rippleEffect.period")</code>
+  - [source] <code>o.get("roam")</code> (x2)
+  - [source] <code>o.get("selectedMode")</code>
+  - [source] <code>o.get("show")</code> (x4)
+  - [source] <code>o.get("silent")</code>
+  - [source] <code>p.get("show")</code>
+  - [source] <code>r.get("animation")</code>
+  - [source] <code>r.get("borderColor")</code>
+  - [source] <code>r.get("borderRadius")</code>
+  - [source] <code>r.get("borderWidth")</code>
+  - [source] <code>r.get("hoverOffset")</code>
+  - [source] <code>r.get("itemGap")</code>
+  - [source] <code>r.get("orient")</code>
+  - [source] <code>r.get("selectedOffset")</code>
+  - [source] <code>r.get("shadowBlur")</code>
+  - [source] <code>r.get("shadowColor")</code>
+  - [source] <code>r.get("shadowOffsetX")</code>
+  - [source] <code>r.get("shadowOffsetY")</code>
+  - [source] <code>r.get("show")</code>
+  - [source] <code>s.get("label.formatter")</code>
+  - [source] <code>s.get("label.precision")</code>
+  - [source] <code>s.get("show")</code>
+  - [source] <code>s.get("textAlign")</code>
+  - [source] <code>s.get("textBackgroundColor")</code>
+  - [source] <code>s.get("textBorderRadius")</code>
+  - [source] <code>s.get("textFill")</code>
+  - [source] <code>s.get("textPadding")</code>
+  - [source] <code>s.get("textPosition")</code>
+  - [source] <code>s.get("verticalAlign")</code>
+  - [source] <code>t.ecModel.get("useUTC")</code>
+  - [source] <code>t.get("axisExpandRate")</code>
+  - [source] <code>t.get("axisLabel.inside")</code>
+  - [source] <code>t.get("axisLine.lineStyle.color")</code> (x2)
+  - [source] <code>t.get("axisLine.show")</code>
+  - [source] <code>t.get("axisTick.inside")</code>
+  - [source] <code>t.get("backgroundColor")</code> (x3)
+  - [source] <code>t.get("barMaxWidth")</code> (x3)
+  - [source] <code>t.get("barMinWidth")</code> (x2)
+  - [source] <code>t.get("barWidth")</code> (x2)
+  - [source] <code>t.get("borderRadius")</code>
+  - [source] <code>t.get("boundaryGap")</code> (x2)
+  - [source] <code>t.get("calendarIndex")</code>
+  - [source] <code>t.get("center")</code> (x3)
+  - [source] <code>t.get("confine")</code>
+  - [source] <code>t.get("connectNulls")</code> (x2)
+  - [source] <code>t.get("containLabel")</code>
+  - [source] <code>t.get("coordinateSystem")</code>
+  - [source] <code>t.get("delay")</code>
+  - [source] <code>t.get("dim")</code>
+  - [source] <code>t.get("edgeSymbol")</code>
+  - [source] <code>t.get("edgeSymbolSize")</code>
+  - [source] <code>t.get("endAngle")</code>
+  - [source] <code>t.get("enterable")</code>
+  - [source] <code>t.get("extraCssText")</code>
+  - [source] <code>t.get("geoCoord")</code>
+  - [source] <code>t.get("gradientColor")</code>
+  - [source] <code>t.get("inverse")</code>
+  - [source] <code>t.get("itemGap")</code> (x3)
+  - [source] <code>t.get("label.align")</code>
+  - [source] <code>t.get("label.baseline")</code>
+  - [source] <code>t.get("label.verticalAlign")</code>
+  - [source] <code>t.get("layoutIterations")</code>
+  - [source] <code>t.get("legendHoverLink")</code>
+  - [source] <code>t.get("max")</code> (x3)
+  - [source] <code>t.get("maxSize")</code>
+  - [source] <code>t.get("min")</code> (x3)
+  - [source] <code>t.get("minSize")</code>
+  - [source] <code>t.get("nameMap")</code> (x2)
+  - [source] <code>t.get("nodeAlign")</code>
+  - [source] <code>t.get("orient")</code> (x3)
+  - [source] <code>t.get("parallelId")</code>
+  - [source] <code>t.get("parallelIndex")</code> (x4)
+  - [source] <code>t.get("period")</code>
+  - [source] <code>t.get("polarId")</code>
+  - [source] <code>t.get("polarIndex")</code>
+  - [source] <code>t.get("radarIndex")</code> (x2)
+  - [source] <code>t.get("radius")</code>
+  - [source] <code>t.get("realtime")</code>
+  - [source] <code>t.get("scaleLimit")</code> (x2)
+  - [source] <code>t.get("show")</code> (x4)
+  - [source] <code>t.get("showLegendSymbol")</code> (x2)
+  - [source] <code>t.get("silent")</code> (x3)
+  - [source] <code>t.get("singleAxisId")</code>
+  - [source] <code>t.get("singleAxisIndex")</code>
+  - [source] <code>t.get("smooth")</code>
+  - [source] <code>t.get("smoothMonotone")</code> (x2)
+  - [source] <code>t.get("stack")</code> (x2)
+  - [source] <code>t.get("startAngle")</code> (x3)
+  - [source] <code>t.get("step")</code>
+  - [source] <code>t.get("subtarget")</code>
+  - [source] <code>t.get("symbol")</code> (x2)
+  - [source] <code>t.get("symbolMargin")</code>
+  - [source] <code>t.get("symbolSize")</code>
+  - [source] <code>t.get("target")</code>
+  - [source] <code>t.get("text")</code>
+  - [source] <code>t.get("textBaseline")</code>
+  - [source] <code>t.get("textVerticalAlign")</code>
+  - [source] <code>t.get("title.0.text")</code>
+  - [source] <code>t.get("triggerEvent")</code>
+  - [source] <code>t.get("visualDimension")</code>
+  - [source] <code>t.get("z")</code> (x3)
+  - [source] <code>t.get("zlevel")</code>
+  - [source] <code>t.get("zoom")</code> (x3)
+  - [source] <code>u.get("renderMode")</code>
+  - [source] <code>v.get("show")</code>
+  - [source] <code>w.get("animation")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/locale-en_US-ef959ef1.js</code>
+  - [source] <code>input.get("messages")</code>
+  - [source] <code>m.get("role")</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/main-ef959ef1.js</code>
+  - [source] <code>j.get("/v1/init")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_layouts_stopPageLoadCollectorProvider_tsx~src_pages_embed-session-replay-list_index_tsx~s~6fac17-ef959ef1.js</code>
+  - [source] <code>a.get("end_time")</code>
+  - [source] <code>a.get("start_time")</code>
+  - [source] <code>a.get("tb_duration_order")</code>
+  - [source] <code>a.get("tb_page")</code>
+  - [source] <code>a.get("tb_page_size")</code>
+  - [source] <code>a.get("tb_start_time_order")</code>
+  - [source] <code>a.get("user_id_type")</code>
+  - [source] <code>u=new URL(window.location.href</code>
+  - [source] <code>y=new URL(window.location.href</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/src_uba-ui_TeaNextOncall_index_tsx-ef959ef1.js</code>
+  - [source] <code>n.get("context")</code>
+  - [source] <code>n.get("dashboardId")</code>
+  - [source] <code>n.get("dashboard_id")</code>
+  - [source] <code>n.get("history_id")</code>
+  - [source] <code>n.get("reportId")</code>
+  - [source] <code>n.get("report_id")</code>
+  - [source] <code>E=new URLSearchParams(window.location.search</code>
+  - [source] <code>o=new URL(window.location.href</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@arco-design/web-react-ef959ef1.js</code>
+  - [source] <code>o.get("month")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/fc-tools-ef959ef1.js</code>
+  - [sink] <code>window.location.href=</code> (x3)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/indoc-sdk-ef959ef1.js</code>
+  - [source] <code>Mn.get("_TEA_VE_APIHOST")</code>
+  - [source] <code>Mn.get("_TEA_VE_OPEN")</code>
+  - [source] <code>Mn.get("_VISUAL_EDITOR_U")</code>
+  - [source] <code>Mn.get("_VISUAL_EDITOR_V")</code>
+  - [source] <code>Mn.get("lang")</code>
+  - [source] <code>e.collect.configManager.get("custom")</code>
+  - [source] <code>e.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>e.configManager.get("user_unique_id_type")</code>
+  - [source] <code>e.configManager.get("web_id")</code> (x3)
+  - [source] <code>i.configManager.get("reportErrorCallback")</code>
+  - [source] <code>i.configManager.get("user")</code> (x6)
+  - [source] <code>n.get("defaultKeyword")</code>
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/instant-finder-ef959ef1.js</code>
+  - [source] <code>a.get("formatter")</code>
+  - [source] <code>a.get("rotate")</code> (x2)
+  - [source] <code>c.get("boundaryGap")</code>
+  - [source] <code>c.get("formatter")</code>
+  - [source] <code>c.get("show")</code>
+  - [source] <code>d.get("alignTicks")</code>
+  - [source] <code>d.get("formatterParams")</code>
+  - [source] <code>d.get("interval")</code>
+  - [source] <code>e.get("animation")</code>
+  - [source] <code>e.get("backgroundColor")</code>
+  - [source] <code>e.get("blurScope")</code>
+  - [source] <code>e.get("borderColor")</code>
+  - [source] <code>e.get("borderWidth")</code>
+  - [source] <code>e.get("disabled")</code>
+  - [source] <code>e.get("enterable")</code> (x2)
+  - [source] <code>e.get("focus")</code>
+  - [source] <code>e.get("instant_finder")</code> (x2)
+  - [source] <code>e.get("maxInterval")</code>
+  - [source] <code>e.get("minInterval")</code>
+  - [source] <code>e.get("scale")</code>
+  - [source] <code>e.get("seriesDataIndices")</code>
+  - [source] <code>e.get("show")</code>
+  - [source] <code>e.get("smooth")</code>
+  - [source] <code>e.get("step")</code>
+  - [source] <code>e.get("transitionDuration")</code>
+  - [source] <code>e.get("triggerLineEvent")</code>
+  - [source] <code>i.get("barMaxWidth")</code>
+  - [source] <code>i.get("barMinWidth")</code>
+  - [source] <code>i.get("barWidth")</code>
+  - [source] <code>i.get("z")</code>
+  - [source] <code>n.ecModel.get("useUTC")</code>
+  - [source] <code>n.get("coordinateSystem")</code>
+  - [source] <code>n.get("debug")</code> (x2)
+  - [source] <code>n.get("lineHeight")</code>
+  - [source] <code>n.get("parallelIndex")</code>
+  - [source] <code>n.get("renderMode")</code>
+  - [source] <code>n.get("stack")</code> (x2)
+  - [source] <code>n.get("symbolKeepAspect")</code>
+  - [source] <code>n.get("verticalAlign")</code>
+  - [source] <code>o.get("icon")</code>
+  - [source] <code>o.get("throttle")</code>
+  - [source] <code>o.get("triggerOn")</code>
+  - [source] <code>o.get("useUTC")</code>
+  - [source] <code>p.get("delay")</code>
+  - [source] <code>p.get("easing")</code>
+  - [source] <code>r.get("renderMode")</code>
+  - [source] <code>r.get("useUTC")</code>
+  - [source] <code>s.get("textShadowColor")</code>
+  - [source] <code>s.get("textStyle")</code>
+  - [source] <code>s.get("verticalAlign")</code>
+  - [source] <code>t.get("containLabel")</code>
+  - [source] <code>t.get("cursor")</code>
+  - [source] <code>t.get("extraCssText")</code>
+  - [source] <code>t.get("rotate")</code>
+  - [source] <code>t.get("silent")</code>
+  - [source] <code>t.get("triggerEvent")</code> (x2)
+  - [source] <code>v.get("textStyle")</code>
+  - [source] <code>z.get("smooth")</code>
+  - [source] <code>e=new URLSearchParams(window.location.search</code>
+  - [source] <code>n=new URLSearchParams(window.location.search</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/module-others-ef959ef1.js</code>
+  - [sink] <code>location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/module2-ef959ef1.js</code>
+  - [sink] <code>location.replace(</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@dp/suite-navigation-ef959ef1.js</code>
+  - [source] <code>e.get("/v1/config")</code>
+  - [source] <code>e.get("/v1/index")</code>
+  - [source] <code>e.get("/v1/menu")</code>
+  - [source] <code>e.get("/v1/resources")</code>
+  - [source] <code>e.get("/v1/user")</code>
+  - [source] <code>e.get("/v1/user/orgs")</code>
+  - [source] <code>e.get("/v2/navigation_menu")</code>
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_@teareplay/oncall-ef959ef1.js</code>
+  - [source] <code>er.configManager.get("browser")</code>
+  - [source] <code>er.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>er.configManager.get("user_unique_id_type")</code>
+  - [source] <code>er.configManager.get("web_id")</code> (x3)
+  - [source] <code>nr.configManager.get("reportErrorCallback")</code>
+  - [source] <code>nr.configManager.get("user")</code> (x7)
+  - [source] <code>rr.get("Content-Type")</code>
+  - [source] <code>rr=new URL(location.href</code>
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_ad-feelgood-ef959ef1.js</code>
+  - [sink] <code>window.location.href=</code>
+  - [sink] <code>window.location.replace(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_bytereplay_others-ef959ef1.js</code>
+  - [source] <code>se.get("Content-Type")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendor_monaco-editor-ef959ef1.js</code>
+  - [source] <code>W.get("text")</code>
+  - [source] <code>m.get("3")</code>
+  - [source] <code>.query.modelInfo</code> (x5)
+  - [source] <code>.query.word</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_bdeefe_suite-design_0_0_87_react_16_14_0_node_modules_bdeefe_suite-~b4e7e6-ef959ef1.js</code>
+  - [source] <code>b=new URL(window.location.href</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_bytecloud_cloud-api-config_0_22_0_node_modules_bytecloud_cloud-api-~966aac-ef959ef1.js</code>
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_bytecloud_common-lib_6_13_0_node_modules_bytecloud_common-lib_es_jw~1f7822-ef959ef1.js</code>
+  - [source] <code>D.configManager.get("reportErrorCallback")</code>
+  - [source] <code>D.configManager.get("user")</code> (x6)
+  - [source] <code>I.configManager.get("reportErrorCallback")</code>
+  - [source] <code>ee.configManager.get("user")</code> (x6)
+  - [source] <code>h.get("csrfToken")</code>
+  - [source] <code>r.collect.configManager.get("user")</code> (x2)
+  - [source] <code>r.configManager.get("browser")</code>
+  - [source] <code>r.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>r.configManager.get("user_unique_id_type")</code>
+  - [source] <code>r.configManager.get("web_id")</code> (x3)
+  - [source] <code>v.collect.configManager.get("custom")</code>
+  - [source] <code>v.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>v.configManager.get("user_unique_id_type")</code>
+  - [source] <code>v.configManager.get("web_id")</code> (x3)
+  - [source] <code>s=new URL(location.href</code>
+  - [sink] <code>location.assign(</code>
+  - [sink] <code>window.location.href=</code> (x7)
+  - [sink] <code>window.location.replace(</code> (x3)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_bytecloud_common-lib_7_52_0_axios_1_13_2_byted-tea-sdk_5_3_10_node_~d45cb8-ef959ef1.js</code>
+  - [source] <code>r.configManager.get("reportErrorCallback")</code>
+  - [source] <code>r.configManager.get("user")</code> (x7)
+  - [source] <code>t.configManager.get("browser")</code>
+  - [source] <code>t.configManager.get("user_unique_id")</code> (x3)
+  - [source] <code>t.configManager.get("user_unique_id_type")</code>
+  - [source] <code>t.configManager.get("web_id")</code> (x3)
+  - [source] <code>e=new URL(location.href</code>
+  - [source] <code>g=new URL(window.location.href</code>
+  - [sink] <code>window.location.href=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_byted-ei_kani-js-sdk_2_0_13_node_modules_byted-ei_kani-js-sdk_lib_i~748ee1-ef959ef1.js</code>
+  - [sink] <code>location.replace(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_byted_btm-web-sdk_0_2_17_node_modules_byted_btm-web-sdk_dist_src_bt~dc3136-ef959ef1.js</code>
+  - [source] <code>E.styles.get("heatmap_popper_arrow")</code>
+  - [source] <code>E.styles.get("heatmap_tooltip")</code>
+  - [source] <code>E.styles.get("heatmap_tooltip_container")</code>
+  - [source] <code>o.styles.get("heatmap_block_name")</code>
+  - [source] <code>o.styles.get("heatmap_inner_block")</code>
+  - [source] <code>o.styles.get("heatmap_inner_container")</code>
+  - [source] <code>o.styles.get("heatmap_inner_data")</code>
+  - [source] <code>o.styles.get("heatmap_inner_name")</code>
+  - [source] <code>y.styles.get("heatmap_button")</code>
+  - [source] <code>y.styles.get("heatmap_button_img")</code>
+  - [source] <code>y.styles.get("heatmap_button_text")</code> (x2)
+  - [source] <code>y.styles.get("heatmap_canvas")</code>
+  - [source] <code>y.styles.get("heatmap_color_bar")</code>
+  - [source] <code>y.styles.get("heatmap_divider")</code>
+  - [source] <code>y.styles.get("heatmap_divider_bottom")</code>
+  - [source] <code>y.styles.get("heatmap_handle_area")</code>
+  - [source] <code>y.styles.get("heatmap_handle_dot")</code>
+  - [source] <code>y.styles.get("heatmap_rect")</code>
+  - [source] <code>y.styles.get("heatmap_toolbar_container")</code>
+  - [sink] <code>window.location.href=</code>
+  - [sink] <code>window.location.replace(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_css-loader_6_8_1_webpack_4_47_0_node_modules_css-loader_dist_cjs_js~94ee70-ef959ef1.js</code>
+  - [source] <code>Ce.get("onEffect")</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_file-saver_2_0_5_node_modules_file-saver_dist_FileSaver_min_js-ef959ef1.js</code>
+  - [sink] <code>location.href=</code>
+  - [sink] <code>location=</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_lark_open-widgets_1_1_7-beta_2__arco-design_web-react_2_63_0__lark_~2f61f1-ef959ef1.js</code>
+  - [source] <code>o.cfg.get("reportErrorCallback")</code>
+  - [source] <code>s.cfg.get("evtParams")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_react-grid-layout_1_3_4_react-dom_16_14_0_react_16_14_0_node_module~8cdb78-ef959ef1.js</code>
+  - [source] <code>N.get("action")</code>
+  - [source] <code>N.get("controlled")</code>
+  - [source] <code>N.get("lifecycle")</code>
+  - [source] <code>N.get("status")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_react-pdf_7_7_3__types_react_16_14_60_react-dom_16_14_0_react_16_14~5cf4f4-ef959ef1.js</code>
+  - [source] <code>J._l10nPromise.get("editor_alt_text_button_label")</code>
+  - [source] <code>J._l10nPromise.get("editor_alt_text_decorative_tooltip")</code>
+  - [source] <code>J._l10nPromise.get("editor_alt_text_edit_button_label")</code>
+  - [source] <code>T.AnnotationEditor._l10nPromise.get("editor_free_text2_aria_label")</code>
+  - [source] <code>T.AnnotationEditor._l10nPromise.get("free_text2_default_content")</code>
+  - [source] <code>n.AnnotationEditor._l10nPromise.get("editor_ink2_aria_label")</code>
+  - [source] <code>n.AnnotationEditor._l10nPromise.get("editor_ink_canvas_aria_label")</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_tiptap_extension-table_3_13_0__tiptap_core_3_8_0__tiptap_pm_3_8_0_n~b8070f-ef959ef1.js</code>
+  - [source] <code>f.get("defaultProtocol")</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/vendors~node_modules_pnpm_volcengine-service_web-sdk_2_1_1_node_modules_volcengine-service_we~737f9a-ef959ef1.js</code>
+  - [source] <code>O.default.get("csrfToken")</code>
+  - [sink] <code>location.assign(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~data_font_truetype_charset_utf-8_base64_AAEAAAASAQAABAAgRkZUTYh7ieMAAB6kAAAAHEdERUYAJwAkAAAd~7223cb-ef959ef1.js</code>
+  - [source] <code>e.default.get("/v1/micro_fe")</code>
+  - [source] <code>g.get("crh")</code>
+  - [source] <code>u.searchParams.get("event_name")</code>
+  - [source] <code>u.searchParams.get("options")</code>
+  - [source] <code>u.searchParams.get("with_dashboard_operation")</code>
+  - [source] <code>u.searchParams.get("with_events")</code>
+  - [source] <code>L=new URLSearchParams(location.search</code> (x2)
+  - [source] <code>P=new URLSearchParams(window.location.search</code>
+  - [source] <code>R=new URLSearchParams(window.location.search</code>
+  - [source] <code>g=new URLSearchParams(location.search</code>
+  - [sink] <code>location.href=</code> (x4)
+  - [sink] <code>window.location.replace(</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-datafinder/~src_layouts_stopPageLoadCollectorProvider_tsx~src_uba-pages_session-replay_structures_sessio~639eee-ef959ef1.js</code>
+  - [source] <code>N=new URLSearchParams(window.location.search</code>
 
 </details>
 
@@ -1625,18 +1119,37 @@ None.
 
 <details><summary>Regex patterns and exclusions</summary>
 
-Regex 1:
+Regex 1 (`.get(...)`):
 
 ```regex
-(new\s+(URLSearchParams|URL)\s*\(\s*((window\.)?location\.(search|href|hash|pathname)|document\.(URL|URLUnencoded|baseURI))|(\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\])|((window\.)?location\.(assign|replace)\s*\(|\b(location|location\.href)\s*=\s*[^=]))
+(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])[^'"`]+\1\s*\)
 ```
 
-Regex 2:
+Regex 2 (URL / URLSearchParams construction):
 
 ```regex
-(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])([^'"`]+)\1\s*\)
+(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+(?:URLSearchParams|URL)\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b
 ```
 
-Excluded: `header(s).get`, `cache/storage/registry.get`, and parameter names `align, bottom, class, className, color, data, direction, display, height, id, index, left, length, margin, name, offset, padding, position, right, series, size, style, top, trigger, type, width, x, y`.
+Regex 3 (`.query.*` / `query["..."]`):
+
+```regex
+\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\]
+```
+
+Regex 4 (location sink):
+
+```regex
+(?:(?:window\.)?location\.(?:assign|replace)\s*\(\s*(?![`'"]|\$\{|window\.location\.|location\.|\w+\.href)|(?<![\w$.])(?:window\.|document\.|parent\.|top\.|self\.|frames\[\d+\].)??location(?:\.href)?\s*=\s*(?!=)\s*(?![\w$]+(?:\.[\w$]+)*\.href\b)(?![\w$]+(?:\.[\w$]+)*\.toString\(\))(?![`'"]|`\/|""\.concat|null\b|\{)(?!\(null\s*==[\s\S]*?this\.location[\s\S]*?\.toString\(\))(?!\(0\s*,\s*[\w$]+\.[\w$]+\)\s*\())
+```
+
+Default match exclusions:
+
+- <code>\bheaders?\s*\.\s*get\s*\(</code>
+- <code>\b(?:cache&#124;storage&#124;registry)\s*\.\s*get\s*\(</code>
+
+Excluded `.get` parameter names:
+
+`align`, `bottom`, `class`, `className`, `color`, `data`, `direction`, `display`, `height`, `id`, `index`, `left`, `length`, `margin`, `name`, `offset`, `padding`, `position`, `right`, `series`, `size`, `style`, `top`, `trigger`, `type`, `width`, `x`, `y`
 
 </details>
