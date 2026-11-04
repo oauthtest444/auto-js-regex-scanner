@@ -28,12 +28,54 @@ except ImportError:
     )
 
 
-REGEX_1 = re.compile(
-    r"""(new\s+(URLSearchParams|URL)\s*\(\s*((window\.)?location\.(search|href|hash|pathname)|document\.(URL|URLUnencoded|baseURI))|(\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\])|((window\.)?location\.(assign|replace)\s*\(|\b(location|location\.href)\s*=\s*[^=]))""",
+REGEX_SOURCE_GET = re.compile(
+    r"""(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])[^'"`]+\1\s*\)""",
     re.ASCII,
 )
-REGEX_2 = re.compile(
-    r"""(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])([^'"`]+)\1\s*\)""",
+REGEX_SOURCE_URL = re.compile(
+    r"""(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+(?:URLSearchParams|URL)\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b""",
+    re.ASCII,
+)
+REGEX_SOURCE_QUERY = re.compile(
+    r"""\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\]""",
+    re.ASCII,
+)
+REGEX_SINK = re.compile(
+    r"""(?:(?:window\.)?location\.(?:assign|replace)\s*\(\s*(?![`'"]|\$\{|window\.location\.|location\.|\w+\.href)|(?<![\w$.])(?:window\.|document\.|parent\.|top\.|self\.|frames\[\d+\].)??location(?:\.href)?\s*=\s*(?!=)\s*(?![\w$]+(?:\.[\w$]+)*\.href\b)(?![\w$]+(?:\.[\w$]+)*\.toString\(\))(?![`'"]|`\/|""\.concat|null\b|\{)(?!\(null\s*==[\s\S]*?this\.location[\s\S]*?\.toString\(\))(?!\(0\s*,\s*[\w$]+\.[\w$]+\)\s*\())""",
+    re.ASCII,
+)
+
+SOURCE_REGEX_IDS = frozenset({1, 2, 3})
+SINK_REGEX_ID = 4
+REGEX_BY_ID = {
+    1: REGEX_SOURCE_GET,
+    2: REGEX_SOURCE_URL,
+    3: REGEX_SOURCE_QUERY,
+    4: REGEX_SINK,
+}
+REGEX_LABELS = {
+    1: "`.get(...)`",
+    2: "URL / URLSearchParams construction",
+    3: '`.query.*` / `query["..."]`',
+    4: "location sink",
+}
+
+GET_KEY_RE = re.compile(r"""\.get\(\s*(['"`])([^'"`]+)\1\s*\)""", re.ASCII)
+GET_RECEIVER_RE = re.compile(r"""([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\.get\(""", re.ASCII)
+URLSP_ASSIGN_RE = re.compile(
+    r"""(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s*new\s+URLSearchParams\s*\(""",
+    re.ASCII,
+)
+URL_SEARCHPARAMS_ASSIGN_RE = re.compile(
+    r"""(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s*new\s+URL\s*\([^)]*\)\s*\.searchParams""",
+    re.ASCII,
+)
+DIRECT_URLSP_GET_RE = re.compile(
+    r"""new\s+URLSearchParams\s*\([^)]*\)\s*\.get\(""",
+    re.ASCII,
+)
+DIRECT_URL_SEARCHPARAMS_GET_RE = re.compile(
+    r"""new\s+URL\s*\([^)]*\)\s*\.searchParams\s*\.get\(""",
     re.ASCII,
 )
 
@@ -133,7 +175,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--exclude-regex", action="append", default=[], metavar="REGEX", help="Extra match text exclusion regex (repeatable)")
     parser.add_argument("--user-agent", default=None, help="Override the browser User-Agent")
     parser.add_argument("--max-js-bytes", type=int, default=30_000_000, help="Maximum JavaScript bytes to scan per fallback fetch")
-    parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: short)")
+    parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: route-first)")
     parser.add_argument("--help", action="help", help="Show this help message and exit")
     return parser.parse_args(argv)
 
@@ -251,30 +293,62 @@ def compile_exclusions(patterns: list[str]) -> list[re.Pattern[str]]:
     return compiled
 
 
+def get_param_name(text: str) -> str | None:
+    match = GET_KEY_RE.search(text)
+    return match.group(2) if match else None
+
+
+def collect_urlsp_aliases(source: str) -> set[str]:
+    aliases: set[str] = set()
+    for pattern in (URLSP_ASSIGN_RE, URL_SEARCHPARAMS_ASSIGN_RE):
+        for match in pattern.finditer(source):
+            aliases.add(match.group(1))
+    return aliases
+
+
+def is_urlsp_get(source: str, text: str, start: int, aliases: set[str]) -> bool:
+    receiver_match = GET_RECEIVER_RE.match(text)
+    if receiver_match and receiver_match.group(1) in aliases:
+        return True
+
+    prefix = source[max(0, start - 400):start] + text
+    if DIRECT_URLSP_GET_RE.search(prefix):
+        return True
+    if DIRECT_URL_SEARCHPARAMS_GET_RE.search(prefix):
+        return True
+    return False
+
+
 def is_excluded_param_text(regex_id: int, text: str) -> bool:
-    if regex_id != 2:
+    if regex_id != 1:
         return False
-    match = REGEX_2.fullmatch(text)
-    return bool(match and match.group(2) in REGEX_2_EXCLUDED_PARAM_NAMES)
+    param_name = get_param_name(text)
+    return bool(param_name and param_name in REGEX_2_EXCLUDED_PARAM_NAMES)
 
 
 def scan_text_python(source: str, exclusions: list[re.Pattern[str]]) -> list[dict]:
     unique: dict[tuple[int, str], dict] = OrderedDict()
-    for regex_id, pattern in ((1, REGEX_1), (2, REGEX_2)):
+    urlsp_aliases = collect_urlsp_aliases(source)
+    for regex_id, pattern in REGEX_BY_ID.items():
         for match in pattern.finditer(source):
             text = match.group(0)
             if not text:
                 continue
             if any(exclusion.search(text) for exclusion in exclusions):
                 continue
-            if regex_id == 2 and match.group(2) in REGEX_2_EXCLUDED_PARAM_NAMES:
-                continue
+            urlsp = False
+            if regex_id == 1:
+                param_name = get_param_name(text)
+                if param_name in REGEX_2_EXCLUDED_PARAM_NAMES:
+                    continue
+                urlsp = is_urlsp_get(source, text, match.start(), urlsp_aliases)
             key = (regex_id, text)
             existing = unique.get(key)
             if existing:
                 existing["count"] += 1
+                existing["urlsp"] = bool(existing.get("urlsp") or urlsp)
             else:
-                unique[key] = {"regex": regex_id, "text": text, "count": 1}
+                unique[key] = {"regex": regex_id, "text": text, "count": 1, "urlsp": urlsp}
     return list(unique.values())
 
 
@@ -296,12 +370,14 @@ def normalize_matches(raw_matches: list) -> list[dict]:
             count = int(raw.get("count") or 1)
         except (TypeError, ValueError):
             count = 1
+        urlsp = bool(raw.get("urlsp"))
         key = (regex_id, text)
         existing = unique.get(key)
         if existing:
             existing["count"] = max(existing["count"], count)
+            existing["urlsp"] = bool(existing.get("urlsp") or urlsp)
         else:
-            unique[key] = {"regex": regex_id, "text": text, "count": count}
+            unique[key] = {"regex": regex_id, "text": text, "count": count, "urlsp": urlsp}
     return list(unique.values())
 
 
@@ -763,6 +839,7 @@ class ScanState:
                     "regex": match["regex"],
                     "text": match["text"],
                     "count": match["count"],
+                    "urlsp": bool(match.get("urlsp")),
                     "first_route": route["url"],
                 }
                 route["new_matches"].append(
@@ -771,6 +848,7 @@ class ScanState:
                         "regex": match["regex"],
                         "text": match["text"],
                         "count": match["count"],
+                        "urlsp": bool(match.get("urlsp")),
                     }
                 )
 
@@ -805,8 +883,8 @@ def render_full_report(
     unique_files = len(state.files)
     unique_matches = len(state.match_keys)
     unique_match_texts = len({(regex_id, text) for _, regex_id, text in state.match_keys})
-    regex_1_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 1)
-    regex_2_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 2)
+    source_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id in SOURCE_REGEX_IDS)
+    sink_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == SINK_REGEX_ID)
     unscanned_files = len(state.unscanned)
     routes_with_errors = sum(
         1
@@ -850,32 +928,27 @@ def render_full_report(
     lines.append(f"| Unique JavaScript files with matches | {unique_files} |")
     lines.append(f"| Unique regex matches (per file) | {unique_matches} |")
     lines.append(f"| Unique match texts across files | {unique_match_texts} |")
-    lines.append(f"| Unique regex 1 matches (per file) | {regex_1_matches} |")
-    lines.append(f"| Unique regex 2 matches (per file) | {regex_2_matches} |")
+    lines.append(f"| Unique source matches (per file) | {source_matches} |")
+    lines.append(f"| Unique sink matches (per file) | {sink_matches} |")
     lines.append(f"| JavaScript files that could not be scanned | {unscanned_files} |")
     lines.append(f"| File recoveries via network capture | {network_capture} |")
     lines.append(f"| File recoveries via Python HTTP fetch | {python_fetch} |")
     lines.append("")
     lines.append("## Regex Patterns")
     lines.append("")
-    lines.append("Regex 1:")
-    lines.append("")
-    lines.append("```regex")
-    lines.append(REGEX_1.pattern)
-    lines.append("```")
-    lines.append("")
-    lines.append("Regex 2:")
-    lines.append("")
-    lines.append("```regex")
-    lines.append(REGEX_2.pattern)
-    lines.append("```")
-    lines.append("")
+    for regex_id, pattern in REGEX_BY_ID.items():
+        lines.append(f"Regex {regex_id} ({REGEX_LABELS[regex_id]}):")
+        lines.append("")
+        lines.append("```regex")
+        lines.append(pattern.pattern)
+        lines.append("```")
+        lines.append("")
     lines.append("Default match exclusions:")
     lines.append("")
     for exclusion in DEFAULT_EXCLUDED_MATCH_PATTERNS:
         lines.append(f"- {md_code(exclusion.pattern)}")
     lines.append("")
-    lines.append("Regex 2 excluded parameter names:")
+    lines.append("Excluded `.get` parameter names:")
     lines.append("")
     lines.append(", ".join(f"`{name}`" for name in sorted(REGEX_2_EXCLUDED_PARAM_NAMES)))
     if args.exclude_regex:
@@ -1012,6 +1085,147 @@ def compress_route_numbers(route_numbers: list[int]) -> str:
     return ", ".join(parts)
 
 
+VENDOR_FILE_MARKERS = (
+    "vendor_",
+    "vendors~",
+    "node_modules",
+    "echarts",
+    "monaco",
+    "locale-",
+    "~data_font",
+    "byteplus-platform-runtime",
+    "main-",
+    "main.",
+    "instant-finder",
+    "oncall",
+    "btm-web-sdk",
+    "indoc",
+    "teareplay",
+    "replay",
+    "kani-js-sdk",
+    "open-widgets",
+    "web-sdk",
+)
+
+
+def normalize_file_url(url: str) -> str:
+    return str(url).split("#", 1)[0].split("?", 1)[0]
+
+
+def is_app_url(url: str) -> bool:
+    name = normalize_file_url(url).rsplit("/", 1)[-1].lower()
+    if any(marker in name for marker in VENDOR_FILE_MARKERS):
+        return False
+    return "src_" in name or "~src_" in name
+
+
+def collapse_route_files(state: ScanState) -> "OrderedDict[str, dict]":
+    collapsed: "OrderedDict[str, dict]" = OrderedDict()
+    for route in state.routes:
+        route_index = route["index"]
+        for entry in route.get("files") or []:
+            matches = entry.get("matches") or []
+            if not matches:
+                continue
+            key = normalize_file_url(entry["url"])
+            collapsed_file = collapsed.get(key)
+            if collapsed_file is None:
+                collapsed_file = {
+                    "url": key,
+                    "raw_urls": set(),
+                    "first_route": route_index,
+                    "routes": set(),
+                    "matches": OrderedDict(),
+                }
+                collapsed[key] = collapsed_file
+            collapsed_file["raw_urls"].add(entry["url"])
+            collapsed_file["routes"].add(route_index)
+            collapsed_file["first_route"] = min(collapsed_file["first_route"], route_index)
+
+            for match in matches:
+                regex_id = int(match["regex"])
+                text = str(match["text"])
+                urlsp = bool(match.get("urlsp"))
+                match_key = (regex_id, text)
+                current = collapsed_file["matches"].get(match_key)
+                count = int(match.get("count") or 1)
+                if current is None:
+                    collapsed_file["matches"][match_key] = {
+                        "regex": regex_id,
+                        "text": text,
+                        "urlsp": urlsp,
+                        "count": count,
+                        "first_route": route_index,
+                    }
+                else:
+                    current["count"] = max(current["count"], count)
+                    current["urlsp"] = bool(current["urlsp"] or urlsp)
+                    current["first_route"] = min(current["first_route"], route_index)
+    return collapsed
+
+
+def build_source_first(collapsed: "OrderedDict[str, dict]") -> "OrderedDict[tuple, dict]":
+    source_first: "OrderedDict[tuple, dict]" = OrderedDict()
+    for collapsed_file in collapsed.values():
+        for match in collapsed_file["matches"].values():
+            if match["regex"] not in SOURCE_REGEX_IDS:
+                continue
+            key = (match["regex"], match["text"], match["urlsp"])
+            candidate = dict(match)
+            candidate["url"] = collapsed_file["url"]
+            current = source_first.get(key)
+            if current is None or candidate["first_route"] < current["first_route"]:
+                source_first[key] = candidate
+    return source_first
+
+
+def build_sinks_by_route(
+    state: ScanState,
+    collapsed: "OrderedDict[str, dict]",
+) -> "OrderedDict[int, list[dict]]":
+    sinks: "OrderedDict[int, list[dict]]" = OrderedDict(
+        (route["index"], []) for route in state.routes
+    )
+    for route in state.routes:
+        route_index = route["index"]
+        seen: set[tuple[str, str]] = set()
+        for entry in route.get("files") or []:
+            key = normalize_file_url(entry["url"])
+            collapsed_file = collapsed.get(key)
+            if collapsed_file is None or collapsed_file["first_route"] != route_index:
+                continue
+            for match in entry.get("matches") or []:
+                if int(match["regex"]) != SINK_REGEX_ID:
+                    continue
+                sink_key = (key, str(match["text"]))
+                if sink_key in seen:
+                    continue
+                seen.add(sink_key)
+                sinks[route_index].append(
+                    {
+                        "url": key,
+                        "regex": SINK_REGEX_ID,
+                        "text": str(match["text"]),
+                        "count": int(match.get("count") or 1),
+                    }
+                )
+    return sinks
+
+
+def route_note(route: dict) -> str:
+    notes: list[str] = []
+    if route.get("nav_error"):
+        notes.append(str(route["nav_error"]))
+    if route.get("scan_error"):
+        notes.append(str(route["scan_error"]))
+    failed = sum(1 for entry in route["files"] if not entry["ok"])
+    if failed:
+        notes.append(f"{failed} file(s) could not be scanned")
+    if route.get("final_url") and route["final_url"] != route["url"]:
+        notes.append(f"final URL: {route['final_url']}")
+    return "; ".join(notes)
+
+
 def render_report(
     state: ScanState,
     meta: dict,
@@ -1020,16 +1234,14 @@ def render_report(
     auth: AuthConfig,
 ) -> str:
     routes_tested = len(state.routes)
-    unique_files = len(state.files)
-    unique_matches = len(state.match_keys)
-    unique_match_texts = len({(regex_id, text) for _, regex_id, text in state.match_keys})
-    regex_1_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 1)
-    regex_2_matches = sum(1 for _, regex_id, _ in state.match_keys if regex_id == 2)
-    unscanned_files = len(state.unscanned)
+    unique_routes = [route for route in state.routes if route["status"] == "unique"]
+    duplicates = [route for route in state.routes if route["status"] == "duplicate"]
     routes_with_errors = sum(
         1
         for route in state.routes
-        if route.get("nav_error") or route.get("scan_error") or any(not entry["ok"] for entry in route["files"])
+        if route.get("nav_error")
+        or route.get("scan_error")
+        or any(not entry["ok"] for entry in route["files"])
     )
     network_capture = sum(
         1 for route in state.routes for entry in route["files"] if entry.get("source") == "network-capture"
@@ -1038,128 +1250,332 @@ def render_report(
         1 for route in state.routes for entry in route["files"] if entry.get("source") == "python-fetch"
     )
 
-    unique_routes = [route for route in state.routes if route["status"] == "unique"]
-    duplicates = [route for route in state.routes if route["status"] == "duplicate"]
-    route_index_by_url = {route["url"]: route["index"] for route in unique_routes}
-    files = sorted(state.files.values(), key=lambda entry: (-len(entry["matches"]), entry["url"]))
+    collapsed = collapse_route_files(state)
+    source_first = build_source_first(collapsed)
+    sinks_by_route = build_sinks_by_route(state, collapsed)
 
-    if auth.source:
-        header_word = "header" if len(auth.headers) == 1 else "headers"
-        cookie_word = "cookie" if len(auth.cookies) == 1 else "cookies"
-        auth_label = (
-            f"{md_code(auth.source)} "
-            f"({len(auth.headers)} {header_word}, {len(auth.cookies)} {cookie_word})"
+    route_data: "OrderedDict[int, dict]" = OrderedDict()
+    app_routes: list[dict] = []
+    vendor_routes: list[dict] = []
+    none_routes: list[dict] = []
+
+    for route in unique_routes:
+        route_index = route["index"]
+        loaded = [entry for entry in collapsed.values() if route_index in entry["routes"]]
+        new_files = [entry for entry in collapsed.values() if entry["first_route"] == route_index]
+        new_app_files = sorted(
+            (entry for entry in new_files if is_app_url(entry["url"])),
+            key=lambda entry: entry["url"],
         )
-    else:
-        auth_label = "none"
+        new_vendor_files = [entry for entry in new_files if not is_app_url(entry["url"])]
+        src_new = [match for match in source_first.values() if match["first_route"] == route_index]
+        sink_new = sinks_by_route.get(route_index, [])
+        src_app = [match for match in src_new if is_app_url(match["url"])]
+        src_vendor = [match for match in src_new if not is_app_url(match["url"])]
+        sink_app = [match for match in sink_new if is_app_url(match["url"])]
+        sink_vendor = [match for match in sink_new if not is_app_url(match["url"])]
+        loaded_app = [entry for entry in loaded if is_app_url(entry["url"])]
+        loaded_vendor = [entry for entry in loaded if not is_app_url(entry["url"])]
+
+        data = {
+            "loaded": loaded,
+            "loaded_app": loaded_app,
+            "loaded_vendor": loaded_vendor,
+            "new_files": new_files,
+            "new_app_files": new_app_files,
+            "new_vendor_files": new_vendor_files,
+            "src_app": src_app,
+            "src_vendor": src_vendor,
+            "sink_app": sink_app,
+            "sink_vendor": sink_vendor,
+        }
+        route_data[route_index] = data
+
+        if new_app_files or src_app or sink_app:
+            app_routes.append(route)
+        elif new_files or src_vendor or sink_vendor:
+            vendor_routes.append(route)
+        else:
+            none_routes.append(route)
+
+    raw_match_texts = sum(len(entry["matches"]) for entry in state.files.values())
+    collapsed_match_texts = sum(len(entry["matches"]) for entry in collapsed.values())
+    unique_match_texts = len({(regex_id, text) for _, regex_id, text in state.match_keys})
+    unique_source_matches = sum(
+        1 for _, regex_id, _ in state.match_keys if regex_id in SOURCE_REGEX_IDS
+    )
+    unique_sink_matches = sum(
+        1 for _, regex_id, _ in state.match_keys if regex_id == SINK_REGEX_ID
+    )
+    urlsp_matches = sum(
+        1
+        for entry in collapsed.values()
+        for match in entry["matches"].values()
+        if match["regex"] == 1 and match["urlsp"]
+    )
+    unscanned_files = len(state.unscanned)
 
     lines: list[str] = []
-    lines.append("# JS Regex Scan - Short Report")
+    lines.append("# JS Regex Scan - Route-First Report")
     lines.append("")
     lines.append(f"- Generated: {meta['generated']}")
-    lines.append(f"- Inputs: URLs {md_code(meta['urls_file'])} | Auth {auth_label}")
     if input_duplicates:
         lines.append(f"- Duplicate input URLs removed before testing: {input_duplicates}")
     error_word = "error" if routes_with_errors == 1 else "errors"
     lines.append(
-        f"- Routes: {routes_tested} tested, {state.skipped} duplicate, {routes_with_errors} {error_word}"
+        f"- Routes: {routes_tested} tested | {len(unique_routes)} unique | "
+        f"{len(duplicates)} duplicate | {routes_with_errors} {error_word}"
     )
     lines.append(
-        f"- Files: {unique_files} with matches | File matches: {unique_matches} | "
-        f"Unique texts: {unique_match_texts} | R1: {regex_1_matches} | R2: {regex_2_matches} | "
-        f"Unscanned: {unscanned_files}"
+        f"- Route coverage: {len(app_routes)} with new app surface | "
+        f"{len(vendor_routes)} vendor-only | {len(none_routes)} with no new discoveries"
+    )
+    lines.append(
+        f"- Files: {len(collapsed)} unique JS files | {len(state.files)} raw file URLs | "
+        f"{max(0, len(state.files) - len(collapsed))} cache-busted duplicates collapsed | "
+        f"{collapsed_match_texts} unique file-match texts ({raw_match_texts} raw)"
+    )
+    lines.append(
+        f"- Matches: {unique_source_matches} source | {unique_sink_matches} sink | "
+        f"{urlsp_matches} URLSearchParams `.get` flagged | {unique_match_texts} unique texts"
     )
     lines.append(
         f"- Wait: {args.wait:g}s | Timeout: {args.timeout:g}s | "
-        f"Recoveries: {network_capture} network / {python_fetch} HTTP"
+        f"Recoveries: {network_capture} network / {python_fetch} HTTP | Unscanned: {unscanned_files}"
     )
-    lines.append("")
-    lines.append("## Routes With Unique Scan Results")
-    lines.append("")
-    if not unique_routes:
-        lines.append("No routes produced unique scan results.")
-    else:
-        lines.append("| # | Route | HTTP | Files | Matches | New files | New matches | Note |")
-        lines.append("| ---: | --- | ---: | ---: | ---: | ---: | ---: | --- |")
-        for route in unique_routes:
-            notes = []
-            if route.get("nav_error"):
-                notes.append(route["nav_error"])
-            if route.get("scan_error"):
-                notes.append(route["scan_error"])
-            failed = sum(1 for entry in route["files"] if not entry["ok"])
-            if failed:
-                notes.append(f"{failed} file(s) could not be scanned")
-            if route.get("final_url") and route["final_url"] != route["url"]:
-                notes.append(f"final URL: {route['final_url']}")
-            lines.append(
-                f"| {route['index']} | {md_code(route['url'])} | {route.get('http_status') or '-'} | "
-                f"{route['total_files']} | {route['total_matches']} | {len(route['new_files'])} | "
-                f"{len(route['new_matches'])} | {md_text('; '.join(notes)) if notes else '-'} |"
-            )
-    lines.append("")
-    lines.append("## Unique Matched Files")
-    lines.append("")
+    lines.append("- Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.")
+    lines.append("- Source matches are unique by match text within each route. Location sinks are per file and not deduped.")
+    lines.append("- Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).")
     lines.append(
-        "Each file lists its matches once. `R1`/`R2` are the regex labels; `xN` is the "
-        "occurrence count when greater than one. `first` is the first-seen route number "
-        "and `routes` is the compressed loaded-on route list; both map to the table above."
+        "- `App` = application `src_`/`~src_` chunks. Vendor, runtime, locale, replay, and SDK bundles are collapsed; "
+        "vendor match texts are in the final index."
+    )
+    lines.append(
+        "- URLSearchParams `.get` classification uses a same-file constructor/alias heuristic; "
+        "function-parameter and cross-file flows still need manual tracing."
     )
     lines.append("")
-    if not files:
-        lines.append("No JavaScript files with matches were discovered.")
+
+    lines.append("## Unique First Routes")
+    lines.append("")
+    first_route_indexes = sorted(
+        {entry["first_route"] for entry in collapsed.values() if entry["matches"]}
+    )
+    route_by_index = {route["index"]: route for route in state.routes}
+    route_word = "route" if len(first_route_indexes) == 1 else "routes"
+    verb_word = "loads" if len(first_route_indexes) == 1 else "load"
+    lines.append(
+        f"{len(first_route_indexes)} unique first {route_word} that {verb_word} new JS files "
+        "with unique regex matches. `--` separates entries."
+    )
+    lines.append("")
+    emitted = 0
+    for route_index in first_route_indexes:
+        route = route_by_index.get(route_index)
+        if route is None:
+            continue
+        if emitted:
+            lines.append("--")
+        emitted += 1
+        lines.append(route["url"])
+    lines.append("")
+
+    for route in app_routes:
+        route_index = route["index"]
+        data = route_data[route_index]
+        lines.append(f"## Route {route_index} — {route['url']}")
         lines.append("")
-    for index, entry in enumerate(files, start=1):
-        regex_1_count = sum(1 for match in entry["matches"].values() if match["regex"] == 1)
-        regex_2_count = sum(1 for match in entry["matches"].values() if match["regex"] == 2)
-        first_route_index = route_index_by_url.get(entry["first_route"])
-        first_label = str(first_route_index) if first_route_index is not None else md_code(entry["first_route"])
-        route_label = compress_route_numbers(entry["routes"])
         lines.append(
-            f"<details><summary><b>{index}.</b> {md_code(entry['url'])} - "
-            f"<b>{len(entry['matches'])}</b> matches (R1 {regex_1_count} / R2 {regex_2_count}) - "
-            f"first {first_label} - routes: {md_text(route_label)}</summary>"
+            f"- HTTP: {route.get('http_status') or '-'} | "
+            f"Loaded: {len(data['loaded'])} files ({len(data['loaded_app'])} app / "
+            f"{len(data['loaded_vendor'])} vendor) | "
+            f"New: {len(data['new_files'])} files ({len(data['new_app_files'])} app / "
+            f"{len(data['new_vendor_files'])} vendor)"
+        )
+        lines.append(
+            f"- New source matches: {len(data['src_app'])} app / {len(data['src_vendor'])} vendor | "
+            f"New location sinks: {len(data['sink_app'])} app / {len(data['sink_vendor'])} vendor"
+        )
+        note = route_note(route)
+        if note:
+            lines.append(f"- Note: {md_text(note)}")
+        lines.append("")
+
+        if data["new_app_files"]:
+            lines.append("### New app JS files")
+            lines.append("")
+            for entry in data["new_app_files"]:
+                lines.append(f"- {md_code(entry['url'])}")
+            lines.append("")
+
+        if data["src_app"]:
+            groups: dict[str, list[dict]] = {"urlsp": [], "query": [], "urlsrc": [], "get": []}
+            for match in data["src_app"]:
+                if match["regex"] == 1:
+                    groups["urlsp" if match["urlsp"] else "get"].append(match)
+                elif match["regex"] == 2:
+                    groups["urlsrc"].append(match)
+                elif match["regex"] == 3:
+                    groups["query"].append(match)
+            lines.append("### App source matches (unique)")
+            lines.append("")
+            for group_key, label in (
+                ("urlsp", "URLSearchParams `.get(...)`"),
+                ("query", '`.query.*` / `query["..."]`'),
+                ("urlsrc", "URL / URLSearchParams construction"),
+            ):
+                group = sorted(groups[group_key], key=lambda match: match["text"])
+                if not group:
+                    continue
+                lines.append(f"#### {label}")
+                lines.append("")
+                for match in group:
+                    suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                    lines.append(
+                        f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}"
+                    )
+                lines.append("")
+            generic_get = sorted(groups["get"], key=lambda match: match["text"])
+            if generic_get:
+                lines.append(f'#### Other `.get(...)` ({len(generic_get)})')
+                lines.append("")
+                lines.append("<details><summary>Show generic .get matches</summary>")
+                lines.append("")
+                for match in generic_get:
+                    suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                    lines.append(
+                        f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}"
+                    )
+                lines.append("")
+                lines.append("</details>")
+                lines.append("")
+
+        if data["sink_app"]:
+            lines.append("### App location sinks (not deduped)")
+            lines.append("")
+            for match in data["sink_app"]:
+                suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                lines.append(f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}")
+            lines.append("")
+
+        if data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
+            lines.append(
+                f"- Vendor/SDK additions: +{len(data['new_vendor_files'])} files | "
+                f"{len(data['src_vendor'])} source / {len(data['sink_vendor'])} sinks "
+                "(match texts in final index)"
+            )
+            lines.append("")
+
+    lines.append("## Vendor-Only Routes")
+    lines.append("")
+    if vendor_routes:
+        route_word = "route" if len(vendor_routes) == 1 else "routes"
+        lines.append(
+            f"{len(vendor_routes)} unique {route_word} added only vendor/SDK files or matches. "
+            "These are summarized here; vendor match texts are in the final index."
         )
         lines.append("")
-        for match in entry["matches"].values():
-            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
-            first_seen = ""
-            if match["first_route"] != entry["first_route"]:
-                first_seen = f" - first: {md_code(match['first_route'])}"
-            lines.append(f"- R{match['regex']}: {md_code(match['text'])}{suffix}{first_seen}")
+        lines.append("| Route | URL | New vendor files | Vendor source | Vendor sinks |")
+        lines.append("|---:|---|---:|---:|---:|")
+        for route in vendor_routes:
+            route_index = route["index"]
+            data = route_data[route_index]
+            url = route["url"]
+            if route.get("final_url") and route["final_url"] != route["url"]:
+                url = f"{url} (final: {route['final_url']})"
+            lines.append(
+                f"| {route_index} | {md_code(url)} | {len(data['new_vendor_files'])} | "
+                f"{len(data['src_vendor'])} | {len(data['sink_vendor'])} |"
+            )
+    else:
+        lines.append("None.")
+    lines.append("")
+
+    lines.append("## Unique Routes With No New Discoveries")
+    lines.append("")
+    if none_routes:
+        route_word = "route" if len(none_routes) == 1 else "routes"
+        lines.append(
+            f"{len(none_routes)} unique {route_word} loaded no new JS files and produced no new "
+            "source matches or location sinks."
+        )
         lines.append("")
-        lines.append("</details>")
-        lines.append("")
+        lines.append("| Route | URL | Loaded files |")
+        lines.append("|---:|---|---:|")
+        for route in none_routes:
+            route_index = route["index"]
+            data = route_data[route_index]
+            url = route["url"]
+            if route.get("final_url") and route["final_url"] != route["url"]:
+                url = f"{url} (final: {route['final_url']})"
+            lines.append(f"| {route_index} | {md_code(url)} | {len(data['loaded'])} |")
+    else:
+        lines.append("None.")
+    lines.append("")
+
     lines.append("## Duplicate Routes")
     lines.append("")
     if not duplicates:
         lines.append("No routes were skipped as duplicate results.")
     else:
+        route_word = "route" if len(duplicates) == 1 else "routes"
         lines.append(
-            f"{len(duplicates)} routes skipped as duplicate results. "
-            "Full mapping is in `data/scan.log`."
+            f"{len(duplicates)} duplicate {route_word} produced no new JS files, source matches, "
+            "or location sinks."
         )
-        lines.append("")
-        lines.append("<details><summary>Duplicate mapping</summary>")
         lines.append("")
         grouped_duplicates: dict[int, list[int]] = {}
         for route in duplicates:
             grouped_duplicates.setdefault(route["duplicate_of"], []).append(route["index"])
         for source_route in sorted(grouped_duplicates):
             lines.append(
-                f"- Route {source_route}: {compress_route_numbers(grouped_duplicates[source_route])}"
+                f"- Route {source_route} source; duplicates: "
+                f"{compress_route_numbers(grouped_duplicates[source_route])}"
             )
-        lines.append("")
-        lines.append("</details>")
     lines.append("")
+
+    lines.append("## Vendor/SDK Match Index")
+    lines.append("")
+    lines.append(
+        "<details><summary>All vendor/SDK source and sink matches, unique per file</summary>"
+    )
+    lines.append("")
+    for entry in sorted(collapsed.values(), key=lambda item: item["url"]):
+        if is_app_url(entry["url"]) or not entry["matches"]:
+            continue
+        lines.append(f"- {md_code(entry['url'])}")
+        for match in sorted(entry["matches"].values(), key=lambda item: (item["regex"], item["text"])):
+            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+            label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
+            lines.append(f"  - [{label}] {md_code(match['text'])}{suffix}")
+    lines.append("")
+    lines.append("</details>")
+    lines.append("")
+
     lines.append("## Errors")
     lines.append("")
     error_lines: list[str] = []
     for route in state.routes:
         if route.get("nav_error"):
-            error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['nav_error'])}")
+            error_lines.append(
+                f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['nav_error'])}"
+            )
         if route.get("scan_error"):
-            error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['scan_error'])}")
+            error_lines.append(
+                f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['scan_error'])}"
+            )
+    failed_files: dict[str, int] = {}
+    for route in state.routes:
+        for entry in route["files"]:
+            if entry.get("ok", False):
+                continue
+            failed_files.setdefault(entry["url"], route["index"])
+    for url, route_index in failed_files.items():
+        if url in state.unscanned:
+            continue
+        error_lines.append(
+            f"- File {md_code(url)} (first seen on route {route_index}): source could not be scanned"
+        )
     for entry in state.unscanned.values():
         error_lines.append(
             f"- File {md_code(entry['url'])} (first seen on {md_code(entry['first_route'])}): "
@@ -1171,25 +1587,24 @@ def render_report(
     else:
         lines.append("None.")
     lines.append("")
+
     lines.append("<details><summary>Regex patterns and exclusions</summary>")
     lines.append("")
-    lines.append("Regex 1:")
+    for regex_id, pattern in REGEX_BY_ID.items():
+        lines.append(f"Regex {regex_id} ({REGEX_LABELS[regex_id]}):")
+        lines.append("")
+        lines.append("```regex")
+        lines.append(pattern.pattern)
+        lines.append("```")
+        lines.append("")
+    lines.append("Default match exclusions:")
     lines.append("")
-    lines.append("```regex")
-    lines.append(REGEX_1.pattern)
-    lines.append("```")
+    for exclusion in DEFAULT_EXCLUDED_MATCH_PATTERNS:
+        lines.append(f"- {md_code(exclusion.pattern)}")
     lines.append("")
-    lines.append("Regex 2:")
+    lines.append("Excluded `.get` parameter names:")
     lines.append("")
-    lines.append("```regex")
-    lines.append(REGEX_2.pattern)
-    lines.append("```")
-    lines.append("")
-    excluded_names = ", ".join(sorted(REGEX_2_EXCLUDED_PARAM_NAMES))
-    lines.append(
-        "Excluded: `header(s).get`, `cache/storage/registry.get`, and parameter names "
-        f"`{excluded_names}`."
-    )
+    lines.append(", ".join(f"`{name}`" for name in sorted(REGEX_2_EXCLUDED_PARAM_NAMES)))
     if args.exclude_regex:
         lines.append("")
         lines.append("Additional match exclusions:")

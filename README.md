@@ -45,24 +45,24 @@ If this file is empty, the scan runs without authentication.
 
 ## Outputs
 
-- `data/report.md` — short Markdown report containing unique routes, unique
-  matched JavaScript files, and unique regex matches. Each file is shown once in
-  a collapsible section; expand it to see every match. Files with no matches are
-  not listed.
+- `data/report.md` — route-first Markdown report. An upper section provides a
+  copy-friendly unique first-route list, followed by app route sections with
+  new app JS files, app source matches, and location sinks. Vendor-only and
+  no-new routes are summarized. Files with no matches are not listed.
 - `data/scan.log` — full console output from the scan.
 - `data/processed-urls.txt` — the last URL batch that was scanned.
 
-The scanner writes the short report by default. Use `--full-report` if you need
-the previous verbose layout.
+The scanner writes the route-first report by default. Use `--full-report` if you
+need the previous verbose layout.
 
 After a successful scan, `data/urls.txt` is cleared to a placeholder so the next
 manual run does not re-scan the same batch. The original batch is kept in
 `data/processed-urls.txt`. If the scan fails, `data/urls.txt` is left unchanged
 so the batch can be retried.
 
-## Regex 2 exclusions
+## Regex 1 `.get` exclusions
 
-Regex 2 skips common property names that are not URL parameters:
+The `.get` source regex skips common property names that are not URL parameters:
 
 `left`, `right`, `top`, `bottom`, `width`, `height`, `x`, `y`, `type`, `name`,
 `length`, `size`, `index`, `id`, `class`, `className`, `style`, `color`,
@@ -73,9 +73,9 @@ Header/cache/storage `.get()` calls are also excluded by default.
 
 ## Manual console scripts
 
-- `tools/js_route_scan_console.js` — two-regex scanner with popup.
-- `tools/js_route_scan_console_regex2.js` — the one-regex console script using
-  the same regex 2 exclusion set.
+- `tools/js_route_scan_console.js` — four-regex scanner with popup: three
+  source regexes and one location-sink regex.
+- `tools/js_route_scan_console_regex2.js` — the older one-regex console script.
 
 ## Security warning
 

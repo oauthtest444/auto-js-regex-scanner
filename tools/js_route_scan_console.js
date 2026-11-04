@@ -4,13 +4,28 @@
   const REGEXES = [
     {
       id: 1,
-      pattern: /(new\s+(URLSearchParams|URL)\s*\(\s*((window\.)?location\.(search|href|hash|pathname)|document\.(URL|URLUnencoded|baseURI))|(\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\])|((window\.)?location\.(assign|replace)\s*\(|\b(location|location\.href)\s*=\s*[^=]))/g
+      pattern: /(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])[^'"`]+\1\s*\)/g
     },
     {
       id: 2,
-      pattern: /(?<![=!<>])(?<![\w$.])(?!(?:this)\.)[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\.get\(\s*(['"`])([^'"`]+)\1\s*\)/g
+      pattern: /(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+(?:URLSearchParams|URL)\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b/g
+    },
+    {
+      id: 3,
+      pattern: /\.query\s*\.\s*[A-Za-z_$][\w$]*|\bquery\s*\[\s*['"][^'"]+['"]\s*\]/g
+    },
+    {
+      id: 4,
+      pattern: /(?:(?:window\.)?location\.(?:assign|replace)\s*\(\s*(?![`'"]|\$\{|window\.location\.|location\.|\w+\.href)|(?<![\w$.])(?:window\.|document\.|parent\.|top\.|self\.|frames\[\d+\].)??location(?:\.href)?\s*=\s*(?!=)\s*(?![\w$]+(?:\.[\w$]+)*\.href\b)(?![\w$]+(?:\.[\w$]+)*\.toString\(\))(?![`'"]|`\/|""\.concat|null\b|\{)(?!\(null\s*==[\s\S]*?this\.location[\s\S]*?\.toString\(\))(?!\(0\s*,\s*[\w$]+\.[\w$]+\)\s*\())/g
     }
   ];
+
+  const GET_KEY_PATTERN = /\.get\(\s*(['"`])([^'"`]+)\1\s*\)/;
+  const GET_RECEIVER_PATTERN = /([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*)\.get\(/;
+  const URLSP_ASSIGN_PATTERN = /(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s*new\s+URLSearchParams\s*\(/g;
+  const URL_SEARCHPARAMS_ASSIGN_PATTERN = /(?:(?:const|let|var)\s+)?([A-Za-z_$][\w$]*)\s*=\s*new\s+URL\s*\([^)]*\)\s*\.searchParams/g;
+  const DIRECT_URLSP_GET_PATTERN = /new\s+URLSearchParams\s*\([^)]*\)\s*\.get\(/;
+  const DIRECT_URL_SEARCHPARAMS_GET_PATTERN = /new\s+URL\s*\([^)]*\)\s*\.searchParams\s*\.get\(/;
 
   const REGEX_2_EXCLUDED_PARAM_NAMES = new Set([
     'left', 'right', 'top', 'bottom',
@@ -73,8 +88,29 @@
     return Array.from(urls);
   }
 
+  function collectUrlspAliases(source) {
+    const aliases = new Set();
+    for (const pattern of [URLSP_ASSIGN_PATTERN, URL_SEARCHPARAMS_ASSIGN_PATTERN]) {
+      pattern.lastIndex = 0;
+      let match;
+      while ((match = pattern.exec(source)) !== null) {
+        aliases.add(match[1]);
+      }
+    }
+    return aliases;
+  }
+
+  function isUrlspGet(source, text, start, aliases) {
+    const receiverMatch = GET_RECEIVER_PATTERN.exec(text);
+    if (receiverMatch && aliases.has(receiverMatch[1])) return true;
+    const prefix = source.slice(Math.max(0, start - 400), start) + text;
+    return DIRECT_URLSP_GET_PATTERN.test(prefix)
+      || DIRECT_URL_SEARCHPARAMS_GET_PATTERN.test(prefix);
+  }
+
   function scanText(source) {
     const uniqueMatches = new Map();
+    const urlspAliases = collectUrlspAliases(source);
 
     for (const regex of REGEXES) {
       regex.pattern.lastIndex = 0;
@@ -86,14 +122,25 @@
           continue;
         }
         if (EXCLUDED_MATCH_PATTERNS.some((pattern) => pattern.test(matchedText))) continue;
-        if (regex.id === 2 && match[2] && REGEX_2_EXCLUDED_PARAM_NAMES.has(match[2])) continue;
+        let urlsp = false;
+        if (regex.id === 1) {
+          const keyMatch = GET_KEY_PATTERN.exec(matchedText);
+          if (keyMatch && REGEX_2_EXCLUDED_PARAM_NAMES.has(keyMatch[2])) continue;
+          urlsp = isUrlspGet(source, matchedText, match.index, urlspAliases);
+        }
 
         const key = `${regex.id}\u0000${matchedText}`;
         const existing = uniqueMatches.get(key);
         if (existing) {
           existing.count += 1;
+          existing.urlsp = Boolean(existing.urlsp || urlsp);
         } else {
-          uniqueMatches.set(key, { regex: regex.id, text: matchedText, count: 1 });
+          uniqueMatches.set(key, {
+            regex: regex.id,
+            text: matchedText,
+            count: 1,
+            urlsp
+          });
         }
       }
     }
