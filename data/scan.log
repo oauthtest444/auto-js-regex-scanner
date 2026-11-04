@@ -1,93 +1,515 @@
-[1/43] https://console.byteplus.com/datarangers/app/add
-  4 matched JS files, 247 unique matches, 4 new files, 247 new matches (11.72s)
-[2/43] https://console.byteplus.com/datarangers/app/follow
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[3/43] https://console.byteplus.com/datarangers/app/list
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[4/43] https://console.byteplus.com/datarangers/app/mock
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[5/43] https://console.byteplus.com/datarangers/app/register
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[6/43] https://console.byteplus.com/datarangers/app/register/create
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[7/43] https://console.byteplus.com/datarangers/app/register/create-new
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[8/43] https://console.byteplus.com/datarangers/app/register/doc
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[9/43] https://console.byteplus.com/datarangers/app/register/upload
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[10/43] https://console.byteplus.com/datarangers/app/unfollow
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[11/43] https://console.byteplus.com/datarangers/app/update
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[12/43] https://console.byteplus.com/datarangers/auth
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[13/43] https://console.byteplus.com/datarangers/auth/verify
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[14/43] https://console.byteplus.com/datarangers/auth/verify/account
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[15/43] https://console.byteplus.com/datarangers/function/overview
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[16/43] https://console.byteplus.com/datarangers/login
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[17/43] https://console.byteplus.com/datarangers/login/fill
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[18/43] https://console.byteplus.com/datarangers/manage/org
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[19/43] https://console.byteplus.com/datarangers/manage/role
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[20/43] https://console.byteplus.com/datarangers/manage/user
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[21/43] https://console.byteplus.com/datarangers/org/84
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[22/43] https://console.byteplus.com/datarangers/org/84/app
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[23/43] https://console.byteplus.com/datarangers/org/84/app/list
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[24/43] https://console.byteplus.com/datarangers/org/84/app/register/create-new/web
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[25/43] https://console.byteplus.com/datarangers/org/84/app/register/create/web
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[26/43] https://console.byteplus.com/datarangers/org/84/app/register/doc/web/1
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[27/43] https://console.byteplus.com/datarangers/org/84/app/register/products
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[28/43] https://console.byteplus.com/datarangers/org/84/app/register/upload/web/1
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[29/43] https://console.byteplus.com/datarangers/org/84/function/overview
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[30/43] https://console.byteplus.com/datarangers/org/84/manage/org
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[31/43] https://console.byteplus.com/datarangers/org/84/manage/role
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[32/43] https://console.byteplus.com/datarangers/org/84/manage/role/operate
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[33/43] https://console.byteplus.com/datarangers/org/84/manage/user
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[34/43] https://console.byteplus.com/datarangers/org/84/user/info
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[35/43] https://console.byteplus.com/datarangers/org/84/user/personel
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[36/43] https://console.byteplus.com/datarangers/org/add
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[37/43] https://console.byteplus.com/datarangers/org/app/list
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[38/43] https://console.byteplus.com/datarangers/org/list
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[39/43] https://console.byteplus.com/datarangers/org/user/info
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[40/43] https://console.byteplus.com/datarangers/org/user/ticket
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[41/43] https://console.byteplus.com/datarangers/org/user/ticket/1
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[42/43] https://console.byteplus.com/datarangers/udesk/user
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
-[43/43] https://console.byteplus.com/datarangers/verify
-  duplicate of route 1 (4 matched JS files, 247 matches); skipped
+[1/254] https://console.byteplus.com/datafinder/app/218463/access-analysis-mp
+  21 matched JS files, 378 unique matches, 21 new files, 378 new matches (13.57s)
+[2/254] https://console.byteplus.com/datafinder/app/218463/access-analysis-mp/:report_id?/:result_id
+  33 matched JS files, 451 unique matches, 12 new files, 73 new matches (12.29s)
+[3/254] https://console.byteplus.com/datafinder/app/218463/access-analysis-web
+  32 matched JS files, 443 unique matches, 1 new files, 8 new matches (13.13s)
+[4/254] https://console.byteplus.com/datafinder/app/218463/access-analysis-web/:report_id?/:result_id
+  35 matched JS files, 454 unique matches, 3 new files, 11 new matches (12.23s)
+[5/254] https://console.byteplus.com/datafinder/app/218463/ai_landing_page
+  34 matched JS files, 453 unique matches, 0 new files, 0 new matches (12.14s)
+[6/254] https://console.byteplus.com/datafinder/app/218463/apply
+  duplicate of route 5 (34 matched JS files, 453 matches); skipped
+[7/254] https://console.byteplus.com/datafinder/app/218463/asset-panorama
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[8/254] https://console.byteplus.com/datafinder/app/218463/attribution-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[9/254] https://console.byteplus.com/datafinder/app/218463/attribution-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[10/254] https://console.byteplus.com/datafinder/app/218463/behavior-analysis-agent
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[11/254] https://console.byteplus.com/datafinder/app/218463/behavior-detail
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[12/254] https://console.byteplus.com/datafinder/app/218463/behavior-detail/detail
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[13/254] https://console.byteplus.com/datafinder/app/218463/btm-explore-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[14/254] https://console.byteplus.com/datafinder/app/218463/btm-explore-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[15/254] https://console.byteplus.com/datafinder/app/218463/btm-flow-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[16/254] https://console.byteplus.com/datafinder/app/218463/btm-flow-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[17/254] https://console.byteplus.com/datafinder/app/218463/btm-heat-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[18/254] https://console.byteplus.com/datafinder/app/218463/btm-heat-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[19/254] https://console.byteplus.com/datafinder/app/218463/channel-analysis
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.03s)
+[20/254] https://console.byteplus.com/datafinder/app/218463/composition-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[21/254] https://console.byteplus.com/datafinder/app/218463/composition-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[22/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[23/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis/app
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[24/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis/crash
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[25/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis/crash/:appPlatform?/:id/:os
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[26/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis/sourcemap
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[27/254] https://console.byteplus.com/datafinder/app/218463/crash-analysis/symbol/:os
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[28/254] https://console.byteplus.com/datafinder/app/218463/dashboard
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[29/254] https://console.byteplus.com/datafinder/app/218463/dashboard-editor
+  34 matched JS files, 452 unique matches, 1 new files, 8 new matches (12.04s)
+[30/254] https://console.byteplus.com/datafinder/app/218463/dashboard-editor/:dashboard_id
+  38 matched JS files, 451 unique matches, 5 new files, 7 new matches (11.88s)
+[31/254] https://console.byteplus.com/datafinder/app/218463/dashboard/:dashboard_id
+  36 matched JS files, 455 unique matches, 1 new files, 1 new matches (12.51s)
+[32/254] https://console.byteplus.com/datafinder/app/218463/data-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[33/254] https://console.byteplus.com/datafinder/app/218463/data-manage/alert_record
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[34/254] https://console.byteplus.com/datafinder/app/218463/data-manage/analysis-items
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (13.92s)
+[35/254] https://console.byteplus.com/datafinder/app/218463/data-manage/analysis-subjects
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[36/254] https://console.byteplus.com/datafinder/app/218463/data-manage/bav-events
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[37/254] https://console.byteplus.com/datafinder/app/218463/data-manage/bav-events/create/web
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[38/254] https://console.byteplus.com/datafinder/app/218463/data-manage/bav-events/detail/:pageId
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[39/254] https://console.byteplus.com/datafinder/app/218463/data-manage/cost-governance
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[40/254] https://console.byteplus.com/datafinder/app/218463/data-manage/data-delete
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[41/254] https://console.byteplus.com/datafinder/app/218463/data-manage/data-quality
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[42/254] https://console.byteplus.com/datafinder/app/218463/data-manage/data-quality-legacy
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[43/254] https://console.byteplus.com/datafinder/app/218463/data-manage/data-verification-details
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[44/254] https://console.byteplus.com/datafinder/app/218463/data-manage/demand
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[45/254] https://console.byteplus.com/datafinder/app/218463/data-manage/des-registration-management
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[46/254] https://console.byteplus.com/datafinder/app/218463/data-manage/event-params
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[47/254] https://console.byteplus.com/datafinder/app/218463/data-manage/item-mapping-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[48/254] https://console.byteplus.com/datafinder/app/218463/data-manage/metric-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[49/254] https://console.byteplus.com/datafinder/app/218463/data-manage/metric-system-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[50/254] https://console.byteplus.com/datafinder/app/218463/data-manage/origin-events
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[51/254] https://console.byteplus.com/datafinder/app/218463/data-manage/page-group
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[52/254] https://console.byteplus.com/datafinder/app/218463/data-manage/public-params
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (14.1s)
+[53/254] https://console.byteplus.com/datafinder/app/218463/data-manage/rule_settings
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[54/254] https://console.byteplus.com/datafinder/app/218463/data-manage/session-custom
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[55/254] https://console.byteplus.com/datafinder/app/218463/data-manage/virtual-event
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (11.95s)
+[56/254] https://console.byteplus.com/datafinder/app/218463/data-manage/virtual-params
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[57/254] https://console.byteplus.com/datafinder/app/218463/data-manage/web-sessions
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[58/254] https://console.byteplus.com/datafinder/app/218463/data-manage/wechat
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[59/254] https://console.byteplus.com/datafinder/app/218463/data-system
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[60/254] https://console.byteplus.com/datafinder/app/218463/data-system/category-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[61/254] https://console.byteplus.com/datafinder/app/218463/data-table
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[62/254] https://console.byteplus.com/datafinder/app/218463/data-table/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[63/254] https://console.byteplus.com/datafinder/app/218463/datagator
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[64/254] https://console.byteplus.com/datafinder/app/218463/datagator/access
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[65/254] https://console.byteplus.com/datafinder/app/218463/datagator/custom-data-source
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[66/254] https://console.byteplus.com/datafinder/app/218463/datagator/data-distribution
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[67/254] https://console.byteplus.com/datafinder/app/218463/datagator/import
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[68/254] https://console.byteplus.com/datafinder/app/218463/datagator/import/hive
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[69/254] https://console.byteplus.com/datafinder/app/218463/datagator/import/kafka
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[70/254] https://console.byteplus.com/datafinder/app/218463/datagator/import/mysql
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[71/254] https://console.byteplus.com/datafinder/app/218463/datagator/import/singular
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[72/254] https://console.byteplus.com/datafinder/app/218463/datagator/import/tracer/:datasource
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[73/254] https://console.byteplus.com/datafinder/app/218463/datagator/media-authorization
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (13.79s)
+[74/254] https://console.byteplus.com/datafinder/app/218463/datagator/metric-dataset-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[75/254] https://console.byteplus.com/datafinder/app/218463/datagator/simulator-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[76/254] https://console.byteplus.com/datafinder/app/218463/datagator/sync-task
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[77/254] https://console.byteplus.com/datafinder/app/218463/datagator/sync-task/edit
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (18.88s)
+[78/254] https://console.byteplus.com/datafinder/app/218463/datagator/verify-report
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[79/254] https://console.byteplus.com/datafinder/app/218463/datagator/verify-report/detail/:report_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[80/254] https://console.byteplus.com/datafinder/app/218463/detective/:tenantId?/:taskId?/:user_id?/:stage
+  35 matched JS files, 456 unique matches, 1 new files, 3 new matches (13.64s)
+[81/254] https://console.byteplus.com/datafinder/app/218463/diagnostic/:tenantId?/:taskId?/:stage
+  35 matched JS files, 454 unique matches, 1 new files, 1 new matches (12.75s)
+[82/254] https://console.byteplus.com/datafinder/app/218463/distribute-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[83/254] https://console.byteplus.com/datafinder/app/218463/distribute-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[84/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.86s)
+[85/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/douyin-auth
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[86/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/fans-data
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[87/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/homepage-data
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[88/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/interactive-data
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[89/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/shop-data
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[90/254] https://console.byteplus.com/datafinder/app/218463/douyin-analysis/video-data
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[91/254] https://console.byteplus.com/datafinder/app/218463/editor
+  34 matched JS files, 452 unique matches, 1 new files, 8 new matches (11.87s)
+[92/254] https://console.byteplus.com/datafinder/app/218463/embed-analysis-result
+  41 matched JS files, 462 unique matches, 5 new files, 20 new matches (13.46s)
+[93/254] https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail
+  35 matched JS files, 454 unique matches, 2 new files, 9 new matches (12.08s)
+[94/254] https://console.byteplus.com/datafinder/app/218463/embed-behavior-detail/detail
+  40 matched JS files, 469 unique matches, 6 new files, 23 new matches (13.62s)
+[95/254] https://console.byteplus.com/datafinder/app/218463/embed-dashboard
+  42 matched JS files, 463 unique matches, 1 new files, 1 new matches (15.16s)
+[96/254] https://console.byteplus.com/datafinder/app/218463/embed-dashboard-editor
+  33 matched JS files, 444 unique matches, 1 new files, 8 new matches (12.45s)
+[97/254] https://console.byteplus.com/datafinder/app/218463/embed-dashboard-editor/:dashboard_id
+  41 matched JS files, 461 unique matches, 0 new files, 0 new matches (12.23s)
+[98/254] https://console.byteplus.com/datafinder/app/218463/embed-des-registration-management
+  33 matched JS files, 444 unique matches, 2 new files, 9 new matches (12.11s)
+[99/254] https://console.byteplus.com/datafinder/app/218463/embed-event-analysis/:report_id?/:result_id
+  43 matched JS files, 467 unique matches, 5 new files, 13 new matches (12.16s)
+[100/254] https://console.byteplus.com/datafinder/app/218463/embed-funnel-analysis/:report_id?/:result_id
+  44 matched JS files, 471 unique matches, 1 new files, 4 new matches (12.18s)
+[101/254] https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard
+  36 matched JS files, 442 unique matches, 0 new files, 0 new matches (12.29s)
+[102/254] https://console.byteplus.com/datafinder/app/218463/embed-fusion-dashboard/:dashboard_id
+  43 matched JS files, 464 unique matches, 0 new files, 0 new matches (11.97s)
+[103/254] https://console.byteplus.com/datafinder/app/218463/embed-permission
+  33 matched JS files, 444 unique matches, 1 new files, 8 new matches (12.64s)
+[104/254] https://console.byteplus.com/datafinder/app/218463/embed-permission/department
+  33 matched JS files, 444 unique matches, 1 new files, 8 new matches (12.47s)
+[105/254] https://console.byteplus.com/datafinder/app/218463/embed-permission/roles
+  33 matched JS files, 444 unique matches, 1 new files, 8 new matches (12.22s)
+[106/254] https://console.byteplus.com/datafinder/app/218463/embed-permission/roles/detail
+  33 matched JS files, 444 unique matches, 1 new files, 8 new matches (12.3s)
+[107/254] https://console.byteplus.com/datafinder/app/218463/embed-report
+  duplicate of route 92 (41 matched JS files, 462 matches); skipped
+[108/254] https://console.byteplus.com/datafinder/app/218463/embed-report/no-access
+  32 matched JS files, 443 unique matches, 1 new files, 8 new matches (12.33s)
+[109/254] https://console.byteplus.com/datafinder/app/218463/embed-retention-analysis/custom/:report_id?/:result_id
+  duplicate of route 99 (43 matched JS files, 467 matches); skipped
+[110/254] https://console.byteplus.com/datafinder/app/218463/embed-session-replay-list
+  35 matched JS files, 455 unique matches, 2 new files, 13 new matches (13.08s)
+[111/254] https://console.byteplus.com/datafinder/app/218463/embed-session-replay-player/:recording_id
+  41 matched JS files, 465 unique matches, 0 new files, 0 new matches (13.49s)
+[112/254] https://console.byteplus.com/datafinder/app/218463/embed-user-cohort/edit-cohort/:type/:id
+  35 matched JS files, 451 unique matches, 3 new files, 11 new matches (11.91s)
+[113/254] https://console.byteplus.com/datafinder/app/218463/embed-virtual-event-edit
+  38 matched JS files, 451 unique matches, 2 new files, 10 new matches (12.62s)
+[114/254] https://console.byteplus.com/datafinder/app/218463/evaluation-host-navigation-test
+  duplicate of route 5 (34 matched JS files, 453 matches); skipped
+[115/254] https://console.byteplus.com/datafinder/app/218463/event-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[116/254] https://console.byteplus.com/datafinder/app/218463/event-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[117/254] https://console.byteplus.com/datafinder/app/218463/event-group
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[118/254] https://console.byteplus.com/datafinder/app/218463/funnel-analysis
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (11.81s)
+[119/254] https://console.byteplus.com/datafinder/app/218463/funnel-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[120/254] https://console.byteplus.com/datafinder/app/218463/heatmap-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[121/254] https://console.byteplus.com/datafinder/app/218463/industry-analysis
+  36 matched JS files, 457 unique matches, 0 new files, 0 new matches (12.0s)
+[122/254] https://console.byteplus.com/datafinder/app/218463/industry-analysis/:subIndustry
+  duplicate of route 121 (36 matched JS files, 457 matches); skipped
+[123/254] https://console.byteplus.com/datafinder/app/218463/industry-analysis/:subIndustry/:templateId
+  duplicate of route 121 (36 matched JS files, 457 matches); skipped
+[124/254] https://console.byteplus.com/datafinder/app/218463/items-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[125/254] https://console.byteplus.com/datafinder/app/218463/items-analysis/:report_id?/:result_id
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.41s)
+[126/254] https://console.byteplus.com/datafinder/app/218463/journey-diagnostics/:tenantId?/:taskId
+  35 matched JS files, 454 unique matches, 0 new files, 0 new matches (11.76s)
+[127/254] https://console.byteplus.com/datafinder/app/218463/lifecycle-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[128/254] https://console.byteplus.com/datafinder/app/218463/lifecycle-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[129/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (13.23s)
+[130/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/:conversation_id?/:task_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[131/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/debug/:conversation_id?/:task_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[132/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/dashboard/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+  32 matched JS files, 439 unique matches, 0 new files, 0 new matches (11.83s)
+[133/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/journeys/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+  34 matched JS files, 443 unique matches, 0 new files, 0 new matches (12.14s)
+[134/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/embed-operations-agent/trace/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+  36 matched JS files, 450 unique matches, 0 new files, 0 new matches (11.99s)
+[135/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/:pageType?/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+  35 matched JS files, 493 unique matches, 1 new files, 44 new matches (13.54s)
+[136/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/cozeloop/:spaceId/:module/:subModule/result/:result
+  36 matched JS files, 454 unique matches, 1 new files, 2 new matches (11.99s)
+[137/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/cozeloop/:spaceId?/:module?/:subModule?/:leafModule
+  39 matched JS files, 471 unique matches, 2 new files, 16 new matches (13.39s)
+[138/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/session/:token
+  34 matched JS files, 446 unique matches, 0 new files, 0 new matches (13.29s)
+[139/254] https://console.byteplus.com/datafinder/app/218463/llm-workbench/operations-agent/share/trace/:token
+  36 matched JS files, 452 unique matches, 2 new files, 6 new matches (12.6s)
+[140/254] https://console.byteplus.com/datafinder/app/218463/ltv-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[141/254] https://console.byteplus.com/datafinder/app/218463/ltv-analysis/:report_id?/:result_id
+  22 matched JS files, 379 unique matches, 1 new files, 1 new matches (13.44s)
+[142/254] https://console.byteplus.com/datafinder/app/218463/manage
+  33 matched JS files, 444 unique matches, 0 new files, 0 new matches (13.82s)
+[143/254] https://console.byteplus.com/datafinder/app/218463/manage/annotation
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[144/254] https://console.byteplus.com/datafinder/app/218463/manage/async-job
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[145/254] https://console.byteplus.com/datafinder/app/218463/manage/audit-log
+  13 matched JS files, 300 unique matches, 0 new files, 0 new matches (11.56s)
+[146/254] https://console.byteplus.com/datafinder/app/218463/manage/collocation
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[147/254] https://console.byteplus.com/datafinder/app/218463/manage/common-settings
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.94s)
+[148/254] https://console.byteplus.com/datafinder/app/218463/manage/dashboard-manage
+  38 matched JS files, 458 unique matches, 0 new files, 0 new matches (12.62s)
+[149/254] https://console.byteplus.com/datafinder/app/218463/manage/finder-campaign
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[150/254] https://console.byteplus.com/datafinder/app/218463/manage/llm-knowledge-base
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[151/254] https://console.byteplus.com/datafinder/app/218463/manage/monitor/:monitorId
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.13s)
+[152/254] https://console.byteplus.com/datafinder/app/218463/manage/preheat
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[153/254] https://console.byteplus.com/datafinder/app/218463/manage/sdk-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[154/254] https://console.byteplus.com/datafinder/app/218463/manage/session-replay-settings
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.78s)
+[155/254] https://console.byteplus.com/datafinder/app/218463/manage/subscription
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[156/254] https://console.byteplus.com/datafinder/app/218463/manage/webhook-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[157/254] https://console.byteplus.com/datafinder/app/218463/metric-system
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.03s)
+[158/254] https://console.byteplus.com/datafinder/app/218463/metric-system/add
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[159/254] https://console.byteplus.com/datafinder/app/218463/metric-system/edit/:edit_id
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.11s)
+[160/254] https://console.byteplus.com/datafinder/app/218463/op
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[161/254] https://console.byteplus.com/datafinder/app/218463/op/app
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (12.3s)
+[162/254] https://console.byteplus.com/datafinder/app/218463/op/solution/embedding
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[163/254] https://console.byteplus.com/datafinder/app/218463/overview
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (13.01s)
+[164/254] https://console.byteplus.com/datafinder/app/218463/pathfind-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[165/254] https://console.byteplus.com/datafinder/app/218463/pathfind-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[166/254] https://console.byteplus.com/datafinder/app/218463/permission
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[167/254] https://console.byteplus.com/datafinder/app/218463/permission/applications
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[168/254] https://console.byteplus.com/datafinder/app/218463/permission/department
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[169/254] https://console.byteplus.com/datafinder/app/218463/permission/roles
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[170/254] https://console.byteplus.com/datafinder/app/218463/permission/roles/detail
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[171/254] https://console.byteplus.com/datafinder/app/218463/permission/users
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[172/254] https://console.byteplus.com/datafinder/app/218463/project
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[173/254] https://console.byteplus.com/datafinder/app/218463/project/detail
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[174/254] https://console.byteplus.com/datafinder/app/218463/project/detail/edit
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[175/254] https://console.byteplus.com/datafinder/app/218463/property-asset
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[176/254] https://console.byteplus.com/datafinder/app/218463/push
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[177/254] https://console.byteplus.com/datafinder/app/218463/qrcode-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[178/254] https://console.byteplus.com/datafinder/app/218463/qrcode-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[179/254] https://console.byteplus.com/datafinder/app/218463/qrcode-manage
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[180/254] https://console.byteplus.com/datafinder/app/218463/qrcode-manage/edit-qrcode/:code_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[181/254] https://console.byteplus.com/datafinder/app/218463/qrcode-manage/new-qrcode
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[182/254] https://console.byteplus.com/datafinder/app/218463/render/analysis/result
+  41 matched JS files, 462 unique matches, 2 new files, 4 new matches (12.14s)
+[183/254] https://console.byteplus.com/datafinder/app/218463/render/dashboard
+  duplicate of route 92 (41 matched JS files, 462 matches); skipped
+[184/254] https://console.byteplus.com/datafinder/app/218463/retention-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[185/254] https://console.byteplus.com/datafinder/app/218463/retention-analysis/base
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[186/254] https://console.byteplus.com/datafinder/app/218463/retention-analysis/base/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[187/254] https://console.byteplus.com/datafinder/app/218463/retention-analysis/custom
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[188/254] https://console.byteplus.com/datafinder/app/218463/retention-analysis/custom/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[189/254] https://console.byteplus.com/datafinder/app/218463/scenarios
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[190/254] https://console.byteplus.com/datafinder/app/218463/scenarios/:templateId
+  duplicate of route 121 (36 matched JS files, 457 matches); skipped
+[191/254] https://console.byteplus.com/datafinder/app/218463/scenarios/create
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[192/254] https://console.byteplus.com/datafinder/app/218463/scenarios/create-industry
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[193/254] https://console.byteplus.com/datafinder/app/218463/scenarios/editor
+  34 matched JS files, 447 unique matches, 0 new files, 0 new matches (12.55s)
+[194/254] https://console.byteplus.com/datafinder/app/218463/scenes-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[195/254] https://console.byteplus.com/datafinder/app/218463/scenes-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[196/254] https://console.byteplus.com/datafinder/app/218463/session-replay
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[197/254] https://console.byteplus.com/datafinder/app/218463/session-replay/agent
+  34 matched JS files, 452 unique matches, 0 new files, 0 new matches (15.82s)
+[198/254] https://console.byteplus.com/datafinder/app/218463/session-replay/dashboard
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[199/254] https://console.byteplus.com/datafinder/app/218463/session-replay/list/:reportId
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[200/254] https://console.byteplus.com/datafinder/app/218463/session-replay/onboarding
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[201/254] https://console.byteplus.com/datafinder/app/218463/session-replay/recording/:recording_id
+  36 matched JS files, 455 unique matches, 1 new files, 1 new matches (12.73s)
+[202/254] https://console.byteplus.com/datafinder/app/218463/session-replay/recording/report/:report_id
+  37 matched JS files, 463 unique matches, 0 new files, 0 new matches (12.72s)
+[203/254] https://console.byteplus.com/datafinder/app/218463/sharing-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[204/254] https://console.byteplus.com/datafinder/app/218463/sharing-analysis/fissionmap/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[205/254] https://console.byteplus.com/datafinder/app/218463/sharing-analysis/pages/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[206/254] https://console.byteplus.com/datafinder/app/218463/sharing-analysis/trends/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[207/254] https://console.byteplus.com/datafinder/app/218463/sharing-analysis/users/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[208/254] https://console.byteplus.com/datafinder/app/218463/source-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[209/254] https://console.byteplus.com/datafinder/app/218463/source-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[210/254] https://console.byteplus.com/datafinder/app/218463/sql-query
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[211/254] https://console.byteplus.com/datafinder/app/218463/sql-query/:sqlId?/:report_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[212/254] https://console.byteplus.com/datafinder/app/218463/tag
+  duplicate of route 5 (34 matched JS files, 453 matches); skipped
+[213/254] https://console.byteplus.com/datafinder/app/218463/test-embed
+  duplicate of route 5 (34 matched JS files, 453 matches); skipped
+[214/254] https://console.byteplus.com/datafinder/app/218463/tester
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[215/254] https://console.byteplus.com/datafinder/app/218463/tiktok-overview
+  duplicate of route 31 (36 matched JS files, 455 matches); skipped
+[216/254] https://console.byteplus.com/datafinder/app/218463/tracer
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[217/254] https://console.byteplus.com/datafinder/app/218463/user-analysis
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[218/254] https://console.byteplus.com/datafinder/app/218463/user-analysis/active-user/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[219/254] https://console.byteplus.com/datafinder/app/218463/user-analysis/device-analysis/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[220/254] https://console.byteplus.com/datafinder/app/218463/user-analysis/user-portrait
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[221/254] https://console.byteplus.com/datafinder/app/218463/user-analysis/user-portrait/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[222/254] https://console.byteplus.com/datafinder/app/218463/user-cohort
+  37 matched JS files, 464 unique matches, 1 new files, 8 new matches (12.77s)
+[223/254] https://console.byteplus.com/datafinder/app/218463/user-cohort/edit-cohort/:type/:id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[224/254] https://console.byteplus.com/datafinder/app/218463/user-cohort/history/:id
+  36 matched JS files, 456 unique matches, 0 new files, 0 new matches (13.48s)
+[225/254] https://console.byteplus.com/datafinder/app/218463/user-list
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[226/254] https://console.byteplus.com/datafinder/app/218463/user-list/:query_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[227/254] https://console.byteplus.com/datafinder/app/218463/user-path-explore
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[228/254] https://console.byteplus.com/datafinder/app/218463/user-path-explore/:report_id?/:result_id
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[229/254] https://console.byteplus.com/datafinder/ai-sparring
+  32 matched JS files, 443 unique matches, 1 new files, 8 new matches (12.4s)
+[230/254] https://console.byteplus.com/datafinder/ai-sparring-management
+  32 matched JS files, 443 unique matches, 1 new files, 8 new matches (12.07s)
+[231/254] https://console.byteplus.com/datafinder/ai_landing_page
+  22 matched JS files, 386 unique matches, 1 new files, 8 new matches (12.0s)
+[232/254] https://console.byteplus.com/datafinder/bridge
+  34 matched JS files, 453 unique matches, 1 new files, 8 new matches (12.49s)
+[233/254] https://console.byteplus.com/datafinder/lark-verify
+  22 matched JS files, 386 unique matches, 1 new files, 8 new matches (11.54s)
+[234/254] https://console.byteplus.com/datafinder/llm-workbench/operations-agent/:pageType?/:spaceId?/:taskId?/:subTaskId?/:leafTaskId
+  54 matched JS files, 538 unique matches, 11 new files, 23 new matches (14.79s)
+[235/254] https://console.byteplus.com/datafinder/llm-workbench/operations-agent/admin-open
+  34 matched JS files, 453 unique matches, 1 new files, 8 new matches (12.04s)
+[236/254] https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/session/:token
+  39 matched JS files, 464 unique matches, 2 new files, 10 new matches (11.99s)
+[237/254] https://console.byteplus.com/datafinder/llm-workbench/operations-agent/share/trace/:token
+  37 matched JS files, 455 unique matches, 1 new files, 3 new matches (12.41s)
+[238/254] https://console.byteplus.com/datafinder/no-access
+  34 matched JS files, 453 unique matches, 1 new files, 8 new matches (11.83s)
+[239/254] https://console.byteplus.com/datafinder/not-found
+  34 matched JS files, 453 unique matches, 1 new files, 8 new matches (12.63s)
+[240/254] https://console.byteplus.com/datafinder/org
+  36 matched JS files, 455 unique matches, 1 new files, 1 new matches (12.43s)
+[241/254] https://console.byteplus.com/datafinder/org/:ordId/embed-function-overview
+  42 matched JS files, 463 unique matches, 0 new files, 0 new matches (12.35s)
+[242/254] https://console.byteplus.com/datafinder/org/:orgId/collocation
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (12.31s)
+[243/254] https://console.byteplus.com/datafinder/org/:orgId/project/new
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (12.0s)
+[244/254] https://console.byteplus.com/datafinder/org/:orgId/welcome
+  36 matched JS files, 462 unique matches, 1 new files, 8 new matches (13.22s)
+[245/254] https://console.byteplus.com/datafinder/org/:orgId?/collocation
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (12.71s)
+[246/254] https://console.byteplus.com/datafinder/org/:orgId?/function-overview
+  duplicate of route 5 (34 matched JS files, 453 matches); skipped
+[247/254] https://console.byteplus.com/datafinder/org/:orgId?/overview
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (36.14s)
+[248/254] https://console.byteplus.com/datafinder/org/:orgId?/products
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (12.46s)
+[249/254] https://console.byteplus.com/datafinder/org/:orgId?/project
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (11.81s)
+[250/254] https://console.byteplus.com/datafinder/org/:orgId?/upgrade
+  35 matched JS files, 461 unique matches, 1 new files, 8 new matches (12.93s)
+[251/254] https://console.byteplus.com/datafinder/org/welcome
+  duplicate of route 4 (35 matched JS files, 454 matches); skipped
+[252/254] https://console.byteplus.com/datafinder/overdue
+  35 matched JS files, 454 unique matches, 2 new files, 9 new matches (12.93s)
+[253/254] https://console.byteplus.com/datafinder/products/:orgId
+  37 matched JS files, 463 unique matches, 1 new files, 8 new matches (12.5s)
+[254/254] https://console.byteplus.com/datafinder/tinder_plan_v2
+  duplicate of route 145 (13 matched JS files, 300 matches); skipped
 
-ROUTES TESTED: 43
-ROUTES SKIPPED (DUPLICATE RESULTS): 42
-UNIQUE JAVASCRIPT FILES WITH MATCHES: 4
-UNIQUE REGEX MATCHES: 247
-UNIQUE MATCH TEXTS: 247
+ROUTES TESTED: 254
+ROUTES SKIPPED (DUPLICATE RESULTS): 162
+UNIQUE JAVASCRIPT FILES WITH MATCHES: 144
+UNIQUE REGEX MATCHES: 1059
+UNIQUE MATCH TEXTS: 539
 REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md
