@@ -1595,7 +1595,7 @@ def render_report(
     lines.append("- Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).")
     if args.include_vendor:
         index_note = (
-            "the per-file vendor index is hidden by `-hide`; vendor match texts remain in route sections."
+            "the per-file vendor index is hidden by `-hide`; vendor match texts are omitted from the report."
             if args.hide_vendor_index
             else "all match texts are in the final per-file indexes."
         )
@@ -1603,7 +1603,7 @@ def render_report(
             "- `App` = JavaScript served from the route's application bundle roots (for example "
             "`*/console-ark/*` or `*/console-datafinder/*`), plus legacy `src_`/`~src_` chunks. "
             "Vendor, runtime, locale, and SDK markers plus `vendors.txt` URL patterns mark vendor "
-            f"files, which are listed individually per route; {index_note}"
+            f"files, which are counted per route but not listed individually in route sections; {index_note}"
         )
     else:
         lines.append(
@@ -1729,44 +1729,9 @@ def render_report(
                 lines.append(f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}")
             lines.append("")
 
-        if args.include_vendor:
-            if data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
-                lines.append("### Vendor JS files (included by -v)")
-                lines.append("")
-                if data["new_vendor_files"]:
-                    for entry in sorted(data["new_vendor_files"], key=lambda item: item["url"]):
-                        lines.append(f"- {md_code(entry['url'])}")
-                        for match in sorted(
-                            entry["matches"].values(),
-                            key=lambda item: (item["regex"], item["text"]),
-                        ):
-                            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
-                            match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
-                            lines.append(
-                                f"  - [{match_label}] {md_code(match['text'])}{suffix}"
-                            )
-                        lines.append("")
-                else:
-                    vendor_matches: "OrderedDict[str, list[dict]]" = OrderedDict()
-                    for match in data["src_vendor"] + data["sink_vendor"]:
-                        vendor_matches.setdefault(match["url"], []).append(match)
-                    for url, matches in vendor_matches.items():
-                        lines.append(f"- {md_code(url)}")
-                        seen_matches: set[tuple[int, str]] = set()
-                        for match in sorted(
-                            matches, key=lambda item: (item["regex"], item["text"])
-                        ):
-                            match_key = (match["regex"], match["text"])
-                            if match_key in seen_matches:
-                                continue
-                            seen_matches.add(match_key)
-                            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
-                            match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
-                            lines.append(
-                                f"  - [{match_label}] {md_code(match['text'])}{suffix}"
-                            )
-                        lines.append("")
-        elif data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
+        if not args.include_vendor and (
+            data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]
+        ):
             lines.append(
                 f"- Vendor/SDK additions: +{len(data['new_vendor_files'])} files | "
                 f"{len(data['src_vendor'])} source / {len(data['sink_vendor'])} sinks "
