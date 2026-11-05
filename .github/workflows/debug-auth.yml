@@ -1,0 +1,92 @@
+name: Debug Auth
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Restore auth headers
+        env:
+          AUTH_USER_A: ${{ secrets.AUTH_USER_A }}
+        run: |
+          printf '%s\n' "$AUTH_USER_A" > data/user-A.txt
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Probe auth
+        env:
+          PYTHONUNBUFFERED: "1"
+        run: |
+          python - <<'PY'
+          import json
+          import urllib.error
+          import urllib.request
+          from pathlib import Path
+
+          raw = {}
+          for line in Path("data/user-A.txt").read_text(errors="replace").splitlines():
+              if ":" in line:
+                  name, value = line.split(":", 1)
+                  raw[name.strip()] = value.strip()
+
+          headers = {
+              "Cookie": raw.get("Cookie", ""),
+              "User-Agent": raw.get("User-Agent", ""),
+              "X-Shark-Web-Id": raw.get("X-Shark-Web-Id", ""),
+              "X-Csrf-Token": raw.get("X-Csrf-Token", ""),
+              "Content-Type": "application/json",
+              "Origin": "https://console.byteplus.com",
+              "Referer": "https://console.byteplus.com/ark",
+              "Accept": "application/json, text/plain, */*",
+          }
+
+          urls = [
+              "https://arkbff-ap-southeast1.console.byteplus.com/api/2024-10-01/GetAccountMeta",
+              "https://arkbff-ap-southeast1.console.byteplus.com/api/2024-10-01/GetConsoleVisibility",
+              "https://modelark-api.console.byteplus.com/ark/bff/api/ap-southeast-1/2024-01-29/GetConsoleUser",
+          ]
+
+          for url in urls:
+              request = urllib.request.Request(url, data=b"{}", headers=headers, method="POST")
+              try:
+                  with urllib.request.urlopen(request, timeout=30) as response:
+                      status = response.status
+                      body = response.read()
+              except urllib.error.HTTPError as error:
+                  status = error.code
+                  body = error.read()
+              try:
+                  data = json.loads(body)
+              except Exception:
+                  print(url, status, "non-json", body[:120])
+                  continue
+              metadata = data.get("ResponseMetadata") or {}
+              error = metadata.get("Error") or {}
+              result = data.get("Result") or {}
+              products = [
+                  (item.get("Product"), item.get("Visibility"))
+                  for item in (result.get("ResultList") or [])
+              ]
+              print(
+                  url,
+                  status,
+                  "error=", error.get("Code"),
+                  "IsLogin=", result.get("IsLogin"),
+                  "AccountId=", result.get("AccountId"),
+                  "ResultKeys=", list(result)[:8],
+                  "Products=", products[:20],
+              )
+          PY
