@@ -1,10 +1,10 @@
 # JS Regex Scan - Route-First Report
 
-- Generated: 2026-11-05 18:11:26 UTC
+- Generated: 2026-11-05 18:28:11 UTC
 - Routes: 1 tested | 1 unique | 0 duplicate | 0 errors
 - Route coverage: 1 with new app surface | 0 vendor-only | 0 with no new discoveries
-- Files: 14 unique JS files | 14 raw file URLs | 0 cache-busted duplicates collapsed | 85 unique file-match texts (85 raw)
-- Matches: 67 source | 18 sink | 4 URLSearchParams `.get` flagged | 51 unique texts
+- Files: 14 unique JS files | 14 raw file URLs | 0 cache-busted duplicates collapsed | 83 unique file-match texts (83 raw)
+- Matches: 66 source | 17 sink | 3 URLSearchParams `.get` flagged | 50 unique texts
 - Wait: 10s | Timeout: 20s | Recoveries: 0 network / 0 HTTP | Unscanned: 0
 - Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.
 - `.get` and `.query` source matches are unique by match text within each route. URL/URLSearchParams constructions and location sinks are per file and not deduped.
@@ -23,8 +23,8 @@ https://console.byteplus.com/ark
 ## Route 1 — https://console.byteplus.com/ark
 
 - HTTP: 200 | Loaded: 14 files (9 app / 5 vendor) | New: 14 files (9 app / 5 vendor)
-- New source matches: 24 app / 21 vendor | New location sinks: 12 app / 6 vendor
-- Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound
+- New source matches: 23 app / 21 vendor | New location sinks: 11 app / 6 vendor
+- Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/overview
 
 ### New app JS files
 
@@ -33,17 +33,16 @@ https://console.byteplus.com/ark
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/2184.1fa6f9e2e4.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/4708.188ebd1e2e.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6652.6caf14fb81.js</code>
-- <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6947.d9bbbceb34.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
+- <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
 
 ### App source matches (unique)
 
 #### URLSearchParams `.get(...)`
 
 - <code>e.get("userInfo")</code> (x2) — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
-- <code>e.get("vault_id")</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6947.d9bbbceb34.js</code>
 - <code>i.get("t")</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 - <code>t.get("userInfo")</code> (x2) — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 
@@ -51,7 +50,6 @@ https://console.byteplus.com/ark
 
 - <code>a=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/2184.1fa6f9e2e4.js</code>
 - <code>e=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/4708.188ebd1e2e.js</code>
-- <code>e=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6947.d9bbbceb34.js</code>
 - <code>n=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
 - <code>r=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
 - <code>t=new URL(location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
@@ -62,6 +60,7 @@ https://console.byteplus.com/ark
 - <code>t=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 - <code>e=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
 - <code>t=new URL(location.pathname</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
+- <code>e=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
 
 #### Other `.get(...)` (10)
 
@@ -93,7 +92,6 @@ https://console.byteplus.com/ark
 - <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/(region)/overview/page.6445b3e125.js</code>
 - <code>window.location.assign(</code> (x2) — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/(region)/overview/page.6445b3e125.js</code>
 - <code>window.location.assign(</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6652.6caf14fb81.js</code>
-- <code>window.location.replace(</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6947.d9bbbceb34.js</code>
 
 ### Vendor JS files (included by -v)
 
@@ -169,10 +167,6 @@ None.
   - [source] <code>e=new URLSearchParams(window.location.search</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6652.6caf14fb81.js</code>
   - [sink] <code>window.location.assign(</code>
-- <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6947.d9bbbceb34.js</code>
-  - [source] <code>e.get("vault_id")</code>
-  - [source] <code>e=new URLSearchParams(window.location.search</code>
-  - [sink] <code>window.location.replace(</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
   - [source] <code>e.collect.configManager.get("user")</code> (x2)
   - [source] <code>e.configManager.get("user_unique_id")</code> (x12)
@@ -209,6 +203,8 @@ None.
   - [sink] <code>location.assign(</code> (x2)
   - [sink] <code>location.replace(</code>
   - [sink] <code>window.location.href=</code> (x2)
+- <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
+  - [source] <code>e=new URLSearchParams(window.location.search</code>
 
 </details>
 

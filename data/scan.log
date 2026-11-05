@@ -1,10 +1,10 @@
 [i] vendor inclusion enabled | patterns: 1 | file: venders.txt
 [1/1] https://console.byteplus.com/ark
-  14 matched JS files, 85 unique matches, 14 new files, 85 new matches (16.12s)
+  14 matched JS files, 83 unique matches, 14 new files, 83 new matches (13.84s)
 
 ROUTES TESTED: 1
 ROUTES SKIPPED (DUPLICATE RESULTS): 0
 UNIQUE JAVASCRIPT FILES WITH MATCHES: 14
-UNIQUE REGEX MATCHES: 85
-UNIQUE MATCH TEXTS: 51
+UNIQUE REGEX MATCHES: 83
+UNIQUE MATCH TEXTS: 50
 REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md
