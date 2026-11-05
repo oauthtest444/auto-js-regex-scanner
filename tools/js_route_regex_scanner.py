@@ -209,6 +209,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--max-js-bytes", type=int, default=30_000_000, help="Maximum JavaScript bytes to scan per fallback fetch")
     parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: route-first)")
     parser.add_argument(
+        "--force-console-visibility",
+        action="store_true",
+        help="Override GetConsoleVisibility responses and mark console products visible",
+    )
+    parser.add_argument(
         "-v",
         "--include-vendor",
         nargs="?",
@@ -639,14 +644,47 @@ def host_matches_target(request_host: str | None, host: str | None) -> bool:
     return request_host == host or request_host.endswith(f".{host}")
 
 
-def install_auth_route(context, host: str, headers: dict[str, str]) -> None:
+def fulfill_visibility_override(route, headers: dict[str, str]) -> None:
+    response = route.fetch(headers=headers)
+    try:
+        data = response.json()
+    except Exception:
+        route.fulfill(response=response)
+        return
+
+    result = data.get("Result")
+    items = []
+    if isinstance(result, dict):
+        if isinstance(result.get("ResultList"), list):
+            items = result["ResultList"]
+        if "Visibility" in result:
+            result["Visibility"] = True
+    if isinstance(data.get("ResultList"), list):
+        items.extend(data["ResultList"])
+    for item in items:
+        if isinstance(item, dict) and "Visibility" in item:
+            item["Visibility"] = True
+
+    response_headers = {
+        name: value
+        for name, value in response.headers.items()
+        if name.lower() not in {"content-encoding", "content-length", "transfer-encoding", "connection"}
+    }
+    response_headers["content-type"] = "application/json; charset=utf-8"
+    route.fulfill(status=response.status, headers=response_headers, body=json.dumps(data).encode("utf-8"))
+
+
+def install_auth_route(context, host: str, headers: dict[str, str], force_visibility: bool = False) -> None:
     def handler(route) -> None:
         try:
             request_host = urlparse(route.request.url).hostname
             if host_matches_target(request_host, host):
                 merged = dict(route.request.headers)
                 merged.update(headers)
-                route.continue_(headers=merged)
+                if force_visibility and "GetConsoleVisibility" in route.request.url:
+                    fulfill_visibility_override(route, merged)
+                else:
+                    route.continue_(headers=merged)
             else:
                 route.continue_()
         except Exception:
@@ -683,7 +721,7 @@ def create_context(browser, route_url: str, args: argparse.Namespace, auth: Auth
             print(f"[warn] could not set cookies for {host}: {error}", file=sys.stderr)
             route_headers["Cookie"] = "; ".join(f"{name}={value}" for name, value in auth.cookies.items())
     if host and route_headers:
-        install_auth_route(context, host, route_headers)
+        install_auth_route(context, host, route_headers, getattr(args, "force_console_visibility", False))
     return context
 
 
