@@ -627,11 +627,23 @@ def attach_script_capture(page) -> dict:
     return captured
 
 
+def auth_cookie_domain(host: str) -> str:
+    if "." in host and not re.fullmatch(r"\d+(?:\.\d+){3}", host):
+        return f".{host}"
+    return host
+
+
+def host_matches_target(request_host: str | None, host: str | None) -> bool:
+    if not request_host or not host:
+        return False
+    return request_host == host or request_host.endswith(f".{host}")
+
+
 def install_auth_route(context, host: str, headers: dict[str, str]) -> None:
     def handler(route) -> None:
         try:
             request_host = urlparse(route.request.url).hostname
-            if request_host == host:
+            if host_matches_target(request_host, host):
                 merged = dict(route.request.headers)
                 merged.update(headers)
                 route.continue_(headers=merged)
@@ -660,8 +672,9 @@ def create_context(browser, route_url: str, args: argparse.Namespace, auth: Auth
     host = urlparse(route_url).hostname
     route_headers = dict(auth.headers)
     if host and auth.cookies:
+        cookie_domain = auth_cookie_domain(host)
         cookie_values = [
-            {"name": name, "value": value, "domain": host, "path": "/"}
+            {"name": name, "value": value, "domain": cookie_domain, "path": "/"}
             for name, value in auth.cookies.items()
         ]
         try:

@@ -19,6 +19,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Restore auth headers
+        env:
+          AUTH_USER_A: ${{ secrets.AUTH_USER_A }}
+        run: |
+          if [ -n "$AUTH_USER_A" ]; then
+            printf '%s\n' "$AUTH_USER_A" > data/user-A.txt
+            echo "Restored auth headers from repository secret."
+          else
+            echo "AUTH_USER_A secret not set; using checked-in data/user-A.txt."
+          fi
+
       - name: Check inputs
         id: inputs
         shell: bash
