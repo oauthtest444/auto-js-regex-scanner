@@ -81,7 +81,14 @@
     });
 
     for (const entry of performance.getEntriesByType('resource')) {
-      if (entry.initiatorType !== 'script') continue;
+      let path = entry.name;
+      try {
+        path = new URL(entry.name, location.href).pathname;
+      } catch (error) {
+        path = entry.name;
+      }
+      const looksLikeJavaScript = /\.(?:m?js)$/i.test(path);
+      if (entry.initiatorType !== 'script' && !looksLikeJavaScript) continue;
       if (isJavaScriptUrl(entry.name)) urls.add(entry.name);
     }
 

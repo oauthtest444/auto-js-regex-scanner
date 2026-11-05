@@ -11,8 +11,9 @@ import time
 from collections import OrderedDict
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from fnmatch import fnmatch
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import urljoin, urlparse
 
 try:
     import requests
@@ -139,6 +140,37 @@ DEFAULT_USER_AGENT = (
 
 JS_SCANNER_PATH = Path(__file__).resolve().with_name("js_route_scan_console.js")
 
+SCRIPT_SRC_RE = re.compile(
+    r"""<script\b[^>]*\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))""",
+    re.IGNORECASE,
+)
+CONSOLE_BUNDLE_SEGMENT_RE = re.compile(r"^console-[a-z0-9][a-z0-9._-]*$", re.IGNORECASE)
+CDN_LAYOUT_SEGMENT_RE = re.compile(r"^[a-z0-9]+-fe$", re.IGNORECASE)
+
+
+def extract_script_srcs(html_text: str, base_url: str) -> list[str]:
+    urls: list[str] = []
+    for match in SCRIPT_SRC_RE.finditer(html_text or ""):
+        raw = next((group for group in match.groups() if group), "")
+        if not raw:
+            continue
+        try:
+            absolute = urljoin(base_url, html.unescape(raw.strip()))
+        except ValueError:
+            continue
+        if absolute.startswith(("http://", "https://")):
+            urls.append(absolute)
+    return urls
+
+
+def product_token_from_url(url: str) -> str | None:
+    segments = [segment for segment in urlparse(url).path.split("/") if segment]
+    for index, segment in enumerate(segments[:-1]):
+        if CDN_LAYOUT_SEGMENT_RE.match(segment):
+            return segments[index + 1].lower()
+    return None
+
+
 
 @dataclass
 class AuthConfig:
@@ -176,6 +208,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--user-agent", default=None, help="Override the browser User-Agent")
     parser.add_argument("--max-js-bytes", type=int, default=30_000_000, help="Maximum JavaScript bytes to scan per fallback fetch")
     parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: route-first)")
+    parser.add_argument(
+        "-v",
+        "--include-vendor",
+        action="store_true",
+        help="Enable vendor classification and include vendor JavaScript files individually; loads URL patterns from vendors.txt",
+    )
+    parser.add_argument(
+        "-hide",
+        "--hide-vendor-index",
+        action="store_true",
+        dest="hide_vendor_index",
+        help="Hide the per-file vendor source and sink index section",
+    )
     parser.add_argument("--help", action="help", help="Show this help message and exit")
     return parser.parse_args(argv)
 
@@ -205,6 +250,42 @@ def load_urls(path: Path) -> tuple[list[str], int]:
         urls.append(line)
 
     return urls, duplicates
+
+
+def resolve_vendors_file(urls_file: str) -> Path:
+    candidates = [Path("vendors.txt")]
+    try:
+        candidates.append(Path(urls_file).resolve().parent / "vendors.txt")
+    except OSError:
+        pass
+    candidates.append(Path(__file__).resolve().parent.parent / "vendors.txt")
+    for candidate in candidates:
+        if candidate.is_file():
+            return candidate
+    return candidates[0]
+
+
+def load_vendor_patterns(enabled: bool, path: Path) -> list[str]:
+    if not enabled:
+        return []
+    if not path.is_file():
+        print(
+            f"[warn] vendor pattern file not found: {path}; "
+            "using built-in vendor heuristics only",
+            file=sys.stderr,
+        )
+        return []
+
+    patterns: list[str] = []
+    for raw_line in path.read_text(encoding="utf-8", errors="replace").splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        patterns.append(line)
+
+    if not patterns:
+        print(f"[warn] no vendor URL patterns found in {path}", file=sys.stderr)
+    return patterns
 
 
 def parse_cookie_header(value: str) -> dict[str, str]:
@@ -513,12 +594,24 @@ def fetch_js_with_requests(
 def attach_script_capture(page) -> dict:
     captured: dict[str, object] = OrderedDict()
 
+    def is_javascript_response(response) -> bool:
+        request = response.request
+        if request.resource_type == "script":
+            return True
+        path = urlparse(request.url).path.lower()
+        if path.endswith(".js") or path.endswith(".mjs"):
+            return True
+        try:
+            content_type = (response.headers or {}).get("content-type", "")
+        except Exception:
+            content_type = ""
+        return "javascript" in content_type.lower()
+
     def on_response(response) -> None:
         try:
-            request = response.request
-            if request.resource_type != "script":
+            if not is_javascript_response(response):
                 return
-            captured[request.url] = response
+            captured[response.request.url] = response
             captured.setdefault(response.url, response)
         except Exception:
             return
@@ -663,6 +756,7 @@ def scan_route(
     title = ""
     captured: dict = OrderedDict()
     files: list[dict] = []
+    initial_scripts: list[str] = []
 
     try:
         context = create_context(browser, route_url, args, auth)
@@ -673,8 +767,22 @@ def scan_route(
             response = page.goto(route_url, wait_until="domcontentloaded", timeout=args.timeout * 1000)
             if response is not None:
                 http_status = response.status
+                try:
+                    initial_scripts = extract_script_srcs(response.text(), response.url)
+                except Exception:
+                    initial_scripts = []
         except Exception as error:
             nav_error = f"navigation: {short_error(error)}"
+
+        try:
+            dom_scripts = page.evaluate(
+                "() => Array.from(document.querySelectorAll('script[src]')).map((script) => script.src)"
+            )
+        except Exception:
+            dom_scripts = []
+        for script_url in dom_scripts or []:
+            if isinstance(script_url, str) and script_url not in initial_scripts:
+                initial_scripts.append(script_url)
 
         page.wait_for_timeout(max(0.0, args.wait) * 1000)
 
@@ -731,6 +839,7 @@ def scan_route(
             "nav_error": nav_error,
             "scan_error": scan_error,
             "files": files,
+            "initial_scripts": initial_scripts,
             "js_summary": scan_result.get("summary") if isinstance(scan_result, dict) else None,
             "duration": round(time.time() - started_at, 2),
         }
@@ -1094,14 +1203,10 @@ VENDOR_FILE_MARKERS = (
     "locale-",
     "~data_font",
     "byteplus-platform-runtime",
-    "main-",
-    "main.",
     "instant-finder",
-    "oncall",
     "btm-web-sdk",
     "indoc",
     "teareplay",
-    "replay",
     "kani-js-sdk",
     "open-widgets",
     "web-sdk",
@@ -1112,11 +1217,70 @@ def normalize_file_url(url: str) -> str:
     return str(url).split("#", 1)[0].split("?", 1)[0]
 
 
-def is_app_url(url: str) -> bool:
-    name = normalize_file_url(url).rsplit("/", 1)[-1].lower()
-    if any(marker in name for marker in VENDOR_FILE_MARKERS):
+def matches_vendor_pattern(url: str, patterns: list[str] | tuple[str, ...] | None) -> bool:
+    if not patterns:
         return False
-    return "src_" in name or "~src_" in name
+    normalized = normalize_file_url(url)
+    candidates = (str(url), normalized)
+    return any(fnmatch(candidate, pattern) for pattern in patterns for candidate in candidates)
+
+
+def collect_app_tokens(state: ScanState) -> set[str]:
+    tokens: set[str] = set()
+
+    def add_token(token: str | None) -> None:
+        if not token:
+            return
+        token = token.lower()
+        if CONSOLE_BUNDLE_SEGMENT_RE.match(token) or CDN_LAYOUT_SEGMENT_RE.match(token):
+            tokens.add(token)
+            return
+        if not token.startswith(("http://", "https://")):
+            tokens.add(token)
+
+    for route in state.routes:
+        route_path = urlparse(route.get("url") or "").path
+        parts = [part for part in route_path.split("/") if part]
+        if parts:
+            slug = parts[0].lower()
+            if re.fullmatch(r"[a-z0-9][a-z0-9_-]*", slug) and slug not in {"app", "org", "project"}:
+                tokens.add(f"console-{slug}")
+
+        for script_url in route.get("initial_scripts") or []:
+            add_token(product_token_from_url(script_url))
+
+        for entry in route.get("files") or []:
+            for segment in urlparse(entry.get("url") or "").path.split("/"):
+                segment = segment.lower()
+                if CONSOLE_BUNDLE_SEGMENT_RE.match(segment):
+                    tokens.add(segment)
+
+    tokens.discard("console-app")
+    tokens.discard("console-org")
+    tokens.discard("console-project")
+    return tokens
+
+
+def is_app_url(
+    url: str,
+    app_tokens: set[str] | frozenset[str] = frozenset(),
+    vendor_patterns: list[str] | tuple[str, ...] | None = None,
+    classify_vendor: bool = True,
+) -> bool:
+    if not classify_vendor:
+        return True
+    if matches_vendor_pattern(url, vendor_patterns):
+        return False
+    normalized = normalize_file_url(url)
+    path = urlparse(normalized).path
+    name = path.rsplit("/", 1)[-1].lower()
+    if ("src_" in name or "~src_" in name) and not name.startswith("vendor"):
+        return True
+    lowered_url = normalized.lower()
+    if any(marker in lowered_url for marker in VENDOR_FILE_MARKERS):
+        return False
+    segments = {segment.lower() for segment in path.split("/") if segment}
+    return any(token in segments for token in app_tokens)
 
 
 def collapse_route_files(state: ScanState) -> "OrderedDict[str, dict]":
@@ -1253,6 +1417,16 @@ def render_report(
     collapsed = collapse_route_files(state)
     source_first = build_source_first(collapsed)
     sinks_by_route = build_sinks_by_route(state, collapsed)
+    app_tokens = collect_app_tokens(state)
+    vendor_patterns = getattr(args, "vendor_patterns", [])
+
+    def is_app(url: str) -> bool:
+        return is_app_url(
+            url,
+            app_tokens,
+            vendor_patterns,
+            classify_vendor=args.include_vendor,
+        )
 
     route_data: "OrderedDict[int, dict]" = OrderedDict()
     app_routes: list[dict] = []
@@ -1264,18 +1438,29 @@ def render_report(
         loaded = [entry for entry in collapsed.values() if route_index in entry["routes"]]
         new_files = [entry for entry in collapsed.values() if entry["first_route"] == route_index]
         new_app_files = sorted(
-            (entry for entry in new_files if is_app_url(entry["url"])),
+            (entry for entry in new_files if is_app(entry["url"])),
             key=lambda entry: entry["url"],
         )
-        new_vendor_files = [entry for entry in new_files if not is_app_url(entry["url"])]
+        new_vendor_files = [entry for entry in new_files if not is_app(entry["url"])]
         src_new = [match for match in source_first.values() if match["first_route"] == route_index]
         sink_new = sinks_by_route.get(route_index, [])
-        src_app = [match for match in src_new if is_app_url(match["url"])]
-        src_vendor = [match for match in src_new if not is_app_url(match["url"])]
-        sink_app = [match for match in sink_new if is_app_url(match["url"])]
-        sink_vendor = [match for match in sink_new if not is_app_url(match["url"])]
-        loaded_app = [entry for entry in loaded if is_app_url(entry["url"])]
-        loaded_vendor = [entry for entry in loaded if not is_app_url(entry["url"])]
+        src_app = [match for match in src_new if is_app(match["url"])]
+        src_vendor = [match for match in src_new if not is_app(match["url"])]
+        sink_app = [match for match in sink_new if is_app(match["url"])]
+        sink_vendor = [match for match in sink_new if not is_app(match["url"])]
+        loaded_app = [entry for entry in loaded if is_app(entry["url"])]
+        loaded_vendor = [entry for entry in loaded if not is_app(entry["url"])]
+
+        app_constructions: list[dict] = []
+        for entry in new_app_files:
+            for match in sorted(
+                entry["matches"].values(), key=lambda item: (item["regex"], item["text"])
+            ):
+                if match["regex"] != 2:
+                    continue
+                candidate = dict(match)
+                candidate["url"] = entry["url"]
+                app_constructions.append(candidate)
 
         data = {
             "loaded": loaded,
@@ -1288,6 +1473,7 @@ def render_report(
             "src_vendor": src_vendor,
             "sink_app": sink_app,
             "sink_vendor": sink_vendor,
+            "app_constructions": app_constructions,
         }
         route_data[route_index] = data
 
@@ -1344,43 +1530,55 @@ def render_report(
         f"Recoveries: {network_capture} network / {python_fetch} HTTP | Unscanned: {unscanned_files}"
     )
     lines.append("- Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.")
-    lines.append("- Source matches are unique by match text within each route. Location sinks are per file and not deduped.")
-    lines.append("- Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).")
     lines.append(
-        "- `App` = application `src_`/`~src_` chunks. Vendor, runtime, locale, replay, and SDK bundles are collapsed; "
-        "vendor match texts are in the final index."
+        "- `.get` and `.query` source matches are unique by match text within each route. "
+        "URL/URLSearchParams constructions and location sinks are per file and not deduped."
     )
+    lines.append("- Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).")
+    if args.include_vendor:
+        index_note = (
+            "the per-file vendor index is hidden by `-hide`; vendor match texts remain in route sections."
+            if args.hide_vendor_index
+            else "all match texts are in the final per-file indexes."
+        )
+        lines.append(
+            "- `App` = JavaScript served from the route's application bundle roots (for example "
+            "`*/console-ark/*` or `*/console-datafinder/*`), plus legacy `src_`/`~src_` chunks. "
+            "Vendor, runtime, locale, and SDK markers plus `vendors.txt` URL patterns mark vendor "
+            f"files, which are listed individually per route; {index_note}"
+        )
+    else:
+        lines.append(
+            "- Vendor classification is disabled without `-v`: all matched JavaScript files are "
+            "treated as app surface and included under route sections. Use `-v` to enable vendor "
+            "classification via built-in markers and `vendors.txt` URL patterns."
+        )
     lines.append(
         "- URLSearchParams `.get` classification uses a same-file constructor/alias heuristic; "
         "function-parameter and cross-file flows still need manual tracing."
     )
     lines.append("")
 
-    lines.append("## Unique First Routes")
+    lines.append("## Unique Routes (One-Click Copy)")
     lines.append("")
-    first_route_indexes = sorted(
-        {entry["first_route"] for entry in collapsed.values() if entry["matches"]}
-    )
-    route_by_index = {route["index"]: route for route in state.routes}
-    route_word = "route" if len(first_route_indexes) == 1 else "routes"
-    verb_word = "loads" if len(first_route_indexes) == 1 else "load"
+    route_word = "route" if len(unique_routes) == 1 else "routes"
     lines.append(
-        f"{len(first_route_indexes)} unique first {route_word} that {verb_word} new JS files "
-        "with unique regex matches. `--` separates entries."
+        f"{len(unique_routes)} unique {route_word}. Copy the complete block below; "
+        "each line is a full unique route URL."
     )
     lines.append("")
-    emitted = 0
-    for route_index in first_route_indexes:
-        route = route_by_index.get(route_index)
-        if route is None:
-            continue
-        if emitted:
-            lines.append("--")
-        emitted += 1
+    lines.append("```text")
+    for route in unique_routes:
         lines.append(route["url"])
+    lines.append("```")
     lines.append("")
 
-    for route in app_routes:
+    detail_routes = list(app_routes)
+    if args.include_vendor:
+        detail_routes.extend(vendor_routes)
+        detail_routes.sort(key=lambda route: route["index"])
+
+    for route in detail_routes:
         route_index = route["index"]
         data = route_data[route_index]
         lines.append(f"## Route {route_index} — {route['url']}")
@@ -1408,21 +1606,22 @@ def render_report(
                 lines.append(f"- {md_code(entry['url'])}")
             lines.append("")
 
-        if data["src_app"]:
-            groups: dict[str, list[dict]] = {"urlsp": [], "query": [], "urlsrc": [], "get": []}
-            for match in data["src_app"]:
-                if match["regex"] == 1:
-                    groups["urlsp" if match["urlsp"] else "get"].append(match)
-                elif match["regex"] == 2:
-                    groups["urlsrc"].append(match)
-                elif match["regex"] == 3:
-                    groups["query"].append(match)
+        groups: dict[str, list[dict]] = {"urlsp": [], "query": [], "get": []}
+        for match in data["src_app"]:
+            if match["regex"] == 1:
+                groups["urlsp" if match["urlsp"] else "get"].append(match)
+            elif match["regex"] == 3:
+                groups["query"].append(match)
+
+        has_source_section = bool(
+            groups["urlsp"] or groups["query"] or groups["get"] or data["app_constructions"]
+        )
+        if has_source_section:
             lines.append("### App source matches (unique)")
             lines.append("")
             for group_key, label in (
                 ("urlsp", "URLSearchParams `.get(...)`"),
                 ("query", '`.query.*` / `query["..."]`'),
-                ("urlsrc", "URL / URLSearchParams construction"),
             ):
                 group = sorted(groups[group_key], key=lambda match: match["text"])
                 if not group:
@@ -1435,6 +1634,20 @@ def render_report(
                         f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}"
                     )
                 lines.append("")
+
+            constructions = sorted(
+                data["app_constructions"], key=lambda match: (match["url"], match["text"])
+            )
+            if constructions:
+                lines.append("#### URL / URLSearchParams construction (not deduped)")
+                lines.append("")
+                for match in constructions:
+                    suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                    lines.append(
+                        f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}"
+                    )
+                lines.append("")
+
             generic_get = sorted(groups["get"], key=lambda match: match["text"])
             if generic_get:
                 lines.append(f'#### Other `.get(...)` ({len(generic_get)})')
@@ -1451,45 +1664,57 @@ def render_report(
                 lines.append("")
 
         if data["sink_app"]:
-            lines.append("### App location sinks (not deduped)")
+            lines.append("### Location sinks (not deduped)")
             lines.append("")
             for match in data["sink_app"]:
                 suffix = f" (x{match['count']})" if match["count"] > 1 else ""
                 lines.append(f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}")
             lines.append("")
 
-        if data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
+        if args.include_vendor:
+            if data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
+                lines.append("### Vendor JS files (included by -v)")
+                lines.append("")
+                if data["new_vendor_files"]:
+                    for entry in sorted(data["new_vendor_files"], key=lambda item: item["url"]):
+                        lines.append(f"- {md_code(entry['url'])}")
+                        for match in sorted(
+                            entry["matches"].values(),
+                            key=lambda item: (item["regex"], item["text"]),
+                        ):
+                            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                            match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
+                            lines.append(
+                                f"  - [{match_label}] {md_code(match['text'])}{suffix}"
+                            )
+                        lines.append("")
+                else:
+                    vendor_matches: "OrderedDict[str, list[dict]]" = OrderedDict()
+                    for match in data["src_vendor"] + data["sink_vendor"]:
+                        vendor_matches.setdefault(match["url"], []).append(match)
+                    for url, matches in vendor_matches.items():
+                        lines.append(f"- {md_code(url)}")
+                        seen_matches: set[tuple[int, str]] = set()
+                        for match in sorted(
+                            matches, key=lambda item: (item["regex"], item["text"])
+                        ):
+                            match_key = (match["regex"], match["text"])
+                            if match_key in seen_matches:
+                                continue
+                            seen_matches.add(match_key)
+                            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                            match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
+                            lines.append(
+                                f"  - [{match_label}] {md_code(match['text'])}{suffix}"
+                            )
+                        lines.append("")
+        elif data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]:
             lines.append(
                 f"- Vendor/SDK additions: +{len(data['new_vendor_files'])} files | "
                 f"{len(data['src_vendor'])} source / {len(data['sink_vendor'])} sinks "
                 "(match texts in final index)"
             )
             lines.append("")
-
-    lines.append("## Vendor-Only Routes")
-    lines.append("")
-    if vendor_routes:
-        route_word = "route" if len(vendor_routes) == 1 else "routes"
-        lines.append(
-            f"{len(vendor_routes)} unique {route_word} added only vendor/SDK files or matches. "
-            "These are summarized here; vendor match texts are in the final index."
-        )
-        lines.append("")
-        lines.append("| Route | URL | New vendor files | Vendor source | Vendor sinks |")
-        lines.append("|---:|---|---:|---:|---:|")
-        for route in vendor_routes:
-            route_index = route["index"]
-            data = route_data[route_index]
-            url = route["url"]
-            if route.get("final_url") and route["final_url"] != route["url"]:
-                url = f"{url} (final: {route['final_url']})"
-            lines.append(
-                f"| {route_index} | {md_code(url)} | {len(data['new_vendor_files'])} | "
-                f"{len(data['src_vendor'])} | {len(data['sink_vendor'])} |"
-            )
-    else:
-        lines.append("None.")
-    lines.append("")
 
     lines.append("## Unique Routes With No New Discoveries")
     lines.append("")
@@ -1513,6 +1738,74 @@ def render_report(
         lines.append("None.")
     lines.append("")
 
+    app_index: list[dict] = []
+    vendor_index: list[dict] = []
+    for entry in sorted(collapsed.values(), key=lambda item: item["url"]):
+        if not entry["matches"]:
+            continue
+        if is_app(entry["url"]):
+            app_index.append(entry)
+        else:
+            vendor_index.append(entry)
+
+    def append_per_file_index(title: str, entries: list[dict]) -> None:
+        lines.append(f"## {title}")
+        lines.append("")
+        if not entries:
+            lines.append("None.")
+            lines.append("")
+            return
+        lines.append(f"<details><summary>{title}</summary>")
+        lines.append("")
+        for entry in entries:
+            lines.append(f"- {md_code(entry['url'])}")
+            for match in sorted(
+                entry["matches"].values(), key=lambda item: (item["regex"], item["text"])
+            ):
+                suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
+                lines.append(f"  - [{match_label}] {md_code(match['text'])}{suffix}")
+        lines.append("")
+        lines.append("</details>")
+        lines.append("")
+
+    append_per_file_index("All source and sink matches, unique per file (app)", app_index)
+    if not args.hide_vendor_index:
+        append_per_file_index(
+            "All source and sink matches, unique per file (vendor)", vendor_index
+        )
+
+    lines.append("## Vendor-Only Routes")
+    lines.append("")
+    if vendor_routes:
+        route_word = "route" if len(vendor_routes) == 1 else "routes"
+        if args.include_vendor:
+            lines.append(
+                f"{len(vendor_routes)} unique {route_word} added only vendor/SDK files or matches. "
+                "They are included as detailed route sections above."
+            )
+        else:
+            lines.append(
+                f"{len(vendor_routes)} unique {route_word} added only vendor/SDK files or matches. "
+                "These are summarized here; vendor match texts are in the final per-file index."
+            )
+            lines.append("")
+            lines.append("| Route | URL | New vendor files | Vendor source | Vendor sinks |")
+            lines.append("|---:|---|---:|---:|---:|")
+            for route in vendor_routes:
+                route_index = route["index"]
+                data = route_data[route_index]
+                url = route["url"]
+                if route.get("final_url") and route["final_url"] != route["url"]:
+                    url = f"{url} (final: {route['final_url']})"
+                lines.append(
+                    f"| {route_index} | {md_code(url)} | {len(data['new_vendor_files'])} | "
+                    f"{len(data['src_vendor'])} | {len(data['sink_vendor'])} |"
+                )
+    else:
+        lines.append("None.")
+    lines.append("")
+
     lines.append("## Duplicate Routes")
     lines.append("")
     if not duplicates:
@@ -1532,24 +1825,6 @@ def render_report(
                 f"- Route {source_route} source; duplicates: "
                 f"{compress_route_numbers(grouped_duplicates[source_route])}"
             )
-    lines.append("")
-
-    lines.append("## Vendor/SDK Match Index")
-    lines.append("")
-    lines.append(
-        "<details><summary>All vendor/SDK source and sink matches, unique per file</summary>"
-    )
-    lines.append("")
-    for entry in sorted(collapsed.values(), key=lambda item: item["url"]):
-        if is_app_url(entry["url"]) or not entry["matches"]:
-            continue
-        lines.append(f"- {md_code(entry['url'])}")
-        for match in sorted(entry["matches"].values(), key=lambda item: (item["regex"], item["text"])):
-            suffix = f" (x{match['count']})" if match["count"] > 1 else ""
-            label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
-            lines.append(f"  - [{label}] {md_code(match['text'])}{suffix}")
-    lines.append("")
-    lines.append("</details>")
     lines.append("")
 
     lines.append("## Errors")
@@ -1627,6 +1902,15 @@ def main(argv: list[str] | None = None) -> int:
     if not urls:
         sys.exit(f"No valid URLs found in {args.urls_file}")
 
+    vendors_file = resolve_vendors_file(args.urls_file)
+    args.vendor_patterns = load_vendor_patterns(args.include_vendor, vendors_file)
+    if args.include_vendor:
+        print(
+            f"[i] vendor inclusion enabled | patterns: {len(args.vendor_patterns)} | "
+            f"file: {vendors_file}",
+            flush=True,
+        )
+
     auth = load_auth_config(args)
     exclusions = compile_exclusions(args.exclude_regex)
     js_source = JS_SCANNER_PATH.read_text(encoding="utf-8")
@@ -1664,6 +1948,7 @@ def main(argv: list[str] | None = None) -> int:
                         "nav_error": f"route scan failed: {short_error(error)}",
                         "scan_error": None,
                         "files": [],
+                        "initial_scripts": [],
                         "js_summary": None,
                         "duration": 0,
                     }
