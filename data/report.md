@@ -1,9 +1,9 @@
 # JS Regex Scan - Route-First Report
 
-- Generated: 2026-11-05 17:39:24 UTC
-- Routes: 3 tested | 3 unique | 0 duplicate | 0 errors
-- Route coverage: 3 with new app surface | 0 vendor-only | 0 with no new discoveries
-- Files: 17 unique JS files | 17 raw file URLs | 0 cache-busted duplicates collapsed | 85 unique file-match texts (85 raw)
+- Generated: 2026-11-05 18:11:26 UTC
+- Routes: 1 tested | 1 unique | 0 duplicate | 0 errors
+- Route coverage: 1 with new app surface | 0 vendor-only | 0 with no new discoveries
+- Files: 14 unique JS files | 14 raw file URLs | 0 cache-busted duplicates collapsed | 85 unique file-match texts (85 raw)
 - Matches: 67 source | 18 sink | 4 URLSearchParams `.get` flagged | 51 unique texts
 - Wait: 10s | Timeout: 20s | Recoveries: 0 network / 0 HTTP | Unscanned: 0
 - Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.
@@ -14,18 +14,16 @@
 
 ## Unique Routes (One-Click Copy)
 
-3 unique routes. Copy the complete block below; each line is a full unique route URL.
+1 unique route. Copy the complete block below; each line is a full unique route URL.
 
 ```text
 https://console.byteplus.com/ark
-https://console.byteplus.com/ark/region:ap-southeast-1/model
-https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
 ```
 
 ## Route 1 — https://console.byteplus.com/ark
 
-- HTTP: 200 | Loaded: 13 files (9 app / 4 vendor) | New: 13 files (9 app / 4 vendor)
-- New source matches: 24 app / 18 vendor | New location sinks: 12 app / 4 vendor
+- HTTP: 200 | Loaded: 14 files (9 app / 5 vendor) | New: 14 files (9 app / 5 vendor)
+- New source matches: 24 app / 21 vendor | New location sinks: 12 app / 6 vendor
 - Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound
 
 ### New app JS files
@@ -126,6 +124,22 @@ https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
   - [source] <code>n.configManager.get("reportErrorCallback")</code>
   - [source] <code>o.configManager.get("user")</code> (x6)
 
+- <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/async/249.e984d516.js</code>
+  - [source] <code>Td.A.get(`${location.protocol}//${atob(t)}/obj/finance/env.json`)</code> (x2)
+  - [source] <code>Vl.A.get("csrfToken")</code> (x2)
+  - [source] <code>Vl.A.get("user_locale")</code> (x7)
+  - [source] <code>e.collect.configManager.get("custom")</code>
+  - [source] <code>e.configManager.get("user_unique_id")</code> (x15)
+  - [source] <code>e.configManager.get("user_unique_id_type")</code> (x5)
+  - [source] <code>e.configManager.get("web_id")</code> (x15)
+  - [source] <code>n.configManager.get("reportErrorCallback")</code> (x5)
+  - [source] <code>o.configManager.get("user")</code> (x20)
+  - [source] <code>r.configManager.get("user")</code> (x14)
+  - [source] <code>e=new URLSearchParams(window.location.search</code>
+  - [source] <code>t=new URL(location.href</code>
+  - [sink] <code>location.assign(</code> (x5)
+  - [sink] <code>window.location.href=</code> (x3)
+
 - <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/main.d4898c72.js</code>
   - [source] <code>et.A.get("csrfToken")</code>
   - [source] <code>t=new URLSearchParams(window.location.search</code>
@@ -135,53 +149,6 @@ https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
   - [source] <code>U7e.get("csrfToken")</code>
   - [sink] <code>location.assign(</code> (x2)
   - [sink] <code>location.href=</code>
-
-## Route 2 — https://console.byteplus.com/ark/region:ap-southeast-1/model
-
-- HTTP: 200 | Loaded: 14 files (10 app / 4 vendor) | New: 3 files (3 app / 0 vendor)
-- New source matches: 2 app / 0 vendor | New location sinks: 2 app / 0 vendor
-- Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound
-
-### New app JS files
-
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code>
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/754.1cd85738bf.js</code>
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_home.ab767fe68a.js</code>
-
-### App source matches (unique)
-
-#### `.query.*` / `query["..."]`
-
-- <code>.query.trim</code> (x4) — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_home.ab767fe68a.js</code>
-
-#### URL / URLSearchParams construction (not deduped)
-
-- <code>a=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code>
-- <code>d=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code>
-- <code>t=new URL(location.href</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/754.1cd85738bf.js</code>
-- <code>t=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_home.ab767fe68a.js</code>
-
-### Location sinks (not deduped)
-
-- <code>window.location.href=</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/754.1cd85738bf.js</code>
-- <code>window.location.assign(</code> (x2) — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code>
-
-## Route 3 — https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
-
-- HTTP: 200 | Loaded: 14 files (10 app / 4 vendor) | New: 1 files (1 app / 0 vendor)
-- New source matches: 1 app / 0 vendor | New location sinks: 0 app / 0 vendor
-- Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/notfound
-
-### New app JS files
-
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/101.a21dd8db11.js</code>
-
-### App source matches (unique)
-
-#### URL / URLSearchParams construction (not deduped)
-
-- <code>e=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/101.a21dd8db11.js</code>
-- <code>l=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/101.a21dd8db11.js</code>
 
 ## Unique Routes With No New Discoveries
 
@@ -242,24 +209,6 @@ None.
   - [sink] <code>location.assign(</code> (x2)
   - [sink] <code>location.replace(</code>
   - [sink] <code>window.location.href=</code> (x2)
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/101.a21dd8db11.js</code>
-  - [source] <code>e=new URL(window.location.href</code>
-  - [source] <code>l=new URLSearchParams(window.location.search</code>
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/397.b813aecffa.js</code>
-  - [source] <code>a=new URL(window.location.href</code>
-  - [source] <code>d=new URL(window.location.href</code>
-  - [sink] <code>window.location.assign(</code> (x2)
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/754.1cd85738bf.js</code>
-  - [source] <code>e.configManager.get("user_unique_id")</code> (x3)
-  - [source] <code>e.configManager.get("user_unique_id_type")</code>
-  - [source] <code>e.configManager.get("web_id")</code> (x3)
-  - [source] <code>n.configManager.get("user")</code> (x7)
-  - [source] <code>r.configManager.get("reportErrorCallback")</code>
-  - [source] <code>t=new URL(location.href</code>
-  - [sink] <code>window.location.href=</code>
-- <code>https://res.gcloudcache.com/volc-fe/console-ark/model-square/static/js/async/__federation_expose_home.ab767fe68a.js</code>
-  - [source] <code>t=new URLSearchParams(window.location.search</code>
-  - [source] <code>.query.trim</code> (x4)
 
 </details>
 
@@ -292,6 +241,21 @@ None.
   - [source] <code>e.configManager.get("web_id")</code> (x3)
   - [source] <code>n.configManager.get("reportErrorCallback")</code>
   - [source] <code>o.configManager.get("user")</code> (x6)
+- <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/async/249.e984d516.js</code>
+  - [source] <code>Td.A.get(`${location.protocol}//${atob(t)}/obj/finance/env.json`)</code> (x2)
+  - [source] <code>Vl.A.get("csrfToken")</code> (x2)
+  - [source] <code>Vl.A.get("user_locale")</code> (x7)
+  - [source] <code>e.collect.configManager.get("custom")</code>
+  - [source] <code>e.configManager.get("user_unique_id")</code> (x15)
+  - [source] <code>e.configManager.get("user_unique_id_type")</code> (x5)
+  - [source] <code>e.configManager.get("web_id")</code> (x15)
+  - [source] <code>n.configManager.get("reportErrorCallback")</code> (x5)
+  - [source] <code>o.configManager.get("user")</code> (x20)
+  - [source] <code>r.configManager.get("user")</code> (x14)
+  - [source] <code>e=new URLSearchParams(window.location.search</code>
+  - [source] <code>t=new URL(location.href</code>
+  - [sink] <code>location.assign(</code> (x5)
+  - [sink] <code>window.location.href=</code> (x3)
 - <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/main.d4898c72.js</code>
   - [source] <code>et.A.get("csrfToken")</code>
   - [source] <code>t=new URLSearchParams(window.location.search</code>
