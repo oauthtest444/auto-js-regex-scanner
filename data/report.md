@@ -1,15 +1,15 @@
 # JS Regex Scan - Route-First Report
 
-- Generated: 2026-11-05 18:28:11 UTC
+- Generated: 2026-11-05 18:32:23 UTC
 - Routes: 1 tested | 1 unique | 0 duplicate | 0 errors
 - Route coverage: 1 with new app surface | 0 vendor-only | 0 with no new discoveries
-- Files: 14 unique JS files | 14 raw file URLs | 0 cache-busted duplicates collapsed | 83 unique file-match texts (83 raw)
-- Matches: 66 source | 17 sink | 3 URLSearchParams `.get` flagged | 50 unique texts
+- Files: 13 unique JS files | 13 raw file URLs | 0 cache-busted duplicates collapsed | 82 unique file-match texts (82 raw)
+- Matches: 65 source | 17 sink | 3 URLSearchParams `.get` flagged | 50 unique texts
 - Wait: 10s | Timeout: 20s | Recoveries: 0 network / 0 HTTP | Unscanned: 0
 - Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.
 - `.get` and `.query` source matches are unique by match text within each route. URL/URLSearchParams constructions and location sinks are per file and not deduped.
 - Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).
-- `App` = JavaScript served from the route's application bundle roots (for example `*/console-ark/*` or `*/console-datafinder/*`), plus legacy `src_`/`~src_` chunks. Vendor, runtime, locale, and SDK markers plus `vendors.txt` URL patterns mark vendor files, which are listed individually per route; all match texts are in the final per-file indexes.
+- `App` = JavaScript served from the route's application bundle roots (for example `*/console-ark/*` or `*/console-datafinder/*`), plus legacy `src_`/`~src_` chunks. Vendor, runtime, locale, and SDK markers plus `vendors.txt` URL patterns mark vendor files, which are counted per route but not listed individually in route sections; all match texts are in the final per-file indexes.
 - URLSearchParams `.get` classification uses a same-file constructor/alias heuristic; function-parameter and cross-file flows still need manual tracing.
 
 ## Unique Routes (One-Click Copy)
@@ -22,7 +22,7 @@ https://console.byteplus.com/ark
 
 ## Route 1 — https://console.byteplus.com/ark
 
-- HTTP: 200 | Loaded: 14 files (9 app / 5 vendor) | New: 14 files (9 app / 5 vendor)
+- HTTP: 200 | Loaded: 13 files (8 app / 5 vendor) | New: 13 files (8 app / 5 vendor)
 - New source matches: 23 app / 21 vendor | New location sinks: 11 app / 6 vendor
 - Note: final URL: https://console.byteplus.com/ark/region:ap-southeast-1/overview
 
@@ -36,7 +36,6 @@ https://console.byteplus.com/ark
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/7085.2e80da3efd.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 - <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
-- <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
 
 ### App source matches (unique)
 
@@ -60,7 +59,6 @@ https://console.byteplus.com/ark
 - <code>t=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/async-main.6f63ed355c.js</code>
 - <code>e=new URL(window.location.href</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
 - <code>t=new URL(location.pathname</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/main.cc0b7d7591.js</code>
-- <code>e=new URLSearchParams(window.location.search</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
 
 #### Other `.get(...)` (10)
 
@@ -92,61 +90,6 @@ https://console.byteplus.com/ark
 - <code>window.location.href=</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/(region)/overview/page.6445b3e125.js</code>
 - <code>window.location.assign(</code> (x2) — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/(region)/overview/page.6445b3e125.js</code>
 - <code>window.location.assign(</code> — <code>https://res.gcloudcache.com/bp-fe/console-ark/ark-new-main/static/js/async/6652.6caf14fb81.js</code>
-
-### Vendor JS files (included by -v)
-
-- <code>https://res.gcloudcache.com/bp-fe/byteplus-platform-runtime-os/main.cea8b975.js</code>
-  - [source] <code>e.collect.configManager.get("custom")</code>
-  - [source] <code>e.configManager.get("user_unique_id")</code> (x3)
-  - [source] <code>e.configManager.get("user_unique_id_type")</code>
-  - [source] <code>e.configManager.get("web_id")</code> (x3)
-  - [source] <code>n.configManager.get("reportErrorCallback")</code>
-  - [source] <code>oH.get("_TEA_VE_APIHOST")</code>
-  - [source] <code>oH.get("_VISUAL_EDITOR_U")</code>
-  - [source] <code>oH.get("_VISUAL_EDITOR_V")</code>
-  - [source] <code>oH.get("lang")</code>
-  - [source] <code>r.configManager.get("user")</code> (x6)
-  - [source] <code>t.get("AccountID")</code>
-  - [source] <code>t.get("__spti")</code>
-  - [source] <code>t.get("csrfToken")</code>
-  - [source] <code>e=new URLSearchParams(location.search</code> (x2)
-  - [sink] <code>window.location.href=</code> (x4)
-  - [sink] <code>window.location.replace(</code>
-
-- <code>https://res.gcloudcache.com/bp-fe/finance/volcf-sdk-app/static/js/577.ff151c5d.js</code>
-  - [source] <code>I.A.get("csrfToken")</code>
-  - [source] <code>e.collect.configManager.get("custom")</code>
-  - [source] <code>e.configManager.get("user_unique_id")</code> (x3)
-  - [source] <code>e.configManager.get("user_unique_id_type")</code>
-  - [source] <code>e.configManager.get("web_id")</code> (x3)
-  - [source] <code>n.configManager.get("reportErrorCallback")</code>
-  - [source] <code>o.configManager.get("user")</code> (x6)
-
-- <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/async/249.e984d516.js</code>
-  - [source] <code>Td.A.get(`${location.protocol}//${atob(t)}/obj/finance/env.json`)</code> (x2)
-  - [source] <code>Vl.A.get("csrfToken")</code> (x2)
-  - [source] <code>Vl.A.get("user_locale")</code> (x7)
-  - [source] <code>e.collect.configManager.get("custom")</code>
-  - [source] <code>e.configManager.get("user_unique_id")</code> (x15)
-  - [source] <code>e.configManager.get("user_unique_id_type")</code> (x5)
-  - [source] <code>e.configManager.get("web_id")</code> (x15)
-  - [source] <code>n.configManager.get("reportErrorCallback")</code> (x5)
-  - [source] <code>o.configManager.get("user")</code> (x20)
-  - [source] <code>r.configManager.get("user")</code> (x14)
-  - [source] <code>e=new URLSearchParams(window.location.search</code>
-  - [source] <code>t=new URL(location.href</code>
-  - [sink] <code>location.assign(</code> (x5)
-  - [sink] <code>window.location.href=</code> (x3)
-
-- <code>https://res.gcloudcache.com/volc-fe/account-onboarding-app/static/js/main.d4898c72.js</code>
-  - [source] <code>et.A.get("csrfToken")</code>
-  - [source] <code>t=new URLSearchParams(window.location.search</code>
-
-- <code>https://res.gcloudcache.com/volc-fe/kyc-modal-app/static/js/async/671.ff467394.js</code>
-  - [source] <code>H7e.get("user_locale")</code> (x2)
-  - [source] <code>U7e.get("csrfToken")</code>
-  - [sink] <code>location.assign(</code> (x2)
-  - [sink] <code>location.href=</code>
 
 ## Unique Routes With No New Discoveries
 
@@ -203,8 +146,6 @@ None.
   - [sink] <code>location.assign(</code> (x2)
   - [sink] <code>location.replace(</code>
   - [sink] <code>window.location.href=</code> (x2)
-- <code>https://res.gcloudcache.com/bp-fe/console-ark/exp-center/vmok-remote-entry.e54a3014.js</code>
-  - [source] <code>e=new URLSearchParams(window.location.search</code>
 
 </details>
 
