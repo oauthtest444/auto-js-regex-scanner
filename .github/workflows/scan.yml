@@ -75,7 +75,7 @@ jobs:
 
           cp data/urls.txt data/processed-urls.txt
 
-          args=(-l data/urls.txt -o data/report.md --wait 10 --timeout 20)
+          args=(-l data/urls.txt -o data/report.md --wait 10 --timeout 20 -v venders.txt)
           if [ "${{ steps.inputs.outputs.has_auth }}" = "true" ]; then
             args+=(-h data/user-A.txt)
           else

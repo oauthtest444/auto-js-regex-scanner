@@ -211,8 +211,11 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument(
         "-v",
         "--include-vendor",
-        action="store_true",
-        help="Enable vendor classification and include vendor JavaScript files individually; loads URL patterns from vendors.txt",
+        nargs="?",
+        const=True,
+        default=False,
+        metavar="VENDORS_FILE",
+        help="Enable vendor classification and include vendor JavaScript files individually; optionally specify a vendors file (defaults to vendors.txt/venders.txt)",
     )
     parser.add_argument(
         "-hide",
@@ -252,13 +255,17 @@ def load_urls(path: Path) -> tuple[list[str], int]:
     return urls, duplicates
 
 
-def resolve_vendors_file(urls_file: str) -> Path:
-    candidates = [Path("vendors.txt")]
+def resolve_vendors_file(urls_file: str, explicit: str | None = None) -> Path:
+    if explicit:
+        return Path(explicit)
+    candidates = [Path("vendors.txt"), Path("venders.txt")]
     try:
-        candidates.append(Path(urls_file).resolve().parent / "vendors.txt")
+        urls_dir = Path(urls_file).resolve().parent
+        candidates.extend([urls_dir / "vendors.txt", urls_dir / "venders.txt"])
     except OSError:
         pass
-    candidates.append(Path(__file__).resolve().parent.parent / "vendors.txt")
+    repo_root = Path(__file__).resolve().parent.parent
+    candidates.extend([repo_root / "vendors.txt", repo_root / "venders.txt"])
     for candidate in candidates:
         if candidate.is_file():
             return candidate
@@ -1902,9 +1909,12 @@ def main(argv: list[str] | None = None) -> int:
     if not urls:
         sys.exit(f"No valid URLs found in {args.urls_file}")
 
-    vendors_file = resolve_vendors_file(args.urls_file)
-    args.vendor_patterns = load_vendor_patterns(args.include_vendor, vendors_file)
-    if args.include_vendor:
+    include_vendor = bool(args.include_vendor)
+    explicit_vendors = args.include_vendor if isinstance(args.include_vendor, str) else None
+    vendors_file = resolve_vendors_file(args.urls_file, explicit_vendors)
+    args.vendor_patterns = load_vendor_patterns(include_vendor, vendors_file)
+    args.include_vendor = include_vendor
+    if include_vendor:
         print(
             f"[i] vendor inclusion enabled | patterns: {len(args.vendor_patterns)} | "
             f"file: {vendors_file}",
