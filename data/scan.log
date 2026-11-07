@@ -1,6 +1,6 @@
 [i] vendor inclusion enabled | patterns: 1 | file: venders.txt
 [1/56] https://console.byteplus.com
-  9 matched JS files, 68 unique matches, 9 new files, 68 new matches (13.95s)
+  9 matched JS files, 68 unique matches, 9 new files, 68 new matches (13.53s)
 [2/56] https://console.byteplus.com/ai
   duplicate of route 1 (9 matched JS files, 68 matches); skipped
 [3/56] https://console.byteplus.com/ai/overview
@@ -24,97 +24,3 @@
 [12/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/servergroup
   duplicate of route 1 (9 matched JS files, 68 matches); skipped
 [13/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/certificate
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[14/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/certificate/create
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[15/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/certificate/update
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[16/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/healthcheck
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[17/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/acl
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[18/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/cfg
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[19/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/resource-package
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[20/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/resource-package/create
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[21/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/outbound-instance
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[22/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/outbound-instance-create
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[23/56] https://console.byteplus.com/alb/region:alb+ap-southeast-1/outbound-instance/detail/:tab
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[24/56] https://console.byteplus.com/arkclaw
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[25/56] https://console.byteplus.com/arkclaw/welcome
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[26/56] https://console.byteplus.com/arkclaw/guide
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[27/56] https://console.byteplus.com/arkclaw/management
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[28/56] https://console.byteplus.com/arkclaw/create-guide
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[29/56] https://console.byteplus.com/arkclaw/create-guide/:menuKey
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[30/56] https://console.byteplus.com/arkclaw/chat/:clawInstanceId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[31/56] https://console.byteplus.com/arkclaw/chat/:clawInstanceId/detail
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[32/56] https://console.byteplus.com/arkclaw/chat/:clawInstanceId/agent/:agentId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[33/56] https://console.byteplus.com/arkclaw/openclaw/:clawInstanceId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[34/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/agent-center
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[35/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/my-agents
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[36/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/agent-studio
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[37/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/skills
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[38/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/files
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[39/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/cron
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[40/56] https://console.byteplus.com/arkclaw/instance/:clawInstanceId/:menuKey
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[41/56] https://console.byteplus.com/arkclaw/memory
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[42/56] https://console.byteplus.com/arkclaw/memory/:clawInstanceId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[43/56] https://console.byteplus.com/arkclaw/replay/:replayId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[44/56] https://console.byteplus.com/arkclaw/diagnose
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[45/56] https://console.byteplus.com/as/region:as+ap-southeast-1
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[46/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[47/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/create
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[48/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/detail?id=:scalingGroupId&tab=info
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[49/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/detail?id=:scalingGroupId&tab=config
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[50/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/detail?id=:scalingGroupId&tab=instances
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[51/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/detail?id=:scalingGroupId&tab=oos
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[52/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/createSetting?id=:scalingGroupId&configId=:scalingConfigurationId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[53/56] https://console.byteplus.com/as/region:as+ap-southeast-1/group/oosDetail?id=:executionId&scgId=:scalingGroupId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[54/56] https://console.byteplus.com/as/region:as+ap-southeast-1/verticalScaling
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[55/56] https://console.byteplus.com/as/region:as+ap-southeast-1/verticalScaling/create
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-[56/56] https://console.byteplus.com/as/region:as+ap-southeast-1/verticalScaling/detail?id=:verticalScalingTaskId
-  duplicate of route 1 (9 matched JS files, 68 matches); skipped
-
-ROUTES TESTED: 56
-ROUTES SKIPPED (DUPLICATE RESULTS): 55
-UNIQUE JAVASCRIPT FILES WITH MATCHES: 9
-UNIQUE REGEX MATCHES: 68
-UNIQUE MATCH TEXTS: 49
-REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md
