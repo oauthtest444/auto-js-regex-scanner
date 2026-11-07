@@ -1,1 +1,7 @@
-# Add one URL per line, then push to main.
+https://console.byteplus.com/ai
+https://console.byteplus.com/ai/overview
+https://console.byteplus.com/ai/studio
+https://console.byteplus.com/ai/manage
+https://console.byteplus.com/ai/ability/info/:id
+https://console.byteplus.com/alb
+https://console.byteplus.com/alb/region:alb+ap-southeast-1/instance
