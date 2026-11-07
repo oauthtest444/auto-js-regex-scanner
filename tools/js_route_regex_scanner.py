@@ -34,7 +34,7 @@ REGEX_SOURCE_GET = re.compile(
     re.ASCII,
 )
 REGEX_SOURCE_URL = re.compile(
-    r"""(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+(?:URLSearchParams|URL)\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b""",
+    r"""(?:(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)?new\s+URLSearchParams\b|(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+URL\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b)""",
     re.ASCII,
 )
 REGEX_SOURCE_QUERY = re.compile(

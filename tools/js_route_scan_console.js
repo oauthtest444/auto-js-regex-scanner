@@ -8,7 +8,7 @@
     },
     {
       id: 2,
-      pattern: /(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+(?:URLSearchParams|URL)\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b/g
+      pattern: /(?:(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)?new\s+URLSearchParams\b|(?<![=!<>])(?:\b[A-Za-z_$][\w$]*\s*=\s*)new\s+URL\s*\(\s*(?:(?:window\.)?location\.(?:search|href|hash|pathname)|document\.(?:URL|URLUnencoded|baseURI))\b)/g
     },
     {
       id: 3,
