@@ -1,14 +1,22 @@
 [i] vendor inclusion enabled | patterns: 1 | file: venders.txt
-[1/3] https://console.byteplus.com/ark
-  12 matched JS files, 68 unique matches, 12 new files, 68 new matches (16.32s)
-[2/3] https://console.byteplus.com/ark/region:ap-southeast-1/model
-  14 matched JS files, 80 unique matches, 4 new files, 15 new matches (11.57s)
-[3/3] https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
-  14 matched JS files, 80 unique matches, 1 new files, 2 new matches (11.8s)
+[1/7] https://console.byteplus.com/ai
+  9 matched JS files, 68 unique matches, 9 new files, 68 new matches (13.28s)
+[2/7] https://console.byteplus.com/ai/overview
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
+[3/7] https://console.byteplus.com/ai/studio
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
+[4/7] https://console.byteplus.com/ai/manage
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
+[5/7] https://console.byteplus.com/ai/ability/info/:id
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
+[6/7] https://console.byteplus.com/alb
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
+[7/7] https://console.byteplus.com/alb/region:alb+ap-southeast-1/instance
+  duplicate of route 1 (9 matched JS files, 68 matches); skipped
 
-ROUTES TESTED: 3
-ROUTES SKIPPED (DUPLICATE RESULTS): 0
-UNIQUE JAVASCRIPT FILES WITH MATCHES: 17
-UNIQUE REGEX MATCHES: 85
-UNIQUE MATCH TEXTS: 53
+ROUTES TESTED: 7
+ROUTES SKIPPED (DUPLICATE RESULTS): 6
+UNIQUE JAVASCRIPT FILES WITH MATCHES: 9
+UNIQUE REGEX MATCHES: 68
+UNIQUE MATCH TEXTS: 49
 REPORT: /home/runner/work/auto-js-regex-scanner/auto-js-regex-scanner/data/report.md

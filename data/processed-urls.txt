@@ -1,3 +1,7 @@
-https://console.byteplus.com/ark
-https://console.byteplus.com/ark/region:ap-southeast-1/model
-https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
+https://console.byteplus.com/ai
+https://console.byteplus.com/ai/overview
+https://console.byteplus.com/ai/studio
+https://console.byteplus.com/ai/manage
+https://console.byteplus.com/ai/ability/info/:id
+https://console.byteplus.com/alb
+https://console.byteplus.com/alb/region:alb+ap-southeast-1/instance
