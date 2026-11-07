@@ -1,3 +1,1 @@
-https://console.byteplus.com/ark
-https://console.byteplus.com/ark/region:ap-southeast-1/model
-https://console.byteplus.com/ark/region:ap-southeast-1/model/detail
+# Add one URL per line, then push to main.
