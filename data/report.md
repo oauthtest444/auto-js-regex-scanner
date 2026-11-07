@@ -1,11 +1,11 @@
 # JS Regex Scan - Route-First Report
 
-- Generated: 2026-11-07 03:10:32 UTC
-- Routes: 7 tested | 1 unique | 6 duplicate | 0 errors
+- Generated: 2026-11-07 03:36:31 UTC
+- Routes: 55 tested | 1 unique | 54 duplicate | 0 errors
 - Route coverage: 1 with new app surface | 0 vendor-only | 0 with no new discoveries
 - Files: 9 unique JS files | 9 raw file URLs | 0 cache-busted duplicates collapsed | 68 unique file-match texts (68 raw)
 - Matches: 55 source | 13 sink | 7 URLSearchParams `.get` flagged | 49 unique texts
-- Wait: 10s | Timeout: 20s | Recoveries: 7 network / 0 HTTP | Unscanned: 0
+- Wait: 10s | Timeout: 20s | Recoveries: 55 network / 0 HTTP | Unscanned: 0
 - Only unique route IDs are listed. Missing route numbers are duplicates mapped near the end.
 - `.get` and `.query` source matches are unique by match text within each route. URL/URLSearchParams constructions and location sinks are per file and not deduped.
 - Cache-busted duplicate URLs are collapsed by normalized URL (scheme + host + path).
@@ -114,7 +114,7 @@ None.
 <details><summary>All source and sink matches, unique per file (vendor)</summary>
 
 - <code>https://accounts.google.com/gsi/client</code>
-  - [source] <code>_.Vc.get("g_state")</code>
+  - [source] <code>_.Tc.get("g_state")</code>
   - [source] <code>a.P.get("ll")</code>
   - [source] <code>a.h.get("onTokenRefresh")</code>
   - [sink] <code>location=</code>
@@ -172,9 +172,9 @@ None.
 
 ## Duplicate Routes
 
-6 duplicate routes produced no new JS files, source matches, or location sinks.
+54 duplicate routes produced no new JS files, source matches, or location sinks.
 
-- Route 1 source; duplicates: 2-7
+- Route 1 source; duplicates: 2-55
 
 ## Errors
 
