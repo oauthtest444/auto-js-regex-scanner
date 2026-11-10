@@ -144,6 +144,8 @@ SCRIPT_SRC_RE = re.compile(
     r"""<script\b[^>]*\bsrc\s*=\s*(?:"([^"]+)"|'([^']+)'|([^\s>]+))""",
     re.IGNORECASE,
 )
+HTML_CONTENT_TYPE_RE = re.compile(r"(?:text/html|application/xhtml\+xml)", re.IGNORECASE)
+HTML_KIND = "html"
 CONSOLE_BUNDLE_SEGMENT_RE = re.compile(r"^console-[a-z0-9][a-z0-9._-]*$", re.IGNORECASE)
 CDN_LAYOUT_SEGMENT_RE = re.compile(r"^[a-z0-9]+-fe$", re.IGNORECASE)
 
@@ -207,6 +209,19 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--exclude-regex", action="append", default=[], metavar="REGEX", help="Extra match text exclusion regex (repeatable)")
     parser.add_argument("--user-agent", default=None, help="Override the browser User-Agent")
     parser.add_argument("--max-js-bytes", type=int, default=30_000_000, help="Maximum JavaScript bytes to scan per fallback fetch")
+    parser.add_argument(
+        "--max-html-bytes",
+        type=int,
+        default=5_000_000,
+        help="Maximum raw HTML bytes to scan per visited document (default: 5000000)",
+    )
+    parser.add_argument(
+        "--no-html",
+        action="store_false",
+        dest="scan_html",
+        default=True,
+        help="Disable regex scanning of the raw HTML response of every visited document",
+    )
     parser.add_argument("--full-report", action="store_true", help="Write the previous verbose report format (default: route-first)")
     parser.add_argument(
         "--force-console-visibility",
@@ -233,6 +248,29 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def clean_arg_path(value: str | None, option: str) -> str | None:
+    """Trim stray whitespace from path-like arguments.
+
+    A trailing space after a shell line-continuation backslash (`\\ `) makes bash end
+    the command early, so the path keeps the escaped space and later options are run
+    as separate shell commands (for example `--wait: command not found`). Trimming
+    the value keeps the scan working and the warning explains the real cause.
+    """
+    if value is None:
+        return None
+    stripped = value.strip()
+    if stripped != value:
+        print(
+            f"[warn] {option} value had leading/trailing whitespace and was trimmed.\n"
+            f"       got: {value!r}\n"
+            f"       using: {stripped!r}\n"
+            "       This happens when a stray space follows a '\\' line continuation, "
+            "which also makes bash run the remaining flags (e.g. --wait) as commands.",
+            file=sys.stderr,
+        )
+    return stripped
+
+
 def load_urls(path: Path) -> tuple[list[str], int]:
     if not path.is_file():
         sys.exit(f"URL list not found: {path}")
@@ -245,6 +283,8 @@ def load_urls(path: Path) -> tuple[list[str], int]:
         line = raw_line.strip()
         if not line or line.startswith("#"):
             continue
+        # Accept the "view-source:" form used when copying URLs from the browser.
+        line = re.sub(r"^view-source:", "", line, flags=re.IGNORECASE)
         if "://" not in line:
             line = "https://" + line.lstrip("/")
         parsed = urlparse(line)
@@ -566,7 +606,7 @@ def build_fetch_headers(
     return headers
 
 
-def fetch_js_with_requests(
+def fetch_text_with_requests(
     session: requests.Session,
     url: str,
     route_url: str,
@@ -630,6 +670,139 @@ def attach_script_capture(page) -> dict:
 
     page.on("response", on_response)
     return captured
+
+
+def attach_document_capture(page) -> dict:
+    """Capture every HTML document response loaded by the tab (the view-source body)."""
+
+    captured: dict[str, object] = OrderedDict()
+
+    def is_html_document(response) -> bool:
+        request = response.request
+        if request.resource_type != "document":
+            return False
+        status = getattr(response, "status", None)
+        if status is not None and 300 <= status < 400:
+            # Redirect responses have no HTML body.
+            return False
+        try:
+            content_type = (response.headers or {}).get("content-type", "")
+        except Exception:
+            content_type = ""
+        if content_type and not HTML_CONTENT_TYPE_RE.search(content_type):
+            return False
+        return True
+
+    def on_response(response) -> None:
+        try:
+            if not is_html_document(response):
+                return
+            captured[response.url] = response
+        except Exception:
+            return
+
+    page.on("response", on_response)
+    return captured
+
+
+def new_document_entry(url: str, status=None) -> dict:
+    return {
+        "url": url,
+        "ok": False,
+        "error": None,
+        "source": "raw-html",
+        "kind": HTML_KIND,
+        "status": status,
+        "bytes": 0,
+        "content_sha256": None,
+        "content_duplicate_of": None,
+        "view_source": f"view-source:{url}",
+        "matches": [],
+    }
+
+
+def scan_html_body(
+    body: bytes,
+    content_type: str | None,
+    entry: dict,
+    exclusions: list[re.Pattern[str]],
+    doc_cache: dict[str, tuple[str, list[dict]]],
+) -> dict:
+    entry["bytes"] = len(body or b"")
+    if not body:
+        entry["ok"] = True
+        return entry
+    digest = hashlib.sha256(body).hexdigest()
+    entry["content_sha256"] = digest
+
+    cached = doc_cache.get(digest)
+    if cached is not None:
+        entry["content_duplicate_of"] = cached[0]
+        entry["matches"] = [dict(match) for match in cached[1]]
+        entry["ok"] = True
+        return entry
+
+    source_text = decode_body(body, content_type)
+    entry["matches"] = scan_text_python(source_text, exclusions)
+    doc_cache[digest] = (entry["url"], entry["matches"])
+    entry["ok"] = True
+    return entry
+
+
+def captured_html_documents(
+    captured: dict,
+    exclusions: list[re.Pattern[str]],
+    max_bytes: int,
+    doc_cache: dict[str, tuple[str, list[dict]]],
+    handled_urls: set[str] | None = None,
+) -> list[dict]:
+    documents: list[dict] = []
+    if handled_urls is None:
+        handled_urls = set()
+
+    responses = unique_captured(captured)
+    keys_by_response: dict[int, list[str]] = {}
+    for key, response in responses.items():
+        keys_by_response.setdefault(id(response), []).append(key)
+
+    seen_responses: set[int] = set()
+    for url, response in responses.items():
+        identity = id(response)
+        if identity in seen_responses:
+            handled_urls.update(keys_by_response.get(identity, [url]))
+            continue
+        if url in handled_urls:
+            continue
+        seen_responses.add(identity)
+        handled_urls.update(keys_by_response.get(identity, [url]))
+
+        entry = new_document_entry(url, status=getattr(response, "status", None))
+        try:
+            body = response.body()
+            if body and len(body) > max_bytes:
+                raise RuntimeError(f"body exceeds {max_bytes} bytes")
+            try:
+                content_type = response.headers.get("content-type")
+            except Exception:
+                content_type = None
+            scan_html_body(body or b"", content_type, entry, exclusions, doc_cache)
+        except Exception as error:
+            message = f"captured html: {error}"
+            if (
+                "navigated away" in message
+                or "No resource with given identifier" in message
+                or "redirect responses" in message
+            ):
+                # Chromium discarded the body after a client-side navigation; the
+                # final document of the tab is captured separately.
+                entry["skipped"] = True
+                entry["ok"] = False
+            else:
+                entry["ok"] = False
+                entry["error"] = message
+        documents.append(entry)
+
+    return documents
 
 
 def auth_cookie_domain(host: str) -> str:
@@ -771,7 +944,7 @@ def enrich_failed_files(
 
         if source_text is None:
             try:
-                source_text = fetch_js_with_requests(
+                source_text = fetch_text_with_requests(
                     session,
                     url,
                     route_url,
@@ -804,6 +977,7 @@ def scan_route(
     session: requests.Session,
     js_source: str,
     exclusions: list[re.Pattern[str]],
+    doc_cache: dict[str, tuple[str, list[dict]]] | None = None,
 ) -> dict:
     started_at = time.time()
     context = None
@@ -813,24 +987,48 @@ def scan_route(
     http_status = None
     title = ""
     captured: dict = OrderedDict()
+    document_capture: dict = OrderedDict()
+    documents: list[dict] = []
+    handled_document_urls: set[str] = set()
+    navigation_document: tuple[str, int | None, str] | None = None
     files: list[dict] = []
     initial_scripts: list[str] = []
+
+    if doc_cache is None:
+        doc_cache = {}
 
     try:
         context = create_context(browser, route_url, args, auth)
         page = context.new_page()
         captured = attach_script_capture(page)
+        document_capture = attach_document_capture(page)
 
         try:
             response = page.goto(route_url, wait_until="domcontentloaded", timeout=args.timeout * 1000)
             if response is not None:
                 http_status = response.status
                 try:
-                    initial_scripts = extract_script_srcs(response.text(), response.url)
+                    html_text = response.text()
+                except Exception:
+                    html_text = None
+                if isinstance(html_text, str):
+                    navigation_document = (response.url, response.status, html_text)
+                try:
+                    initial_scripts = extract_script_srcs(html_text or "", response.url)
                 except Exception:
                     initial_scripts = []
         except Exception as error:
             nav_error = f"navigation: {short_error(error)}"
+
+        # Read captured document bodies before any later navigation discards them.
+        if getattr(args, "scan_html", True):
+            documents = captured_html_documents(
+                document_capture,
+                exclusions,
+                args.max_html_bytes,
+                doc_cache,
+                handled_document_urls,
+            )
 
         try:
             dom_scripts = page.evaluate(
@@ -848,6 +1046,12 @@ def scan_route(
             title = page.title()
         except Exception:
             title = ""
+
+        user_agent = None
+        try:
+            user_agent = page.evaluate("navigator.userAgent")
+        except Exception:
+            user_agent = None
 
         if args.exclude_regex:
             try:
@@ -871,11 +1075,73 @@ def scan_route(
         else:
             files = normalize_files(scan_result.get("files") or [])
 
-        user_agent = None
-        try:
-            user_agent = page.evaluate("navigator.userAgent")
-        except Exception:
-            user_agent = None
+        if getattr(args, "scan_html", True):
+            documents.extend(
+                captured_html_documents(
+                    document_capture,
+                    exclusions,
+                    args.max_html_bytes,
+                    doc_cache,
+                    handled_document_urls,
+                )
+            )
+
+            if navigation_document is not None:
+                navigation_url, navigation_status, navigation_html = navigation_document
+                navigation_key = normalize_file_url(navigation_url)
+                captured_keys = {
+                    normalize_file_url(document.get("url") or "")
+                    for document in documents
+                    if document.get("ok") and document.get("bytes")
+                }
+                if navigation_key not in captured_keys:
+                    entry = new_document_entry(navigation_url, status=navigation_status)
+                    entry["source"] = "navigation-response"
+                    scan_html_body(
+                        navigation_html.encode("utf-8", errors="replace"),
+                        "text/html; charset=utf-8",
+                        entry,
+                        exclusions,
+                        doc_cache,
+                    )
+                    documents = [
+                        document
+                        for document in documents
+                        if not (
+                            not document.get("ok")
+                            and normalize_file_url(document.get("url") or "") == navigation_key
+                        )
+                    ]
+                    documents.append(entry)
+
+            if not any(document.get("ok") and document.get("bytes") for document in documents):
+                try:
+                    html_text = fetch_text_with_requests(
+                        session,
+                        route_url,
+                        route_url,
+                        auth,
+                        user_agent,
+                        context,
+                        args.max_html_bytes,
+                        args.ignore_https_errors,
+                    )
+                    entry = new_document_entry(route_url, status=http_status)
+                    entry["source"] = "python-fetch-html"
+                    scan_html_body(
+                        html_text.encode("utf-8", errors="replace"),
+                        "text/html; charset=utf-8",
+                        entry,
+                        exclusions,
+                        doc_cache,
+                    )
+                    documents.append(entry)
+                except Exception as error:
+                    if documents:
+                        documents[0]["error"] = (
+                            f"{documents[0].get('error') or 'html unavailable'}; "
+                            f"requests fetch: {short_error(error)}"
+                        )
 
         files = enrich_failed_files(
             files,
@@ -897,6 +1163,7 @@ def scan_route(
             "nav_error": nav_error,
             "scan_error": scan_error,
             "files": files,
+            "documents": documents,
             "initial_scripts": initial_scripts,
             "js_summary": scan_result.get("summary") if isinstance(scan_result, dict) else None,
             "duration": round(time.time() - started_at, 2),
@@ -918,6 +1185,11 @@ class ScanState:
         self.unscanned: dict[str, dict] = OrderedDict()
         self.scanned_ok: set[str] = set()
         self.skipped = 0
+        self.documents: dict[str, dict] = OrderedDict()
+        self.document_match_keys: set[tuple[str, int, str]] = set()
+        self.html_documents_scanned = 0
+        self.html_documents_failed = 0
+        self.html_duplicate_bodies = 0
 
     def add_route(self, route: dict) -> dict:
         route["index"] = len(self.routes) + 1
@@ -955,9 +1227,29 @@ class ScanState:
             for match in sorted(matched_by_url[url]["matches"], key=lambda item: (item["regex"], item["text"])):
                 match_entries.append([url, match["regex"], match["text"]])
 
+        documents = route.get("documents") or []
+        document_entries: dict[tuple[str, int, str], list] = OrderedDict()
+        for document in sorted(documents, key=lambda item: normalize_file_url(item.get("url") or "")):
+            document_key = normalize_file_url(document.get("url") or "")
+            if not document_key:
+                continue
+            for match in sorted(
+                document.get("matches") or [], key=lambda item: (item["regex"], item["text"])
+            ):
+                document_entries.setdefault(
+                    (document_key, match["regex"], match["text"]),
+                    [document_key, match["regex"], match["text"]],
+                )
+        document_match_entries = list(document_entries.values())
+        document_urls = sorted({entry[0] for entry in document_match_entries})
+
         signature = hashlib.sha256(
             json.dumps(
-                {"files": file_urls, "matches": match_entries},
+                {
+                    "files": file_urls,
+                    "matches": match_entries,
+                    "documents": document_match_entries,
+                },
                 ensure_ascii=False,
                 separators=(",", ":"),
             ).encode("utf-8")
@@ -966,8 +1258,23 @@ class ScanState:
         route["signature"] = signature
         route["total_files"] = len(file_urls)
         route["total_matches"] = len(match_entries)
+        route["total_documents"] = len(document_urls)
+        route["total_document_matches"] = len(document_match_entries)
         route["new_files"] = []
         route["new_matches"] = []
+        route["new_documents"] = []
+        route["new_document_matches"] = []
+        route["duplicate_documents"] = []
+
+        self.html_documents_scanned += len(documents)
+        self.html_documents_failed += sum(
+            1
+            for document in documents
+            if not document.get("ok") and not document.get("skipped")
+        )
+        self.html_duplicate_bodies += sum(
+            1 for document in documents if document.get("content_duplicate_of")
+        )
 
         has_route_error = bool(route.get("nav_error") or route.get("scan_error"))
         if not has_route_error and signature in self.signatures:
@@ -1019,6 +1326,61 @@ class ScanState:
                     }
                 )
 
+        for document in documents:
+            document_key = normalize_file_url(document.get("url") or "")
+            if not document_key:
+                continue
+            if document.get("content_duplicate_of"):
+                route["duplicate_documents"].append(
+                    {
+                        "url": document_key,
+                        "duplicate_of": document["content_duplicate_of"],
+                    }
+                )
+                continue
+            if not document.get("matches"):
+                continue
+
+            global_document = self.documents.get(document_key)
+            if global_document is None:
+                global_document = {
+                    "url": document_key,
+                    "first_route": route["url"],
+                    "routes": [],
+                    "matches": OrderedDict(),
+                    "content_sha256": document.get("content_sha256"),
+                    "view_source": f"view-source:{document_key}",
+                }
+                self.documents[document_key] = global_document
+                route["new_documents"].append(document_key)
+
+            if route["index"] not in global_document["routes"]:
+                global_document["routes"].append(route["index"])
+
+            for match in sorted(
+                document["matches"], key=lambda item: (item["regex"], item["text"])
+            ):
+                key = (document_key, match["regex"], match["text"])
+                if key in self.document_match_keys:
+                    continue
+                self.document_match_keys.add(key)
+                global_document["matches"][key] = {
+                    "regex": match["regex"],
+                    "text": match["text"],
+                    "count": match["count"],
+                    "urlsp": bool(match.get("urlsp")),
+                    "first_route": route["url"],
+                }
+                route["new_document_matches"].append(
+                    {
+                        "url": document_key,
+                        "regex": match["regex"],
+                        "text": match["text"],
+                        "count": match["count"],
+                        "urlsp": bool(match.get("urlsp")),
+                    }
+                )
+
         self.routes.append(route)
         return route
 
@@ -1057,6 +1419,10 @@ def render_full_report(
         1
         for route in state.routes
         if route.get("nav_error") or route.get("scan_error") or any(not entry["ok"] for entry in route["files"])
+        or any(
+            not document.get("ok") and not document.get("skipped")
+            for document in route.get("documents") or []
+        )
     )
     network_capture = sum(
         1 for route in state.routes for entry in route["files"] if entry.get("source") == "network-capture"
@@ -1100,6 +1466,10 @@ def render_full_report(
     lines.append(f"| JavaScript files that could not be scanned | {unscanned_files} |")
     lines.append(f"| File recoveries via network capture | {network_capture} |")
     lines.append(f"| File recoveries via Python HTTP fetch | {python_fetch} |")
+    lines.append(f"| Raw HTML documents scanned | {state.html_documents_scanned} |")
+    lines.append(f"| Raw HTML documents with matches | {len(state.documents)} |")
+    lines.append(f"| Raw HTML unique matches | {len(state.document_match_keys)} |")
+    lines.append(f"| Raw HTML documents that could not be scanned | {state.html_documents_failed} |")
     lines.append("")
     lines.append("## Regex Patterns")
     lines.append("")
@@ -1199,6 +1569,22 @@ def render_full_report(
                 f"occurrences: {match['count']} - first seen on: {md_code(match['first_route'])}"
             )
         lines.append("")
+    lines.append("## Raw HTML Documents With Matches")
+    lines.append("")
+    if not state.documents:
+        lines.append("No raw HTML document matches were discovered.")
+    for index, document in enumerate(state.documents.values(), start=1):
+        lines.append(f"### {index}. {md_code(document['url'])}")
+        lines.append("")
+        lines.append(f"- View source: {md_code(document['view_source'])}")
+        lines.append(f"- Loaded on routes: {compress_route_numbers(document['routes'])}")
+        lines.append(f"- Unique matches: {len(document['matches'])}")
+        for match in document["matches"].values():
+            lines.append(
+                f"  - [Regex {match['regex']}] {md_code(match['text'])} - "
+                f"occurrences: {match['count']} - first seen on: {md_code(match['first_route'])}"
+            )
+        lines.append("")
     lines.append("## Skipped Duplicate Routes")
     lines.append("")
     duplicates = [route for route in state.routes if route["status"] == "duplicate"]
@@ -1221,6 +1607,14 @@ def render_full_report(
             error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['nav_error'])}")
         if route.get("scan_error"):
             error_lines.append(f"- Route {route['index']} {md_code(route['url'])}: {md_text(route['scan_error'])}")
+    for route in state.routes:
+        for document in route.get("documents") or []:
+            if document.get("ok") or document.get("skipped"):
+                continue
+            error_lines.append(
+                f"- Raw HTML {md_code(document['url'])} (route {route['index']}): "
+                + md_text(document.get("error") or "could not be scanned")
+            )
     if unscanned_files:
         for entry in state.unscanned.values():
             error_lines.append(
@@ -1443,6 +1837,13 @@ def route_note(route: dict) -> str:
     failed = sum(1 for entry in route["files"] if not entry["ok"])
     if failed:
         notes.append(f"{failed} file(s) could not be scanned")
+    failed_documents = sum(
+        1
+        for document in route.get("documents") or []
+        if not document.get("ok") and not document.get("skipped")
+    )
+    if failed_documents:
+        notes.append(f"{failed_documents} raw HTML document(s) could not be scanned")
     if route.get("final_url") and route["final_url"] != route["url"]:
         notes.append(f"final URL: {route['final_url']}")
     return "; ".join(notes)
@@ -1464,6 +1865,10 @@ def render_report(
         if route.get("nav_error")
         or route.get("scan_error")
         or any(not entry["ok"] for entry in route["files"])
+        or any(
+            not document.get("ok") and not document.get("skipped")
+            for document in route.get("documents") or []
+        )
     )
     network_capture = sum(
         1 for route in state.routes for entry in route["files"] if entry.get("source") == "network-capture"
@@ -1532,10 +1937,14 @@ def render_report(
             "sink_app": sink_app,
             "sink_vendor": sink_vendor,
             "app_constructions": app_constructions,
+            "documents": route.get("documents") or [],
+            "doc_new_documents": route.get("new_documents") or [],
+            "doc_new_matches": route.get("new_document_matches") or [],
+            "doc_duplicates": route.get("duplicate_documents") or [],
         }
         route_data[route_index] = data
 
-        if new_app_files or src_app or sink_app:
+        if new_app_files or src_app or sink_app or data["doc_new_matches"]:
             app_routes.append(route)
         elif new_files or src_vendor or sink_vendor:
             vendor_routes.append(route)
@@ -1558,6 +1967,13 @@ def render_report(
         if match["regex"] == 1 and match["urlsp"]
     )
     unscanned_files = len(state.unscanned)
+    document_match_total = len(state.document_match_keys)
+    document_source_matches = sum(
+        1 for _, regex_id, _ in state.document_match_keys if regex_id in SOURCE_REGEX_IDS
+    )
+    document_sink_matches = sum(
+        1 for _, regex_id, _ in state.document_match_keys if regex_id == SINK_REGEX_ID
+    )
 
     lines: list[str] = []
     lines.append("# JS Regex Scan - Route-First Report")
@@ -1582,6 +1998,13 @@ def render_report(
     lines.append(
         f"- Matches: {unique_source_matches} source | {unique_sink_matches} sink | "
         f"{urlsp_matches} URLSearchParams `.get` flagged | {unique_match_texts} unique texts"
+    )
+    lines.append(
+        f"- Raw HTML: {state.html_documents_scanned} documents scanned | "
+        f"{len(state.documents)} with matches | {document_match_total} unique matches "
+        f"({document_source_matches} source / {document_sink_matches} sink) | "
+        f"{state.html_duplicate_bodies} identical bodies reused | "
+        f"{state.html_documents_failed} failed"
     )
     lines.append(
         f"- Wait: {args.wait:g}s | Timeout: {args.timeout:g}s | "
@@ -1615,6 +2038,11 @@ def render_report(
         "- URLSearchParams `.get` classification uses a same-file constructor/alias heuristic; "
         "function-parameter and cross-file flows still need manual tracing."
     )
+    lines.append(
+        "- Raw HTML scanning applies the same source/sink regexes to the raw response body of "
+        "every visited document (the `view-source:` payload), including inline scripts. "
+        "Identical bodies are hashed and reused; matches are deduped per document URL."
+    )
     lines.append("")
 
     lines.append("## Unique Routes (One-Click Copy)")
@@ -1630,6 +2058,20 @@ def render_report(
         lines.append(route["url"])
     lines.append("```")
     lines.append("")
+
+    if state.documents:
+        lines.append("## Raw HTML Documents With Matches (One-Click Copy)")
+        lines.append("")
+        lines.append(
+            f"{len(state.documents)} raw HTML document URLs matched at least one regex. "
+            "Paste a `view-source:` line in the browser to inspect the payload that was scanned."
+        )
+        lines.append("")
+        lines.append("```text")
+        for document in state.documents.values():
+            lines.append(document["view_source"])
+        lines.append("```")
+        lines.append("")
 
     detail_routes = list(app_routes)
     if args.include_vendor:
@@ -1651,6 +2093,12 @@ def render_report(
         lines.append(
             f"- New source matches: {len(data['src_app'])} app / {len(data['src_vendor'])} vendor | "
             f"New location sinks: {len(data['sink_app'])} app / {len(data['sink_vendor'])} vendor"
+        )
+        lines.append(
+            f"- Raw HTML: {len(data['documents'])} document(s) scanned | "
+            f"{sum(1 for document in data['documents'] if document.get('matches'))} with matches | "
+            f"{len(data['doc_new_matches'])} new match(es) | "
+            f"{len(data['doc_duplicates'])} identical body/bodies reused"
         )
         note = route_note(route)
         if note:
@@ -1729,6 +2177,29 @@ def render_report(
                 lines.append(f"- {md_code(match['text'])}{suffix} — {md_code(match['url'])}")
             lines.append("")
 
+        if data["doc_new_matches"]:
+            lines.append("### Raw HTML matches (unique per document)")
+            lines.append("")
+            for match in sorted(
+                data["doc_new_matches"], key=lambda item: (item["regex"], item["text"])
+            ):
+                suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                lines.append(
+                    f"- [Regex {match['regex']}] {md_code(match['text'])}{suffix} — "
+                    f"{md_code(match['url'])}"
+                )
+            lines.append("")
+
+        if data["doc_duplicates"]:
+            lines.append("- Raw HTML bodies already scanned elsewhere:")
+            lines.append("")
+            for duplicate in data["doc_duplicates"]:
+                lines.append(
+                    f"  - {md_code(duplicate['url'])} — identical to "
+                    f"{md_code(duplicate['duplicate_of'])}"
+                )
+            lines.append("")
+
         if not args.include_vendor and (
             data["new_vendor_files"] or data["src_vendor"] or data["sink_vendor"]
         ):
@@ -1745,18 +2216,22 @@ def render_report(
         route_word = "route" if len(none_routes) == 1 else "routes"
         lines.append(
             f"{len(none_routes)} unique {route_word} loaded no new JS files and produced no new "
-            "source matches or location sinks."
+            "source matches, location sinks, or raw HTML matches."
         )
         lines.append("")
-        lines.append("| Route | URL | Loaded files |")
-        lines.append("|---:|---|---:|")
+        lines.append("| Route | URL | Loaded files | Notes |")
+        lines.append("|---:|---|---:|---|")
         for route in none_routes:
             route_index = route["index"]
             data = route_data[route_index]
             url = route["url"]
             if route.get("final_url") and route["final_url"] != route["url"]:
                 url = f"{url} (final: {route['final_url']})"
-            lines.append(f"| {route_index} | {md_code(url)} | {len(data['loaded'])} |")
+            note = route_note(route)
+            lines.append(
+                f"| {route_index} | {md_code(url)} | {len(data['loaded'])} | "
+                f"{md_text(note) if note else '-'} |"
+            )
     else:
         lines.append("None.")
     lines.append("")
@@ -1798,6 +2273,27 @@ def render_report(
             "All source and sink matches, unique per file (vendor)", vendor_index
         )
 
+    lines.append("## Raw HTML Documents With Matches")
+    lines.append("")
+    if not state.documents:
+        lines.append("None.")
+        lines.append("")
+    else:
+        lines.append("<details><summary>Raw HTML documents with matches</summary>")
+        lines.append("")
+        for document in state.documents.values():
+            lines.append(f"- {md_code(document['url'])}")
+            lines.append(f"  - routes: {compress_route_numbers(document['routes'])}")
+            for match in sorted(
+                document["matches"].values(), key=lambda item: (item["regex"], item["text"])
+            ):
+                suffix = f" (x{match['count']})" if match["count"] > 1 else ""
+                match_label = "sink" if match["regex"] == SINK_REGEX_ID else "source"
+                lines.append(f"  - [{match_label}] {md_code(match['text'])}{suffix}")
+        lines.append("")
+        lines.append("</details>")
+        lines.append("")
+
     lines.append("## Vendor-Only Routes")
     lines.append("")
     if vendor_routes:
@@ -1837,7 +2333,7 @@ def render_report(
         route_word = "route" if len(duplicates) == 1 else "routes"
         lines.append(
             f"{len(duplicates)} duplicate {route_word} produced no new JS files, source matches, "
-            "or location sinks."
+            "location sinks, or raw HTML matches."
         )
         lines.append("")
         grouped_duplicates: dict[int, list[int]] = {}
@@ -1868,6 +2364,14 @@ def render_report(
             if entry.get("ok", False):
                 continue
             failed_files.setdefault(entry["url"], route["index"])
+    for route in state.routes:
+        for document in route.get("documents") or []:
+            if document.get("ok") or document.get("skipped"):
+                continue
+            error_lines.append(
+                f"- Raw HTML {md_code(document['url'])} (route {route['index']}): "
+                + md_text(document.get("error") or "could not be scanned")
+            )
     for url, route_index in failed_files.items():
         if url in state.unscanned:
             continue
@@ -1918,12 +2422,24 @@ def render_report(
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
 
+    args.urls_file = clean_arg_path(args.urls_file, "-l/--list")
+    args.headers_file = clean_arg_path(args.headers_file, "-h/--headers")
+    args.output_file = clean_arg_path(args.output_file, "-o/--output")
+    if isinstance(args.include_vendor, str):
+        args.include_vendor = clean_arg_path(args.include_vendor, "-v/--include-vendor")
+
     if not JS_SCANNER_PATH.is_file():
         sys.exit(f"JavaScript scanner not found: {JS_SCANNER_PATH}")
 
     urls, input_duplicates = load_urls(Path(args.urls_file))
     if not urls:
         sys.exit(f"No valid URLs found in {args.urls_file}")
+
+    print(
+        f"[i] routes: {len(urls)} | wait: {args.wait:g}s | timeout: {args.timeout:g}s | "
+        f"raw HTML: {'on' if args.scan_html else 'off'} | output: {args.output_file}",
+        flush=True,
+    )
 
     include_vendor = bool(args.include_vendor)
     explicit_vendors = args.include_vendor if isinstance(args.include_vendor, str) else None
@@ -1945,6 +2461,7 @@ def main(argv: list[str] | None = None) -> int:
 
     session = requests.Session()
     state = ScanState()
+    doc_cache: dict[str, tuple[str, list[dict]]] = {}
     total = len(urls)
 
     with sync_playwright() as playwright:
@@ -1964,7 +2481,7 @@ def main(argv: list[str] | None = None) -> int:
             for index, url in enumerate(urls, start=1):
                 print(f"[{index}/{total}] {url}", flush=True)
                 try:
-                    route = scan_route(browser, url, args, auth, session, js_source, exclusions)
+                    route = scan_route(browser, url, args, auth, session, js_source, exclusions, doc_cache)
                 except Exception as error:
                     route = {
                         "url": url,
@@ -1974,6 +2491,7 @@ def main(argv: list[str] | None = None) -> int:
                         "nav_error": f"route scan failed: {short_error(error)}",
                         "scan_error": None,
                         "files": [],
+                        "documents": [],
                         "initial_scripts": [],
                         "js_summary": None,
                         "duration": 0,
@@ -1989,7 +2507,9 @@ def main(argv: list[str] | None = None) -> int:
                 else:
                     print(
                         f"  {route['total_files']} matched JS files, {route['total_matches']} unique matches, "
-                        f"{len(route['new_files'])} new files, {len(route['new_matches'])} new matches "
+                        f"{len(route['new_files'])} new files, {len(route['new_matches'])} new matches | "
+                        f"HTML: {route.get('total_documents', 0)} matched docs, "
+                        f"{len(route.get('new_document_matches') or [])} new matches "
                         f"({route['duration']}s)",
                         flush=True,
                     )
@@ -2014,6 +2534,9 @@ def main(argv: list[str] | None = None) -> int:
     print(f"UNIQUE JAVASCRIPT FILES WITH MATCHES: {len(state.files)}")
     print(f"UNIQUE REGEX MATCHES: {len(state.match_keys)}")
     print(f"UNIQUE MATCH TEXTS: {len({(regex_id, text) for _, regex_id, text in state.match_keys})}")
+    print(f"RAW HTML DOCUMENTS SCANNED: {state.html_documents_scanned}")
+    print(f"RAW HTML DOCUMENTS WITH MATCHES: {len(state.documents)}")
+    print(f"RAW HTML UNIQUE MATCHES: {len(state.document_match_keys)}")
     print(f"REPORT: {output_path.resolve()}")
     return 0
 
