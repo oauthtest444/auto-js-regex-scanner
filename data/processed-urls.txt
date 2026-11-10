@@ -1,4 +1,3 @@
-https://console.byteplus.com/ai
 https://console.byteplus.com/ai/overview
 https://console.byteplus.com/ai/studio
 https://console.byteplus.com/ai/manage
